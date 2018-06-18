@@ -1,0 +1,156 @@
+\documentclass[mres, greychapternumbers]{mqthesis}
+%----------------------------------------------------------
+% OPTIONS
+% Options you can use in the documentclass above:
+%
+% phd/mres/hons = set the degree text [default=phd]
+% copyrightpage = print a copyright page on the back 
+%                 of the title page [default=false]. 
+%		NOTE: if true, you will have to manually change the name
+%		            and date in the mqthesis.cls file.
+% examinerscopy = print "Examiner's Copy" of title page and 
+%                 change linespacing to 1.5 [default=false]
+% greychapternumbers = print large chapter numbers in grey
+%                 instead of MQ corporate "sand"
+%---------------------------------------------------------- 
+
+% this shows what labels you are using for cross references
+% \usepackage{showkeys} 
+\usepackage{helvet}
+% ifthenelse for if loops
+\usepackage{etoolbox}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {images/} }
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algdef{SE}[SUBALG]{Indent}{EndIndent}{}{\algorithmicend\ }
+\algtext*{Indent}
+\algtext*{EndIndent}
+\usepackage{natbib}
+\usepackage{bm}
+%---------------------------------------------------------
+% SPECIFIC OPTIONS
+% Other options to use in this thesis:
+%
+% smallcapschapter = use smallcaps for chapter titles
+\newtoggle{smallcapschapter}
+\togglefalse{smallcapschapter} % Change to true if you want capitals for chapter titles/headings
+%----------------------------------------------------------
+
+
+
+%---------------------------------------------------------- 
+% STRUCTURE
+% this document is a skeleton which pulls in the meat of the thesis
+% from other files. Comment out and add lines as appropriate.
+%---------------------------------------------------------- 
+
+
+\begin{document}
+
+%---------------------------------------------------------- 
+% FRONT
+% Acknowledgements, titlepage, abstract, list of publications
+%---------------------------------------------------------- 
+\frontmatter
+
+\title{Approximate Bayesian Tomography} % put your title here
+\author{Thomas A. Connell} % put your name here
+\department{Earth and Planetary Sciences}  % put your department here
+\submitdate{11th October 2018}
+
+\titlepage
+
+\input{acknowledge} % acknowledgements (acknowledge.tex)
+\input{abstract} % abstract (abstract.tex)
+
+\tableofcontents 
+% comment out these as required for your discipline
+\listoffigures
+\listoftables
+
+%---------------------------------------------------------- 
+% MAIN
+% include chapters as needed
+%---------------------------------------------------------- 
+\mainmatter
+
+\makeatletter
+\let\old@makechapterhead\@makechapterhead
+%----------------------------------------------------------
+% Use old school chapter headers
+% This uses less space, but may not strictly follow
+% the MQ style.
+% Comment/uncomment out the following
+%----------------------------------------------------------
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{%
+  {\parindent \z@ \raggedright
+    \reset@font
+    \hrule
+    \vspace*{10\p@}%
+    \par
+    \iftoggle{smallcapschapter}{  %SRM: Control smallcaps chapter titles
+   	 \Large \sc \@chapapp{} \Huge\bfseries \thechapter
+	}{
+	\Large \@chapapp{} \Huge\bfseries \thechapter
+	}
+    \par\nobreak
+    \vspace*{10\p@}%
+    \hrule
+    \par
+    \vspace*{1\p@}%
+    \hrule
+    %\vskip 40\p@
+    \vspace*{20\p@}
+    \Huge \bfseries #1\par\nobreak
+    \vskip 70\p@
+  }}
+%----------------------------------------------------------
+% Use old school chapter headers
+% This uses less space, but may not strictly follow
+% the MQ style.
+% Comment/uncomment out the previous
+%----------------------------------------------------------
+
+% Introduction
+\input{chap_intro}
+
+
+% Other chapters in here
+\input{chap_example}
+\input{chap_methods}
+
+% Conclusion
+\input{chap_conclusion}
+
+\makeatletter
+\let\@makechapterhead\old@makechapterhead
+%---------------------------------------------------------- 
+% BACK
+% list of symbols / references / index etc
+%---------------------------------------------------------- 
+\backmatter
+
+% your thesis may not need this, so comment out or delete the following line
+\input{listofsymbols}
+
+% Bibliography, in BibTeX format (the references.bib file)
+\bibliographystyle{apalike}
+\bibliography{C:/Users/44597681/abc}
+
+
+%---------------------------------------------------------- 
+% APPENDICES
+% include chapters as needed (will be numbered differently)
+%---------------------------------------------------------- 
+\appendix
+
+\input{chap_appendix}
+
+\end{document}

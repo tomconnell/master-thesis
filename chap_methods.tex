@@ -1,0 +1,14 @@
+\chapter{Methods}
+
+In the absence of pre-defined sufficient summary statistics for the geophysical tomography problem we rely on intuition to choose $S$, and then calibrate solutions in a pilot synthetic study, where the causative model parameters $\bm{\theta}$ are already known. The model $\mathcal{M}$ must be simple enough to be computationally tractable. Ideally it will be possible to rapidly simulate an output given a set of model parameters.  
+
+This study has strong parallels with \citet{Beaumont2002}. We are the first to compare the results from approximate methods which have proved efficient for other disciplines with solutions obtained through a full-data Markov chain Monte Carlo method, well established in geophysics.
+
+The tomographic problem is unique due to the size of parameters space. The unknown parameters can quickly approach 10,000. This is unique within the ABC literature as well. Seminal work focused on $<5$ unknown parameters.
+
+One possibility is to compare statistical moments (mean, variance, etc.) between the observed and simulated data (this is the method of simulated moments from McFadden 1989). Another basic approach is to use the parameter estimates for models fit to the data. In general, however, we will have to test the whether a given statistic, or set of statistics, is sufficient with respect to the inferential task at hand. 
+
+
+
+\subsection{Summary statistics}
+There are three important design decisions to be made in ABC statistical analysis: choice of summary statistics, tolerance, and sampling algorithm. Achieving a good trade off between summary statistics and tolerance fundamentally relies on the identification of summary statistics that are both low-dimensional and informative about $\bm{y}$ for $\bm{\theta}$. A smaller $\mathcal{E}$ improves $\pi(\bm{\theta}|\rho(S(\bm{y}),S(\bm{y'}))<\mathcal{E}) \approx \pi(\bm{\theta}|S(\bm{y}))$, but if the summary statistics are not informative such that $\pi(\bm{\theta}|S(\bm{y})) \approx \pi(\bm{\theta}|\bm{y})$, then the house of cards falls apart.
