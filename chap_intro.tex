@@ -18,9 +18,9 @@
 
 \section{Statement of Aims}
 
-"Physical theories allow us to make predictions: given a complete description of a physical system, we can predict the outcome of some experiments. This problem of predicting the result of measurements is called the \textit{modelization problem}, the \textit{simulation problem}, or the \textit{forward problem}. The \textit{inverse problem} consists of using the actual result of some measurements to infer the values of the parameters which characterize that system." \citep{Tarantola2005}\\
+%"Physical theories allow us to make predictions: given a complete description of a physical system, we can predict the outcome of some experiments. This problem of predicting the result of measurements is called the \textit{modelization problem}, the \textit{simulation problem}, or the \textit{forward problem}. The \textit{inverse problem} consists of using the actual result of some measurements to infer the values of the parameters which characterize that system."\citep{Tarantola2005}\\
 
-This body of work is concerned with the methods of \textit{inverse problems}. Other disciplines may also refer to the inverse problem as parameter inference or parameter estimation. The methods of inverse problems underpin many critical experiments across disciplines. For geophysics it is the method which allows data to be transformed from surface observations into subsurface images. Recently, methods of probabilistic parameter inference have risen to prominence within the geophysics community. With that in mind, this project seeks to explore the geophysical applicability of a recently developed method of probabilistic parameter inference which has emerged from applied challenges in genetics, \underline{A}pproximate \underline{B}ayesian \underline{C}omputation, (ABC). This project was begun on January 2nd, 2018 and concluded with the submission of this document on the 11th of October, 2018.
+This body of work is concerned with the methods of \textit{inverse problems}. Other disciplines also refer to inverse problems as parameter inference or parameter estimation. All are synonymous. The methods of inverse problems underpin many critical experiments across disciplines. For geophysics it is the method which allows data to be transformed from surface observations into subsurface images. Recently, methods of probabilistic parameter inference have risen to prominence within the geophysics community. With that in mind, this project seeks to explore the geophysical applicability of a recently developed method of probabilistic parameter inference which has emerged from applied challenges in genetics, \underline{A}pproximate \underline{B}ayesian \underline{C}omputation, (ABC). This project was started on January 2nd, 2018 and concluded with the submission of this document on the 11th of October, 2018.
 
 \section{Parameter inference}
 
@@ -54,7 +54,7 @@ Equation \ref{bayes} states that the prior distribution, $p(\bm{\theta})$, multi
 
 The prior, $p(\bm{\theta})$, is a user-defined probability distribution which incorporates what is already known about the model parameters, $\bm{\theta}$, independent of the experimental data, $\bm{y}$.\\
 
-The likelihood, $p(\bm{y}|\bm{\theta})$, allows the data to dictate the plausibility of different sets of model parameters. Through the likelihood we learn about the support the data has for different sets of model parameters. If for two possible sets of model parameters $\bm{\theta_1}$ and $\bm{\theta_2}$ we have $p(\bm{y}|\bm{\theta_1}) > p(\bm{y}|\bm{\theta_2})$ then $\bm{y}$ is more likely to happen under $\bm{\theta_1}$ than $\bm{\theta_2}$. Hence the term likelihood.\\
+The likelihood, $p(\bm{y}|\bm{\theta})$, allows the data to dictate the plausibility of different sets of model parameters. Through the likelihood we learn about the support the data has for different sets of model parameters. If for two possible sets of model parameters $\bm{\theta_1}$ and $\bm{\theta_2}$ we have $p(\bm{y}|\bm{\theta_1}) > p(\bm{y}|\bm{\theta_2})$ then $\bm{y}$ is more likely to occur under $\bm{\theta_1}$ than $\bm{\theta_2}$. Hence the term likelihood.\\
 
 The normalization constant $p(\bm{y}) = \int p(\bm{\theta}) p(\bm{y}|\bm{\theta})\ \text{d}\bm{\theta}$ is generally unconsidered. Statistics about the posterior such as maximum posterior value, mean, and standard deviation can still be computed from an unnormalized posterior density. The consequence of leaving $p(\bm{y})$ unevaluated is simply that single point values of the posterior have no meaning. Instead relative values must be evaluated, where ratios cancel the normalization constant. Hence, Bayes' theorem is practically applied in the form:
 \begin{equation}
@@ -63,12 +63,13 @@ p(\bm{\theta}|\bm{y}) \propto p(\bm{\theta}) p(\bm{y}|\bm{\theta})
 \end{equation}
 The posterior distribution, $p(\bm{\theta}|\bm{y})$, is the solution to a probabilistic formulation of an inverse problem. It is the complete state of knowledge about $\bm{\theta}$ given $\bm{y}$. Complete as it incorporates both what is already known, $p(\bm{\theta})$, as well as new experimental data, $\bm{y}$, through the likelihood. The probabilistic solution offers a philosophical shift compared to traditional solutions. A probability distribution over all model parameters is recovered, instead of a discrete set of model parameters, offering in-built quantification of uncertainty. \\
 
-For non-trivial problems of scientific interest there is no analytical solution for the posterior. This necessitates stochastic sampling to define the posterior $p(\bm{\theta}|\bm{y})$ (e.g. rejection sampling, Monte Carlo sampling, Markov chain Monte Carlo (MCMC) sampling). In high-dimensional search spaces, many unknown model parameters, highly efficient sampling methods are needed if the curse of dimensionality is to be overcome.\\
+For non-trivial problems of scientific interest there is no analytical solution for the posterior. This necessitates stochastic sampling to define the posterior $p(\bm{\theta}|\bm{y})$ (e.g. Monte Carlo sampling, Markov chain Monte Carlo (MCMC) sampling). In high-dimensional search spaces, many unknown model parameters, highly efficient sampling methods are needed if the curse of dimensionality is to be overcome.\\
 
 The probabilistic solution to inverse problems outlined above has been successfully applied to tomography. Probabilistic multiobservable tomography has also been developed  and applied \citep{khan2007joint,afonso2013a,afonso2013b,afonso2016}. Multiobservable methods take into account more constraining data and hence minimize the range of acceptable models consistent with the data. Different observables and their associated physical models are sensitive to different parts of the system under study and can be brought in on the basis that they better constrain $\bm{\theta}$. This is important due to the inherent non-uniqueness and large uncertainties of some traditional tomography methods. The result has been more informed inference and a better understanding of the uncertainty in conclusions drawn.\\
 
 \section{The likelihood}
-The likelihood is central to both Bayesian and frequentist statistical inference. Both specification of a prior distribution and likelihood are at the heart of Bayesian inference, the probabilistic framework adopted here. In practice, due attention should be paid to both likelihood and prior. However, the focus of this thesis surrounds the likelihood. As such considerable weight is given to this topic here. \\
+
+The likelihood is central to both Bayesian and frequentist statistical parameter inference. Both specification of the prior distribution and likelihood are at the heart of Bayesian inference, the probabilistic framework adopted here. In practice, due attention should be paid to both, as they both play an equal role in the posterior, equation \ref{applied_bayes}. However, as will be introduced in depth later, Approximate Bayesian Computation diverges from traditional Bayesian inference by circumventing calculation of the likelihood, instead using an approximation to the likelihood. Given ABC will move away from its use, it is important to understand what the likelihood is and the assumptions which are made in arriving at it. \\
 
 The likelihood is used after $\bm{y}$ is available to describe the plausibility of $\bm{\theta}$. It is a function of the parameters $\bm{\theta}$ to the model $\mathcal{M}$, given observed data $\bm{y}$. Hence it is denoted $\mathcal{L}(\bm{\theta}|\bm{y})$. However, the plausability of $\bm{\theta}$ given $\bm{y}$ is proportional to the PDF of $\bm{y}$ given $\bm{\theta}$. This gives us the paradoxical statement:
 \begin{equation}
@@ -77,124 +78,10 @@ The likelihood is used after $\bm{y}$ is available to describe the plausibility 
 \end{equation}
 However this is resolved by considering $\pi(\bm{y}|\bm{\theta})$ at the observed $\bm{y}$, hence fixed, for varying $\bm{\theta}$. This maps out a distribution of relative plausibility over $\bm{\theta}$. The likelihood is not necessarily a PDF and hence point values contain no inherent information. Only through comparison of relative values does the likelihood gain meaning.\\
 
-\subsection{General likelihood}
-Several authors \citet{gregory2005bayesian} have arrived at a general equation for $\mathcal{L}(\bm{\theta}|\bm{y})$ by considering:
-\begin{equation}
-y_i = z_i + e_i
-\label{general_form_inference}
-\end{equation}
-$e_i$ is the uncertainty in the data, and $z_i$ is forward relation:
-\begin{equation}
-z_i = \bm{g}(\bm{\theta})
-\end{equation}
-Both $z_i$ and $e_i$ are represented by distributions:
-\begin{equation}
-\pi(z_i|\bm{\theta}) = f_Z(z_i)
-\label{fz_dist}
-\end{equation}
-\begin{equation}
-\pi(e_i|\bm{\theta}) = f_E(e_i)
-\label{fe_dist}
-\end{equation}
-We are critically interested in arriving in an equation for $\pi(y_i|\bm{\theta})$, which will define $\mathcal{L}(\bm{\theta}|\bm{y})$. However, as the relationship in equation \ref{general_form_inference} specifies, $y_i$ depends on both $z_i$ and $e_i$. Hence, to arrive at $\pi(y_i|\bm{\theta})$ we must consider the distributions of equations \ref{fz_dist} \& \ref{fe_dist}. If we first consider the joint distribution $\pi(y_i,z_i,e_i|\bm{\theta})$ then our likelihood can be found by integrating out, 'marginalizing', $\pi(z_i|\bm{\theta})$ and $\pi(e_i|\bm{\theta})$ to leave a distribution for $\pi(y_i|\bm{\theta})$:
-\begin{equation}
-\pi(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ \pi(y_i,z_i,e_i|\bm{\theta})
-\label{most_general_L}
-\end{equation}
-The definition of conditional probability allows equation \ref{most_general_L} to be rewritten as:
-\begin{equation}
-\pi(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ \pi(z_i,e_i|\bm{\theta})\ \pi(y_i|z_i,e_i,\bm{\theta})
-\end{equation}
-If we assume $z_i$ and $e_i$ are independent:
-\begin{equation}
-\pi(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ \pi(z_i|\bm{\theta})\ \pi(e_i|\bm{\theta})\ \pi(y_i|z_i,e_i,\bm{\theta})
-\label{halfway_through_derivation}
-\end{equation}
-From the relationship in equation \ref{general_form_inference}, $y_i-z_i-e_i = 0$. This relation considered, $\pi(y_i|z_i,e_i,\bm{\theta})$ can be reasonably represented as a dirac-delta function such that:
-\begin{equation}
-\pi(y_i|z_i,e_i,\bm{\theta}) = \delta(y_i-z_i-e_i)
-\label{dirac_equality}
-\end{equation}
-This is a natural definition, as the probability density of $y_i$ given $z_i$ and $e_i$ should be focused when the exact relation of equation \ref{general_form_inference} is met. The dirac-delta function serves this role perfectly while still exhibiting properties of a PDF, non-negative and $\int_{-\infty}^{\infty}\delta = 1$. Considering equation \ref{dirac_equality}, equation \ref{halfway_through_derivation} becomes:
-\begin{equation}
-\pi(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ \pi(z_i|\bm{\theta})\ \pi(e_i|\bm{\theta})\ \delta(y_i-z_i-e_i)
-\end{equation}
-Adopting the form from equations \ref{fz_dist} \& \ref{fe_dist}:
-\begin{equation}
-\pi(y_i|\bm{\theta}) = \int \text{d}z_i\ f_Z(z_i) \int \text{d}e_i\ f_E(e_i) \delta(y_i-z_i-e_i)
-\label{almost_general_form}
-\end{equation}
-The dirac-delta function in the second integral of equation \ref{almost_general_form} serves to isolate the value/values of $f_E(e_i)$ when $e_i = y_i - z_i$. Hence, it is equivalent to consider:
-\begin{equation}
-\int \text{d}e_i\ f_E(e_i) \delta(y_i-z_i-e_i) = f_E(y_i - z_i)
-\end{equation}
-This leaves a general form for the likelihood $\pi(y_i|\bm{\theta})$ as: 
-\begin{equation}
-\pi(y_i|\bm{\theta}) = \mathcal{L}(\bm{\theta}|y_i) = \int \text{d}z_i\ f_Z(z_i)\ f_E(y_i - z_i)
-\label{general_likelihood}
-\end{equation}
-However this general equation is not in a form which can be practically applied to inference problems. To achieve a practical form further assumptions must be made about the distributions $f_Z(z_i)$ and $f_E(e)$. This is done by assigning parametric distributions. As we will see in the next section, assigning Gaussian distributions will allow an analytical solution to equation \ref{general_likelihood} as our general likelihood definition takes the form of a convolution. 
+A full derivation of the likelihood is featured in \hyperref[AppendixA]{Appendix A}, from first assumptions to the final forms which are commonly featured in geophysical inversions.
 
-\subsection{Practical likelihood form}
-It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty, denoted $e_i$ and $\epsilon_i$ respectively. As a result: 
-\begin{equation}
-y_i = z_i + e_i
-\end{equation}
-\begin{equation}
-z_i = \bm{g}(\bm{\theta}) + \epsilon_i
-\end{equation}	
-\begin{equation}
-\therefore	y_i = \bm{g}(\bm{\theta}) + \epsilon_i + e_i
-\end{equation}
-$\epsilon_i$ and $e_i$ are assumed to be uncorrelated. If it is assumed that $\epsilon_i$ is described as independent and identically distributed (i.i.d) from a Gaussian with a predetermined standard deviation (s.t.d), $\sigma_{\epsilon}$:
-\begin{equation}
-\pi(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi\sigma_{\epsilon}^2}}\ \text{exp}\bigg[\frac{-\epsilon_i^2}{2\sigma_{\epsilon}^2} \bigg]
-\end{equation} 
-Likewise, if $e_i$ is assumed to be described as i.i.d from a Gaussian with predefined s.t.d $\sigma_{e}$:
-\begin{equation}
-\pi(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi\sigma_{e}^2}}\ \text{exp}\bigg[\frac{-e^2}{2\sigma_{e}^2} \bigg]
-\end{equation}
-As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i)$ the general definition of $\mathcal{L}(\bm{\theta}|y_i)$, equation \ref{general_likelihood}, can be evaluated. This is the convolution of the two distributions with the closed-form expression:
-\begin{equation}
-\mathcal{L}(\theta|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{\sigma_{\epsilon}^2+\sigma_{e}^2}} \text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2(\sigma_{\epsilon}^2+\sigma_{e}^2)}\bigg]
-\end{equation}
-
-If you have a set of data $\bm{y} = \{y_1,...,y_M\}$, where each $y_i$ term is independent then, considering uncertainty in the data and model as i.i.d Gaussian:
-\begin{equation}
-\begin{split}
-\pi(\bm{y}|\bm{\theta}) &= \pi(y_1,...,y_m|\bm{\theta})\\
-&= (2\pi)^{M/2}(\prod_{i = 1}^{M}(\sigma_{e}^2+\sigma_{\epsilon}^2)^{1/2})\ \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2(\sigma_{e}^2+\sigma_{\epsilon}^2)}\bigg]\\
-\label{independant_data_likelihood}
-\end{split}
-\end{equation}
-Least-squares, the sum of squares of residuals, is a standard technique for regression of over-determined problems, more data than model parameters. For a set of data $\bm{y}$ and some specific model parameters $\bm{\theta'}$
-\begin{equation}
-\text{least-squares} = LS = \sum_{i = 1}^{M} (y_i - \bm{g}(\bm{\theta'}))^2
-\end{equation}
-The relationship between least-squares and a likelihood of the form of equation \ref{independant_data_likelihood} can be seen as:
-\begin{equation}
-\text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta'}}))^2}{2(\sigma_{e}^2+\sigma_{\epsilon}^2)}\bigg] = \text{exp}\bigg[\frac{-LS}{2(\sigma_{e}^2+\sigma_{\epsilon}^2)}\bigg]
-\end{equation}\\
-
-For the case where vectors of data and model parameters are considered together as represented by a multivariate Gaussian distribution, defined by covariance matrices $C_d$ and $C_m$ respectively, such that:
-\begin{equation}
-f_Z(z) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_m^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
-\end{equation}
-\begin{equation}
-f_E(e) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_d^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
-\end{equation}
-Then the likelihood involves a combination of their covariance matrices:
-\begin{equation}
-\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_d+C_m)^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
-\end{equation}
-Finally if it is assumed that there is no correlations between the errors in the model and within the data then the respective covariance matrices can be represented by identity matrices and the likelihood collapses to:
-\begin{equation}
-\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}LS\bigg]
-\end{equation}
-
-\subsection{Critique of likelihood assumptions}
-
-
+% Insert listing assumptions are a critique of these assumptions...
+% In the mean time I will work on Appendix A.
 
 \section{Approximate Bayesian Computation}
 
