@@ -1,7 +1,7 @@
 \chapter{Appendix A}
 \label{AppendixA}
 
-\subsection{General likelihood}
+\subsection{General-form likelihood}
 \citet[p.90-92]{gregory2005bayesian} outline constructing a likelihood, $\mathcal{L}(\bm{\theta}|\bm{y})$, from starting assumptions. Firstly, a model for the data is assumed:
 \begin{equation}
 y_i = z_i + e_i
@@ -34,7 +34,7 @@ If we assume $z_i$ and $e_i$ are independent:
 p(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ p(z_i|\bm{\theta})\ p(e_i|\bm{\theta})\ p(y_i|z_i,e_i,\bm{\theta})
 \label{halfway_through_derivation}
 \end{equation}
-From the relationship in equation \ref{general_form_inference}, $y_i-z_i-e_i = 0$. This relation considered, $p(y_i|z_i,e_i,\bm{\theta})$ can be reasonably represented as a dirac-delta function such that:
+From the relationship in equation \ref{general_form_inference}, $y_i-z_i-e_i = 0$, $p(y_i|z_i,e_i,\bm{\theta})$ can be reasonably represented as a dirac-delta function such that:
 \begin{equation}
 p(y_i|z_i,e_i,\bm{\theta}) = \delta(y_i-z_i-e_i)
 \label{dirac_equality}
@@ -57,61 +57,58 @@ This leaves a general form for the likelihood $\pi(y_i|\bm{\theta})$ as:
 p(y_i|\bm{\theta}) = \mathcal{L}(\bm{\theta}|y_i) = \int \text{d}z_i\ f_Z(z_i)\ f_E(y_i - z_i)
 \label{general_likelihood}
 \end{equation}
-However this general equation is not in a form which can be practically applied to inference problems. To achieve a practical form further assumptions must be made about the distributions $f_Z(z_i)$ and $f_E(e)$. This is done by assigning parametric distributions. As we will see in the next section, assigning Gaussian distributions will allow an analytical solution to equation \ref{general_likelihood} as our general likelihood definition takes the form of a convolution. 
+However this general equation is not in a form which can be practically applied to inference problems. To achieve a practical form further assumptions must be made about the distributions $f_Z(z_i)$ and $f_E(e)$. This is done by assigning parametric distributions. As we will see in the next section, assigning Gaussian distributions will allow \ref{general_likelihood} to form a usable expression which will be our applied-form likelihood.
 
-\subsection{Practical likelihood form}
-It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty, denoted $e_i$ and $\epsilon_i$ respectively. As a result: 
+\subsection{Applied-form likelihood}
+It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty. For $y_i$ the source of statistical uncertainty is a result of the measurement process. While for $z_i$ the source of uncertainty is a result of modelization. It is necessary to distinguish between these two sources of uncertainty. The data uncertainty arising from the measurement process will be denoted $e^{\mathcal{D}}_i$, while modelization uncertainty will be denoted $e^{\mathcal{M}}_i$. As such:
 \begin{equation}
-y_i = z_i + e_i
+y_i = z_i + e^{\mathcal{D}}_i
 \end{equation}
 \begin{equation}
-z_i = \bm{g}(\bm{\theta}) + \epsilon_i
-\end{equation}	
-\begin{equation}
-\therefore	y_i = \bm{g}(\bm{\theta}) + \epsilon_i + e_i
+z_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i
 \end{equation}
-$\epsilon_i$ and $e_i$ are assumed to be uncorrelated. If it is assumed that $\epsilon_i$ is described as independent and identically distributed (i.i.d) from a Gaussian with a predetermined standard deviation (s.t.d), $\sigma_{\epsilon}$:
 \begin{equation}
-p(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi\sigma_{\epsilon}^2}}\ \text{exp}\bigg[\frac{-\epsilon_i^2}{2\sigma_{\epsilon}^2} \bigg]
+\therefore y_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
+\end{equation}
+$e^{\mathcal{M}}_i$ and $e^{\mathcal{D}}_i$ are assumed to be uncorrelated. If it is assumed that $e^{\mathcal{D}}_i$ is described as independant and indentically distributed from a Gaussian with a predetermined standard deviation $\sigma^{\mathcal{M}}_i$: 
+\begin{equation}
+p(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{M}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{M}}_i)^2}{2(\sigma^{\mathcal{M}\ 2}_i)^2} \bigg]
 \end{equation} 
-Likewise, if $e_i$ is assumed to be described as i.i.d from a Gaussian with predefined standard deviation $\sigma_{e}$:
+Likewise, if $e^{\mathcal{D}}_i$ is assumed to be i.i.d from a Gaussian with standard deviation $\sigma^{\mathcal{D}}_i$ then:
 \begin{equation}
-p(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi\sigma_{e}^2}}\ \text{exp}\bigg[\frac{-e^2}{2\sigma_{e}^2} \bigg]
+p(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{D}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{D}}_i)^2}{2(\sigma^{\mathcal{D}}_i)^2} \bigg]
 \end{equation}
-As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i)$ the general definition of $\mathcal{L}(\bm{\theta}|y_i)$, equation \ref{general_likelihood}, can be evaluated. This is the convolution of the two distributions with the closed-form expression:
+As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i)$ the general definition of $\mathcal{L}(\bm{\theta}|y_i)$, equation \ref{general_likelihood}, can be evaluated. This is the convolution of the two distributions: 
 \begin{equation}
-\mathcal{L}(\theta|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{\sigma_{\epsilon}^2+\sigma_{e}^2}} \text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2(\sigma_{\epsilon}^2+\sigma_{e}^2)}\bigg]
-\end{equation}
+\mathcal{L}(\bm{\theta}|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{(\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2}} \text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\label{single-data-likelihood}
+\end{equation}\\
+
+It should be noted that many "assumptions" here are in fact scientifically testable hypotheses. For example, given a measurement process/instrument it should be possoble to determine the statistical properties uncertainty, such as how closely it conforms to a Gaussian and whether they are true i.i.d samples or correlated in some manner. Likewise, the same can be done modelization uncertainty. One scheme to classify the statistical properties, standard deviation and covariance matrix, of modelization uncertainty in the parameterization of geophysical forward problems is outlined in \citep{afonso2013b}.\\
+
+Equation \ref{single-data-likelihood} defines the likelihood for a single data point. How then to move forward with a full dataset?\\
 
 If you have a set of data $\bm{y} = \{y_1,...,y_M\}$, where each $y_i$ term is independent then, considering uncertainty in the data and model as i.i.d Gaussian:
 \begin{equation}
 \begin{split}
 p(\bm{y}|\bm{\theta}) &= p(y_1,...,y_m|\bm{\theta})\\
-&= (2\pi)^{M/2}(\prod_{i = 1}^{M}(\sigma_{e}^2+\sigma_{\epsilon}^2)^{1/2})\ \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2(\sigma_{e}^2+\sigma_{\epsilon}^2)}\bigg]\\
-\label{independant_data_likelihood}
+&= (2\pi)^{M/2}(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2})\ \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]\\
+\label{used-likelihood-1}
 \end{split}
 \end{equation}
-Least-squares, the sum of squares of residuals, is a standard technique for regression of over-determined problems, more data than model parameters. For a set of data $\bm{y}$ and some specific model parameters $\bm{\theta'}$
-\begin{equation}
-\text{least-squares} = LS = \sum_{i = 1}^{M} (y_i - \bm{g}(\bm{\theta'}))^2
-\end{equation}
-The relationship between least-squares and a likelihood of the form of equation \ref{independant_data_likelihood} can be seen as:
-\begin{equation}
-\text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta'}}))^2}{2(\sigma_{e}^2+\sigma_{\epsilon}^2)}\bigg] = \text{exp}\bigg[\frac{-LS}{2(\sigma_{e}^2+\sigma_{\epsilon}^2)}\bigg]
-\end{equation}\\
 
-For the case where vectors of data and model parameters are considered together as represented by a multivariate Gaussian distribution, defined by covariance matrices $C_d$ and $C_m$ respectively, such that:
+For the case where vectors of data and model parameters are considered together as represented by a multivariate Gaussian distribution, defined by covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ respectively, such that:
 \begin{equation}
-f_Z(z) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_m^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+f_Z(z) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_{\mathcal{M}}^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \end{equation}
 \begin{equation}
-f_E(e) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_d^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+f_E(e) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_{\mathcal{D}}^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \end{equation}
 Then the likelihood involves a combination of their covariance matrices:
 \begin{equation}
-\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_d+C_m)^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+\label{used-likelihood-2}
 \end{equation}
-Finally if it is assumed that there is no correlations between the errors in the model and within the data then the respective covariance matrices can be represented by identity matrices and the likelihood collapses to:
-\begin{equation}
-\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}LS\bigg]
-\end{equation}
+Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood.It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:......
+
+
