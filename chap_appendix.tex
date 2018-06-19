@@ -96,8 +96,9 @@ p(\bm{y}|\bm{\theta}) &= p(y_1,...,y_m|\bm{\theta})\\
 \label{used-likelihood-1}
 \end{split}
 \end{equation}
+Equation \ref{used-likelihood-1} is the likelihood $\mathcal{L}(\bm{\theta}|\bm{y})$ for i.i.d Gaussian uncertainty.\\ 
 
-For the case where vectors of data and model parameters are considered together as represented by a multivariate Gaussian distribution, defined by covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ respectively, such that:
+For the case of correlated Gaussian uncertainty vectors of data and model parameters can be represented by a multivariate Gaussian distributions, defined with covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ respectively, such that:
 \begin{equation}
 f_Z(z) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_{\mathcal{M}}^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \end{equation}
@@ -109,6 +110,6 @@ Then the likelihood involves a combination of their covariance matrices:
 \mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \label{used-likelihood-2}
 \end{equation}
-Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood.It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:......
+Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:......
 
 
