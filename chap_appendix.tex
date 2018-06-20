@@ -84,7 +84,7 @@ As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i
 \label{single-data-likelihood}
 \end{equation}\\
 
-It should be noted that many "assumptions" here are in fact scientifically testable hypotheses. For example, given a measurement process/instrument it should be possoble to determine the statistical properties uncertainty, such as how closely it conforms to a Gaussian and whether they are true i.i.d samples or correlated in some manner. Likewise, the same can be done modelization uncertainty. One scheme to classify the statistical properties, standard deviation and covariance matrix, of modelization uncertainty in the parameterization of geophysical forward problems is outlined in \citep{afonso2013b}.\\
+It should be noted that many "assumptions" here are in fact scientifically testable hypotheses. For example, given a measurement process/instrument it should be possible to determine the statistical properties uncertainty, such as how closely it conforms to a Gaussian and whether they are true i.i.d samples or correlated in some manner. Likewise, the same can be done for modelization uncertainty. One scheme to classify the statistical properties, standard deviation and covariance matrix, of modelization uncertainty in the parameterization of geophysical forward problems is outlined in \citet{afonso2013b}.\\
 
 Equation \ref{single-data-likelihood} defines the likelihood for a single data point. How then to move forward with a full dataset?\\
 
@@ -110,6 +110,12 @@ Then the likelihood involves a combination of their covariance matrices:
 \mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \label{used-likelihood-2}
 \end{equation}
-Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:......
+Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:
+\begin{enumerate}
+\item The form of the model, equation \ref{general_form_inference}
+\item The i.i.d Gaussian nature of measurement and modelization statistical uncertainty, or
+\item The correlated multivariate Gaussian nature of the measurement and modelization uncertainty
+\end{enumerate}
+A shift away from these assumptions is likely to close access to a likelihood function.
 
 

@@ -83,6 +83,34 @@ A full derivation of the likelihood is featured in \hyperref[AppendixA]{Appendix
 % Insert listing assumptions are a critique of these assumptions...
 % In the mean time I will work on Appendix A.
 
+% Executive summary of Appendix A, assumptions + final equations
+Generally, a given observed data point, $y_i$, is considered to be equal to simulated data from a parameterized deterministic physical model, $\bm{g}(\bm{\theta})$, with statistical uncertainty from both the measurement process, $e^{\mathcal{D}}_i$, and the modelization process, $e^{\mathcal{M}}_i$:
+\begin{equation}
+y_i = z_i + e^{\mathcal{D}}_i
+\end{equation}
+\begin{equation}
+z_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i
+\end{equation}
+\begin{equation}
+y_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
+\end{equation}
+For the case of estimating $\bm{\theta} = \{\theta_1,...,\theta_N\}$ given $\bm{y} = \{y_1,...,y_M\}$, if it is assumed that the nature of the statistical uncertainty of measurement and modelization is i.i.d from a Gaussian then the likelihood takes the form: 
+\begin{equation}
+\begin{split}
+\mathcal{L}(\bm{\theta}|\bm{y}) &= p(\bm{y}|\bm{\theta}) = p(y_1,...,y_m|\bm{\theta})\\
+&= (2\pi)^{M/2}(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2})\ \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\end{split}
+\label{likelihood-1}
+\end{equation}
+
+Otherwise, if the uncertainty is corellated in some manner, but still distributed according to a Gaussian distribution, multivariate Gaussian distributions with covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ quantify the statistical uncertainty and define a likelihood:
+\begin{equation}
+\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+\label{likelihood-2}
+\end{equation}
+
+
+
 \section{Approximate Bayesian Computation}
 
 Likelihood-free methods for Bayesian inference have been developed in response to parameter estimation problems of scientific interest where it is not possible to formulate or justify an explicit likelihood function. Instead, likelihood-free methods target the same posterior distribution without evaluating a likelihood function. The algorithms and methods of likelihood-free Bayesian inference have been termed \textit{Approximate Bayesian Computation} (ABC). Generally, ABC simply requires the ability to simulate data given model parameters. Problems ripe for attack by ABC are common in science due to the breadth of models which have been developed to describe natural systems. It is frequently the case that data can be simulated rapidly but explicit formulas for probability distributions are difficult to formulate, expensive to evaluate, impossible to justify, or do not exist. Hence, traditional likelihood machinery becomes infeasible. ABC is a means to overcome these issues, it is backed by a sound theoretical underpinning and is subject to a rapidly expanding set of literature. \\
@@ -181,3 +209,7 @@ Where $\bm{i}$ denotes the time step in the chain, and $\bm{\theta^*}$ is used t
 \end{algorithm}
 
 % Give a general history and propose a goal and oulook for the analysis
+ABC originated from applied problems where a likelihood was not availabe. As we saw in the last section, and expanded upon in \hyperref[AppendixA]{Appendix A}, geophysics has been able to leverage likelihoods in the form of equations \ref{likelihood-1} and \ref{likelihood-2}. This is the result of assumptions about the form of the model and Gaussian nature of the uncertainty. However, under more complex models an analytical formula for the likelihood may not be able to be defined. This is where ABC agorithms have traditionally been able to step in, bypassing using a likelihood, and in the process opening parameter inference a range of more complex models. \\
+
+Our hope is, however, ...
+
