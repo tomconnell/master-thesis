@@ -20,10 +20,10 @@ Figure \ref{toy1-fig2} explores the impact of varying the tolerance for this pro
 	\label{toy1-fig2}
 \end{figure}
 
-Figure \ref{toy1-fig1} demonstrates that with sufficient statistics and a low tolerance ABC can accurately resolve the posterior using only the ability to simulate data. However, as figure \ref{toy1-fig2}, demonstrates, with a high tolerance significant bias is introduced into the posterior and uncertainty is significantly over-estimated. It is true that increasing increasing the tolerance increases the acceptance rate and hence relaxes computational resources. In this case the acceptance rate with $\epsilon = 0.1$ was $X$, while the acceptance rate with $\epsilon = 5$ was $Y$. Under a model which is expensive to simulate from walking the tightrope between accuracy and efficiency becomes important and needs to be carefully examined. 
+Figure \ref{toy1-fig1} demonstrates that with sufficient statistics and a low tolerance ABC can accurately resolve the posterior using only the ability to simulate data. However, as figure \ref{toy1-fig2} demonstrates, high tolerances significantly erode posterior accuracy and uncertainty is significantly over-estimated. However, it is true that increasing the tolerance increases the acceptance rate and hence relaxes computational resources. In this case the acceptance rate with $\epsilon = 0.1$ was $0.021\%$, while the acceptance rate with $\epsilon = 1$ was $2.023\%$. Under a model which is expensive to simulate from walking the tightrope between accuracy and efficiency becomes important and needs to be carefully examined. In spite of shortcomings, the strengths of the ABC rejection sampler has led to significant scientific experiments \citep{Fu1997,Weiss1998a,Pritchard1999a}.
 
 \section{Toy problem 2: Linear regression}
-
+As a second example consider we have observed some data, $\bm{y}$, from the linear model $\bm{g}(\bm{\theta}) = mx + b$ and there is some stochasticity in the measurement process such that $\bm{g_s}(\bm{\theta}) = \bm{g}(\bm{\theta}) + \mathcal{N}(0,\sigma^2)$. In total the unknown parameters constitute $\bm{\theta} = [m,b,\sigma]$. However, in this case [the computational resources are limited] OR [the prior is far from the likelihood] and as such a rejection sampler in the form of algorithm \ref{ABCrejectionsampler} will not suffice. For this case we can call upon ABC-MCMC in the form of algorithm \ref{ABC-MCMC}. 
 
 
 
