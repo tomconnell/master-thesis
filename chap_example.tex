@@ -27,34 +27,37 @@ As a second example consider we have observed some data, $\bm{y}$, from the line
 
 Algorithm \ref{ABC-MCMC} samples the ABC posterior, equation \ref{summary-stat-abc-posterior}. The algorithm relies on evaluating the M-H acceptance probability, equation \ref{M-H-acce}. In our implementations Gaussian transition kernels, $q(.,.)$, are strictly used. As such the transition kernels cancel out in equation \ref{M-H-acce}. That leaves the prior and the weighting kernel to be evalutated at each time step in the Markov chain. The weighting kernel takes the form of equation \ref{generic-weighting-kernel}. In this case a uniform weighting kernel, $K_U$, is implemented. The interpretation of $K_U$ is the same as the accept/reject step in the rejection sampler: 
 \begin{equation}
-	K_U = 1\ \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}{\epsilon} \leq 1
+	K_U = 1\ \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}{\epsilon_i} \leq 1
 \end{equation}
 \begin{equation}
-	K_U = 0\ \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}{\epsilon} > 1
+	K_U = 0\ \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}{\epsilon_i} > 1
 \end{equation}
 $K_U$ hence forms an indicator function $\mathbbm{1}$ which is equal to $1$ when the distance between statistics, which are fit marginally, is less than the tolerance. Given, $\bm{S} = \{S_1,\dots,S_O\}$, the weighting kernel takes the form:
 \begin{equation}
-	p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta}) = \prod_{i = 1}^{O} K_U\Big(\frac{\rho(S_i(\bm{y}),S_i(\bm{y^*})}{\epsilon}\Big)
+	p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta}) = \prod_{i = 1}^{O} K_U\Big(\frac{\rho(S_i(\bm{y}),S_i(\bm{y^*})}{\epsilon_i}\Big)
 \end{equation}
 
 As with the 1D Gaussian example it would be possible to take summaries which have a 1:1 correspondance to the unknown parameters. For a given simulation, a linear model could be fit to the simulated data and the slope and intercept used as summaries. However, to demonstrate that this is not necessary, we take inspiration from \citet{vrugt2013toward} and use mean, $\mu$, and standard deviation, $\sigma$, as summary statistics. The slope is restricted to a positive value to make these statistics sufficient. \\
 
-Figure \ref{linear-regression} shows ABC-MCMC applied to the linear regression problem. 
+Figure \ref{linear-regression} shows ABC-MCMC applied to the linear regression problem. \\
+
+This example truly highlights how ABC shifts away from many traditional Bayesian and frequentist techniques which rely computing data residuals in the form $\sum (\bm{g}(\bm{\theta})-\bm{y})^2$. This residual is computed in the analytical linear regression likelihood and is at the heart of all likelihood functions which are applied in geophysics, equation \ref{likelihood-1} and equation \ref{likelihood-2}. Instead, ABC opts for informal measures of 'goodness-of-fit' and rely on user-varied tolerances, which guarentee posteriors close-to the true posterior, save for a small degree of bias. The result of a tolerance $> 0$ and summary statistics which do not always measure fitness as tightly as a data residual. However the gain is in diagnostic power. The data residual takes all the information in the data set and mixes it into a single number, the residual value. However, the form of ABC allows for the state of the algorithm at any one stage to be evaluated and fitting statistics marginally means different rules can be set for different statistics depending on what they mean to the inversion. Understanding how statistics change through an inversion, the nature in which they diverge, and the degree to which they spread around the observed value has taught researches in other disciplines a great deal about the nature of their models and the systems in which they study. That same central idea should be transferrable to geophysical parameter estimation problems and may offer room for more diagnostic inversion schemes, one with a greater deal of user control and greated deal of interprebable meaning. \\
+
+In the next section we continue to introduce algorithmic considerations into ABC as we build toward a geophysically relevant parameter estimation system. \\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75]{linear-regression-example}
-	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood machinary. MCMC is used for both posteriors. The tolerance is $\epsilon = [2,2]$ and the transition kernel is $q = \mathcal{N}(0,1)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and analytical marginal posterior compared for unknown parameter $m$ (b) Plot of Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
+	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood machinary. MCMC is used for both posteriors. The tolerance is $\bm{\epsilon} = [2,2]$ and the transition kernel is $q = \mathcal{N}(0,1)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
 	\label{linear-regression}
 \end{figure}
 
-
-
-
 \section{Toy problem 3: Bivariate Gaussian}
+% Introduce the problem
 
+%Figure of the chain becoming stuck at the beggining
 
-
+While ABC-MCMC and the uniform weighting kernel $K_U$ offered invariably improved acceptance rates compared to a rejection scheme in Figure \ref{linear-regression}, it is not without faults. Firstly it can suffer from an initialisation problem. This is discussed extensively by \citep{Sisson2010a} as they search for solutions which can overcome the initialisation problem, while still using $K_U$. Compounding this the acceptance rate can rapidly decline past a certain threshold as tolerance is decreased. That is a syptom of the same problem as with initialisation. Each move is either flat out rejected or is determined to be part of the posterior. This makes it prone to becoming stuck when in the tails of a distribution. Especially problematic in high-dimensional search spaces where the posterior density is an extra-ordinarily small volume within the space. Ideally, if in a poor spot the algorithm should be able to make local transitions toward an area of high probability density. However, this adjustment will invove abandoning the uniform kernel. What is needed is a weighting kernel which offers infinite support. That is, the weight dimishes with distance, however it never reaches zero. Fortunately many functions have the required properties. In this text we favour a  weighting kernel based on the Gaussian distribution, $K_G$. The Gaussian distribution is able to be computationally evaluated in a computationally stable way, even as the weighting terms reach extraordinarily small values. See Appendix B for an outline of the stable computational evaluation of the weighting kernel. 
 
 \section{Toy problem 4: Banana distribution}
 
