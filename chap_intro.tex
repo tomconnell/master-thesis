@@ -173,6 +173,7 @@ p_{ABC}(\bm{\theta},\bm{y^*}|\bm{y}) \propto p(\bm{y}|\bm{y^*},\bm{\theta}) p(\b
 $\bm{y^*}$ is viewed as a realization from the density $p(\bm{y^*}|\bm{\theta})$. $p(\bm{y}|\bm{y^*},\bm{\theta})$ is introduced to serve the same role as the tolerance in Algorithms \ref{ABCfulldatatolerance} and \ref{ABCrejectionsampler}. $p(\bm{y}|\bm{y^*},\bm{\theta})$ is chosen to weight the posterior with high values when the observed and simulated datasets are close. However, the form of equation \ref{eqABCposterior} allows the mathematics of kernel densities to be introduced into $p(\bm{y}|\bm{y^*},\bm{\theta})$ such that:
 \begin{equation}
 p(\bm{y}|\bm{y^*},\bm{\theta}) = \frac{1}{\epsilon} K \Big(\frac{\rho(\bm{y},\bm{y^*})}{\epsilon}\Big)
+\label{generic-weighting-kernel}
 \end{equation}
 Where $K$ is some standard kernel, and the tolerance $\epsilon$ serves as the kernel bandwidth. \\
 
@@ -187,11 +188,13 @@ p_{ABC}(\bm{\theta}|\bm{y}) \propto p(\bm{\theta}) \int_{\bm{y^*}} p(\bm{y}|\bm{
 Equation \ref{eqABCtargetPosterior} can be adjusted to rely on summary statistics. The density $p(\bm{S}(\bm{y^*})|\bm{\theta})$ is introduced as the density implied from taking summary statistics about $p(\bm{y^*}|\bm{\theta})$ and $p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta})$ is a kernel over the distance between summary statistics. Our approximate Bayesian distribution becomes:
 \begin{equation}
 p_{ABC}(\bm{\theta}|\bm{S}(\bm{y})) \propto p(\bm{\theta}) \int_{\bm{S}(\bm{y^*})} p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta})\  p(\bm{S}(\bm{y^*})|\bm{\theta})\ \text{d}\bm{S}(\bm{y^*})
+\label{summary-stat-abc-posterior}
 \end{equation}
 
 \citet{Marjoram2003} first demonstrated a Markov chain Monte Carlo (MCMC) scheme to sample the ABC posterior distribution. A simple MCMC algorithm with a Metropolis-Hastings (M-H) acceptance probability is demonstrated in algorithm \ref{ABC-MCMC}. The M-H acceptance probability $\alpha$ to recover the ABC posterior is:
 \begin{equation}
 \alpha_{ABC} = \frac{p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta})\ p(\bm{\theta^*})\ q(\bm{\theta^*},\bm{\theta_{i-1}})} {p(\bm{S}(\bm{y})|\bm{S}(\bm{y_{i-1}}),\bm{\theta})\ p(\bm{\theta_{i-1}})\ q(\bm{\theta_{i-1}},\bm{\theta^*})}
+\label{M-H-acce}
 \end{equation}
 Where $\bm{i}$ denotes the time step in the chain, and $\bm{\theta^*}$ is used to represent a candidate move from the proposal distribution $q(\bm{\theta_{i-1}}, . )$.
 
