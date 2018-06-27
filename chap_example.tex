@@ -23,20 +23,24 @@ Figure \ref{toy1-fig2} explores the impact of varying the tolerance for this pro
 Figure \ref{toy1-fig1} demonstrates that with sufficient statistics and a low tolerance ABC can accurately resolve the posterior using only the ability to simulate data. However, as figure \ref{toy1-fig2} demonstrates, high tolerances significantly erode posterior accuracy and uncertainty is significantly over-estimated. However, it is true that increasing the tolerance increases the acceptance rate and hence relaxes computational resources. In this case the acceptance rate with $\epsilon = 0.1$ was $0.021\%$, while the acceptance rate with $\epsilon = 1$ was $2.023\%$. Under a model which is expensive to simulate from walking the tightrope between accuracy and efficiency becomes important and needs to be carefully examined. In spite of shortcomings, the strengths of the ABC rejection sampler has led to significant scientific experiments \citep{Fu1997,Weiss1998a,Pritchard1999a}.
 
 \section{Toy problem 2: Linear regression}
+\label{sec-lin-reg}
+
 As a second example consider we have observed some data, $\bm{y}$, from the linear model $\bm{g}(\bm{\theta}) = m\bm{x} + b$ and there is some stochasticity in the measurement process such that $\bm{g_s}(\bm{\theta}) = \bm{g}(\bm{\theta}) + \mathcal{N}(0,\sigma^2)$. Our unknown parameters are $\bm{\theta} = [m,b]$, while $\sigma$ is known. In this case it is deemed that computational resources are limitied and MCMC, which uses local transitions, will be needed to improve acceptance rates. MCMC will also be needed when the search spaces are high dimensional, many unknown parameters, and the posterior is a long way from the prior. For this case we can call upon ABC-MCMC in the form of algorithm \ref{ABC-MCMC}. \\
 
 Algorithm \ref{ABC-MCMC} samples the ABC posterior, equation \ref{summary-stat-abc-posterior}. The algorithm relies on evaluating the M-H acceptance probability, equation \ref{M-H-acce}. In our implementations Gaussian transition kernels, $q(.,.)$, are strictly used. As such the transition kernels cancel out in equation \ref{M-H-acce}. That leaves the prior and the weighting kernel to be evalutated at each time step in the Markov chain. The weighting kernel takes the form of equation \ref{generic-weighting-kernel}. In this case a uniform weighting kernel, $K_U$, is implemented. The interpretation of $K_U$ is the same as the accept/reject step in the rejection sampler: 
 \begin{equation}
-	K_U = 1\ \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}{\epsilon_i} \leq 1
-\end{equation}
-\begin{equation}
-	K_U = 0\ \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}{\epsilon_i} > 1
+	K_U = 
+	\begin{cases}
+		1 & \text{if}\ 	\frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}				{\epsilon_i} \leq 1\\
+		0 & \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}				{\epsilon_i} > 1
+	\end{cases}
 \end{equation}
 $K_U$ hence forms an indicator function $\mathbbm{1}$ which is equal to $1$ when the distance between statistics, which are fit marginally, is less than the tolerance. Given, $\bm{S} = \{S_1,\dots,S_O\}$, the weighting kernel takes the form:
 \begin{equation}
 	p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta}) = \prod_{i = 1}^{O} K_U\Big(\frac{\rho(S_i(\bm{y}),S_i(\bm{y^*})}{\epsilon_i}\Big)
+	\label{weight-kernel}
 \end{equation}
-
+\noindent
 As with the 1D Gaussian example it would be possible to take summaries which have a 1:1 correspondance to the unknown parameters. For a given simulation, a linear model could be fit to the simulated data and the slope and intercept used as summaries. However, to demonstrate that this is not necessary, we take inspiration from \citet{vrugt2013toward} and use mean, $\mu$, and standard deviation, $\sigma$, as summary statistics. The slope is restricted to a positive value to make these statistics sufficient. \\
 
 Figure \ref{linear-regression} shows ABC-MCMC applied to the linear regression problem. \\
@@ -47,20 +51,35 @@ In the next section we continue to introduce algorithmic considerations into ABC
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.75]{linear-regression-example}
+	\includegraphics[scale=1.1]{linear-regression-example}
 	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood machinary. MCMC is used for both posteriors. The tolerance is $\bm{\epsilon} = [2,2]$ and the transition kernel is $q = \mathcal{N}(0,1)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
 	\label{linear-regression}
 \end{figure}
 
 \section{Toy problem 3: Bivariate Gaussian}
 % Introduce the problem
+As a third example consider we $n = 100$ observations from a bivariate Gaussian distribution $\mathcal{N}(\bm{\mu},\bm{\Sigma})$ with $\bm{\mu} = \begin{bmatrix}
+\mu_X\ \mu_Y
+\end{bmatrix}^T$ and $\bm{\Sigma} = \begin{bmatrix}
+\sigma^2_X & \rho\sigma_X\sigma_Y\\
+\rho\sigma_X\sigma_Y & \sigma^2_Y
+\end{bmatrix} $ where both $\bm{\mu}$ and $\bm{\sigma}$ are unknown, $\bm{\theta} = [\bm{\mu},\bm{\Sigma}]$. Figure XX shows the observed data and the underlying causitive distribution. This example has 5 unknown parameters in total and as such we can appeal to ABC-MCMC for efficient sampling. The weighting kernel takes the same for as equation \ref{weight-kernel} and summaries with a 1:1 correspondance to the unknown parameters are used, the marginal sample means and standard deviations, as well as sample covariance. Figure YY shows the results of the first 1000 time steps from an ABC-MCMC algorithm form described in section \ref{sec-lin-reg}. It can be seen that the algorithm is stationary for the first X repititions.\\
+
+%% Figure a of the observed data and figure b of the stuck chain
+
 
 %Figure of the chain becoming stuck at the beggining
 
-While ABC-MCMC and the uniform weighting kernel $K_U$ offered invariably improved acceptance rates compared to a rejection scheme in Figure \ref{linear-regression}, it is not without faults. Firstly it can suffer from an initialisation problem. This is discussed extensively by \citep{Sisson2010a} as they search for solutions which can overcome the initialisation problem, while still using $K_U$. Compounding this the acceptance rate can rapidly decline past a certain threshold as tolerance is decreased. That is a syptom of the same problem as with initialisation. Each move is either flat out rejected or is determined to be part of the posterior. This makes it prone to becoming stuck when in the tails of a distribution. Especially problematic in high-dimensional search spaces where the posterior density is an extra-ordinarily small volume within the space. Ideally, if in a poor spot the algorithm should be able to make local transitions toward an area of high probability density. However, this adjustment will invove abandoning the uniform kernel. What is needed is a weighting kernel which offers infinite support. That is, the weight dimishes with distance, however it never reaches zero. Fortunately many functions have the required properties. In this text we favour a  weighting kernel based on the Gaussian distribution, $K_G$. The Gaussian distribution is able to be computationally evaluated in a computationally stable way, even as the weighting terms reach extraordinarily small values. See Appendix B for an outline of the stable computational evaluation of the weighting kernel. 
+While ABC-MCMC and the uniform weighting kernel $K_U$ offered invariably improved acceptance rates compared to a rejection scheme in Figure \ref{linear-regression}, it is not without faults. Firstly, it can suffer from an initialisation problem, as highlights in figure YY. This is discussed extensively by \citep{Sisson2010a} as they search for solutions which can overcome the initialisation problem, while still using $K_U$. Compounding this, the acceptance rate can rapidly decline past a certain threshold as tolerance is decreased. That is a syptom of the same problem as with initialisation. Each move is either flat out rejected or is determined to be part of the posterior. This makes it prone to becoming stuck when in the tails of a distribution. This is especially problematic in high-dimensional search spaces where the posterior density is an extraordinarily small volume within the parameter space. Ideally, if in a poor spot the algorithm should be able to make local transitions toward an area of high probability density. However, this adjustment will invove abandoning the uniform kernel. What is needed is a weighting kernel which offers infinite support. That is, the weight dimishes with distance, however it never reaches zero. Fortunately many functions have the required properties. In this text we favour a  weighting kernel based on the Gaussian distribution, $K_G$. The Gaussian distribution is able to be evaluated in a computationally stable way, even as the weighting terms reach extraordinarily small values. See Appendix B for an outline of the stable computational evaluation of the weighting kernel.\\
+
+
 
 \section{Toy problem 4: Banana distribution}
 
 
 
- 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.75]{ABCvsMCMC}
+ 	\caption{}
+ \end{figure}
