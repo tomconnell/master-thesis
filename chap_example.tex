@@ -8,14 +8,14 @@ Figure \ref{toy1-fig2} explores the impact of varying the tolerance for this pro
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45]{toy1-fig1}
+	\includegraphics[scale=0.45]{toy1-fig1.pdf}
 	\caption{Posterior comparison between ABC and traditional likelihood inference for estimating the parameters, $\bm{\theta} = [\mu,\sigma]$, to a Gaussian model given $n = 100$ observations, $\bm{y}$. The ABC algorithm, algorithm \ref{ABCrejectionsampler}, uses 1 million repititions and a tolerance $\epsilon = 0.1$. The likelihood takes the form $\mathcal{L}(\bm{\theta}|\bm{Y}) = (2\pi\sigma^2)^{-n/2}\ \text{exp}\big[-\frac{1}{2\sigma^2}\sum_{i = 1}^{n}(y_i-\mu)^2\big]$. (a) Marginal posterior compared to marginal ABC posterior for unknown parameter $\mu$. (b) same as (a) but for unknown parameter $\sigma$. (c) Mean ABC posterior model compared to true model.}
 	\label{toy1-fig1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{toy1-fig2}
+	\includegraphics[scale=0.6]{toy1-fig2.pdf}
 	\caption{The effect of varying the tolerance $\epsilon$ when estimating $\bm{\theta} = [\mu,\sigma]$ to a Gaussian model given given $n = 100$ observations, $\bm{y}$. Three tolerances are considered, $\epsilon = 0.1$, $\epsilon = 1$, $\epsilon = 5$. (a) Marginal ABC posterior for unknown parameter $\mu$. The true value is $\mu = 5$ (b) same as (a) but for unknown parameter $\sigma$. The true value is $\sigma = 2$}.
 	\label{toy1-fig2}
 \end{figure}
@@ -93,10 +93,14 @@ While ABC-MCMC and the uniform weighting kernel $K_U$ offered invariably improve
 
 \section{Toy problem 4: Banana distribution}
 
-
+%\begin{figure}[H]
+%	\centering
+%	\def\svgwidth{0.65\columnwidth}
+%	\input{image.pdf_tex}
+%\end{figure}
 
  \begin{figure}[H]
  	\centering
- 	\includegraphics[scale=0.75]{ABCvsMCMC}
- 	\caption{}
+	\includegraphics[scale=0.75]{BananaABCvsMCMC.pdf}
+ 	\caption{Pdf test}
  \end{figure}
