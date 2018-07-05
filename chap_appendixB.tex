@@ -3,6 +3,14 @@
 
 The stable computation of likelihood values is an essential component of running algorithms which resolve the posterior distribution. This can be an issue as the value of the likelihood for a given set of parameters can be extraordinarily small, to the point where these values approach or cross the limits of of what can be stored in a computers memory. \\
 
-Consider, ... insert Marko Laine example\\
+Consider a unit hyper sphere that is located in a unit hyper cube. In low dimensions the sphere inside a cube takes up a large \% of the cubes volume. However, as the dimension increases this volume very rapidly diminishes. Figure XX illustrates this relationship. The purpose of this example is to demonstrate that high dimensional spaces are very sparse. Geophysical inverse problems suffer particulary from this dimensionality. Hence problems arising as a result of dimensionality, often reffered to as \textit{the curse of dimensionality}, are of particular importance. \\
 
-For a likelihood distribution over a high dimensional space, the majority of the space will be extraordinarily empty - i.e. with very low probability. Considering probability is a value between 1 and 0 that means a lot of space will be very close to 0. Given this circumstance it is essential to be able to accurately compute and compare extremely small probability values. The risk is...
+\begin{figure}
+	\centering
+	\caption{This example is inspired by the example given by Marko Laine.}
+\end{figure}
+
+For a likelihood distribution over a sparse high dimensional space, the majority of the space will be extraordinarily empty - i.e. with very low probability. Considering probability is a value between 1 and 0, that means a lot of space will be very close to 0. Given this circumstance it is essential to be able to accurately compute and compare extremely small probability values, an essential step in sampling algorithms. The risk of improper evaluation and comparison is erraneious steps in algorithms and a divergence from the posterior the algorithm is supposed to be sampling. In short your solution will be wrong. \\
+
+How to overcome this issue?
+
