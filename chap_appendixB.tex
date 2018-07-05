@@ -1,3 +1,8 @@
-\chapter{Appendix B: Stable computational evaluation of likelihood and likelihood approximations}
+\chapter{Appendix B: Stable computation of likelihood values}
 \label{AppendixB}
 
+The stable computation of likelihood values is an essential component of running algorithms which resolve the posterior distribution. This can be an issue as the value of the likelihood for a given set of parameters can be extraordinarily small, to the point where these values approach or cross the limits of of what can be stored in a computers memory. \\
+
+Consider, ... insert Marko Laine example\\
+
+For a likelihood distribution over a high dimensional space, the majority of the space will be extraordinarily empty - i.e. with very low probability. Considering probability is a value between 1 and 0 that means a lot of space will be very close to 0. Given this circumstance it is essential to be able to accurately compute and compare extremely small probability values. The risk is...
