@@ -58,3 +58,6 @@ Consider we have access to the log-likelihood and log-prior. Recall the logarith
 \alpha = \text{exp}\Big[\Big(l(\bm{\theta^*}|\bm{y})\ -\ l(\bm{\theta}|\bm{y})\Big)\ +\ \Big(\text{ln}\big(p(\bm{\theta^*})\big)\ -\ \text{ln}\big(p(\bm{\theta})\big)\Big)\Big]
 \end{equation}
 The resulting acceptance-ratio computed here will be equivilent to equation \ref{acceptance-ratio}, however, now the probability densities recquired in the computation will be restricted to large numbers, stable in their computation and comparison. The end result, a reliable MCMC algorithm.\\
+
+% Introfuce issue which arises due to the different scale of the terms in this new Metropolis-Hastings acceptance ratio
+
