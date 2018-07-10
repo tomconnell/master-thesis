@@ -51,7 +51,7 @@ Where $^*$ represents a candidate move from the proposal distribution $q(\bm{\th
 
 Hence, the ratio of posterior values needs to be computed at each time step over the parameter space. The raw posterior values will be prone to numerical underflow due to the limits of CPU memory, hence the log values for the likelihood must be used in this calculation. How does the form of $\alpha$ get adjusted within a computer program to ensure stable and reliable computation?\\
 
-This shift represents a major divergence between how the theory is established in equation form, and the practical application in computer code. It also eventually leads to a major issue for joint inversion schemes. \\
+This shift represents a major divergence between how the theory is established in equation form, and the practical application in computer code.\\
 
 Consider we have access to the log-likelihood and log-prior. Recall the logarithm rules where $\text{ln}(xy) = \text{ln}(x)+\text{ln}(y)$ and $\text{ln}(x/y) = \text{ln}(x)-\text{ln}(y)$. Then
 \begin{equation}
@@ -62,15 +62,15 @@ The resulting acceptance-ratio computed here will be equivilent to equation \ref
 
 % Introduce issue which arises due to the different scale of the terms in this new Metropolis-Hastings acceptance ratio
 
-The shift of acceptance ratio from equation \ref{acceptance-ratio} to equation \ref{stable-acceptance-ratio} introduces computational stability, however, a new issue is introduced. The shift from products and ratios to addition and subtraction means that the scales of the log-likelihoods and log-priors need to be balanced. If one is much larger than the other then it will dominate the calculation. This is true for calucluations of a one data set likelihood and prior, as well as joint inversion schemes which introduce multiple individual likelihoods into the calculation. The result has been the emergence of an ad-hoc scaling regime for joint inversions. This directly counters the probematic situation where the number of datapoints in the dataset leads to a significantly different scaled log-likelihood. The standard form for joint inversion likelihoods is given in equation XX. It can be seen that all dataset are cobined to form a single joint log-likelihood. Two examples of scaling schemes are
-\begin{equation}
-l_joint = l_1 + \frac{1}{c} l_2
-\end{equation}
-\begin{equation}
-l_joint = c l_1 + (1-c) l_2
-\end{equation}
-where $c$ is the scaling constant introduced. A similar scheme can be introduced for 2+ datasets. The value of $c$ can then be set by repeated inversion experiments which seek a known solution, the value can be taken by what gives balanced solutions which utilise the information brought in by both datasets.\\
+%The shift of acceptance ratio from equation \ref{acceptance-ratio} to equation %\ref{stable-acceptance-ratio} introduces computational stability, however, a %new issue is introduced. The shift from products and ratios to addition and %subtraction means that the scales of the log-likelihoods and log-priors need %to be balanced. If one is much larger than the other then it will dominate the %calculation. This is true for calucluations of a one data set likelihood and %prior, as well as joint inversion schemes which introduce multiple individual %likelihoods into the calculation. The result has been the emergence of an ad-%hoc scaling regime for joint inversions. This directly counters the probematic %situation where the number of datapoints in the dataset leads to a %significantly different scaled log-likelihood. The standard form for joint %inversion likelihoods is given in equation XX. It can be seen that all dataset %are cobined to form a single joint log-likelihood. Two examples of scaling %schemes are
+%\begin{equation}
+%l_{joint} = l_1 + \frac{1}{c} l_2
+%\end{equation}
+%\begin{equation}
+%l_{joint} = c l_1 + (1-c) l_2
+%\end{equation}
+%where $c$ is the scaling constant introduced. A similar scheme can be %introduced for 2+ datasets. The value of $c$ can then be set by repeated %inversion experiments which seek a known solution, the value can be taken by %what gives balanced solutions which utilise the information brought in by both %datasets.\\
 
-However, such a user defined weighting will be biased by our expectations in synthetic tests. The final uncertainties may not accurately reflect the uncertainty present in a real world problem. This may mean compromised statistical properties the probabilitic Bayesian method guarentees to deliver.  \\
+%However, such a user defined weighting will be biased by our expectations in %synthetic tests. The final uncertainties may not accurately reflect the %uncertainty present in a real world problem. This may mean compromised %statistical properties the probabilitic Bayesian method guarentees to deliver.  %\\
 
-At this stage there is no "solution". A joint likelihood which utilises user defined weights is currently the accepted system for joint inversion. But this system should not be blindly accepted. Part of the scope of this thesis is question the statistical underpinning of this form of the likelihood and probe alternate formulations.
+%At this stage there is no "solution". A joint likelihood which utilises user %defined weights is currently the accepted system for joint inversion. But this %system should not be blindly accepted. Part of the scope of this thesis is %question the statistical underpinning of this form of the likelihood and probe %alternate formulations.
