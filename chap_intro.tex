@@ -209,7 +209,7 @@ p_{ABC}(\bm{\theta}|\bm{y}) \propto p(\bm{\theta}) \int_{\bm{y^*}} p(\bm{y}|\bm{
 \label{eqABCtargetPosterior}
 \end{equation}\\
 
-Equation \ref{eqABCtargetPosterior} can be adjusted to rely on summary statistics. The density $p(\bm{S}(\bm{y^*})|\bm{\theta})$ is introduced as the density implied from taking summary statistics about $p(\bm{y^*}|\bm{\theta})$ and $p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta})$ is a kernel over the distance between summary statistics. Our approximate Bayesian distribution becomes:
+Equation \ref{eqABCtargetPosterior} can be adjusted to rely on summary statistics. The density $p(\bm{S}(\bm{y^*})|\bm{\theta})$ is introduced as the density implied from taking summary statistics about $p(\bm{y^*}|\bm{\theta})$ and $p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta})$ is a kernel over the distance between summary statistics. Our approximate Bayesian posterior distribution becomes:
 \begin{equation}
 p_{ABC}(\bm{\theta}|\bm{S}(\bm{y})) \propto p(\bm{\theta}) \int_{\bm{S}(\bm{y^*})} p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta})\  p(\bm{S}(\bm{y^*})|\bm{\theta})\ \text{d}\bm{S}(\bm{y^*})
 \label{summary-stat-abc-posterior}
@@ -227,7 +227,7 @@ Where $\bm{i}$ denotes the time step in the chain, and $\bm{\theta^*}$ is used t
 	\begin{algorithmic}
 		\State 1. Start from an initial state $\bm{\theta^0}$ and select a proposal distribution $q$
 		\State 2. At each step where the current state is $\bm{\theta_{i-1}}$, propose a candidate 	move $\bm{\theta^*}$ from the distribution $q(\bm{\theta_{i-1}},.)$		
-		\State 3. If the candidate state is better than the previous state, i.e $\alpha_{ABC} > 1$, then the candidate state is accepted unconditionally meaning $\bm{\theta_i} = \bm{\theta^*}$
+		\State 3. If the candidate state is better than the previous state, $\alpha_{ABC} > 1$, then the candidate state is accepted unconditionally meaning $\bm{\theta_i} = \bm{\theta^*}$
 		\State 4. If the candidate move is not better in the above sense, then $\bm{\theta^*}$ is accepted with probability equal to $\alpha_{ABC}$		
 		\State 5. If the candidate move is not accepted, then the chain remains in its current state, meaning $\bm{\theta_{i}} = \bm{\theta_{i-1}}$		
 		\State 6. Repeat the simulation steps 2-5 until enough values have been generated
@@ -238,5 +238,4 @@ Where $\bm{i}$ denotes the time step in the chain, and $\bm{\theta^*}$ is used t
 % Give a general history and propose a goal and oulook for the analysis
 ABC originated from applied problems where a likelihood was not availabe. As we saw in the last section, and expanded upon in \hyperref[AppendixA]{Appendix A}, geophysics has been able to leverage likelihoods in the form of equations \ref{likelihood-1} and \ref{likelihood-2}. This is the result of assumptions about the form of the model and Gaussian nature of the uncertainty. However, under more complex models an analytical formula for the likelihood may not be able to be defined. This is where ABC agorithms have traditionally been able to step in, bypassing using a likelihood, and in the process opening parameter inference a range of more complex models. \\
 
-Our hope is, however, ...
-
+Our hope is that ABC can offer improvements over several limiting aspects of traditional likelihood based Bayesian machinary. These improvements may be focused around several aspects. One is computing a joint likelihood in a balanced and statistically uncompromised manner. Another is making inversion schemes more diagnostic. At each step in an algorithm we can leverage the full dataset to decide what is the next appropriate move. Truly realistic uncertainty can be introduced, free from simplifications required for formulating the analytical PDFs or computational simplicity. Inversion schemes can potentially balance the tradeoff between excessively wasteful Monte Carlo methods, requiring millions of forward simulations and the extraordinaily stringent budget of linearized methods. 
