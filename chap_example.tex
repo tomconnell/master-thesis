@@ -144,14 +144,20 @@ To proceed with ABC inference under this model we must define a set of reasonabl
 \bar{\mu_X}\ \bar{\sigma_X}\ \bar{\gamma_Y}\ \bar{\mu_Y}\ \bar{\sigma_Y}\ a\ b\ c
 \end{bmatrix}^T$, to constitute reasonably sufficent summary statistics for the banana distribution. However, these are not perfect, and the effect of using them will be the introduction of some degree of bias into the posterior. \\
 
-
-
-
-
-
+Figure 1 shows the results of an ABC-MCMC algorithm with a Gaussian kernel and summary statistics as described targeting the banana distribution. For this problem only the Gaussian parameters, $\bm{\mu}$ and $\bm{\Sigma}$ are unknown.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.75]{BananaABCvsMCMC.pdf}
 \caption{Pdf test}
 \end{figure}
+
+The performance of our MCMC algorithm as described by algorithm \ref{ABC-MCMC} depends on the user's ability to choose a suitable proposal distribution $q(.,.)$. If we limit ourselves to a multivariate Gaussian distribution, then we must choose a suitable covariance matrix. If the variance for each parameter is too large then the probability of accepting a proposal will be low, as each step will be far from the current location. However, if the variance is too small then the acceptance rate will be very good but algorithm will be small to explore the full parameter space. Hence there is a balance encoded in the selection of the proposal. We desire both a reasonable acceptance and a good exploration of the parameter space. In this way we select a proposal distribution which suits the underlying target distribution. Generally it is simplest to leave the off-diagonal terms in the proposal distribution, the correlations between parameters, unconsidered.\\
+
+However, such a system is not ideal. Selecting an optimal proposal distribution is non-trivial problem. Here we can turn to theoretical developments to guide a better proposal distribution. \citet{gelman1996} show that when the target distribution is Gaussian, an efficient sampler can be constructed by scaling the proposal covariance to $2.4^2/d$, where $d$ is the number of unknown parameters, and by extension, the dimension of the parameter space. Until now it has been best to ignore the correlations between parameters. However, these correlations can be important to consider, if there are strong parameter correlations in the posterior then sampling success can be weakened by leaving these set to 0, especially in a high dimensional space and for nonlinear problems. But knowing about these correlations and designing a pre-defined proposal is next to impossible. Ideally the algorithm should be able to learn on the fly, and if there are correlations betweeen parameters, adjust accordingly. With this in mind \citet{haario2001} developed Adaptive Metropolis (AM). AM tunes the proposal distribution to the posterior distribution by using the history of the chain generated so far. After some designated time, $t$, the covariance matrix to the proposal distribution, $\bm{\Sigma_q}$ is set to the covariance of the Markov chain so far. 
+\begin{equation}
+\bm{\Sigma_q} = \text{cov}(\bm{\theta}_1,\dots,\bm{\theta}_t)s + I\upsilon
+\end{equation}
+Where $s$ is the scaling factor, generally $2.4^2/d$, and $\upsilon$ is a small positive which prevents the covariance from becoming singular. 
+
+
