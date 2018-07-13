@@ -111,11 +111,11 @@ x\ y
 \end{equation}
 The Gaussian co-ordinates $x$ and $y$ are then twisted to produce a more nonlinear target, $X$ and $Y$, using:
 \begin{equation}
-X = ax
+X = b_1x
 \label{x-banana}
 \end{equation}
 \begin{equation}
-Y = y/a-b(a^2x^2+a^2)
+Y = y/a-b_2(b_1^2x^2+b_1^2)
 \label{y-banana}
 \end{equation}
 In total the parameters which define this model are $\bm{\mu}$, $\bm{\Sigma}$ and the banana parameters $\begin{bmatrix}
@@ -127,7 +127,7 @@ $\bm{\Sigma} = \begin{bmatrix}
 \sigma^2_X & \rho\sigma_X\sigma_Y\\
 \rho\sigma_X\sigma_Y & \sigma^2_Y
 \end{bmatrix}$ and $\begin{bmatrix}
-a\ b
+b_1\ b_2
 \end{bmatrix}$ = $\begin{bmatrix}
 1\ 1
 \end{bmatrix}$. 
@@ -140,8 +140,7 @@ This problem is more challenging as there is no immediately availbe sufficient s
 \label{banana-data}
 \end{figure}
 
-To proceed with ABC inference under this model we must define a set of reasonably sufficient statistics. In the previous example it was possible to use the sample values for each of the unknown parameters, however, here this proved to be insufficient in a trial run. In the ABC literature summary statistic selection is the focus of technique development and active research. XX and YY have good reveiws of this research area. For this example we heed the advice of \citet{Wood2010}. Firstly, the statsitics have the same role in ABC as the data do in a traditional likelihood. Hence, there is no need for certain statistics to relate to specific parameters any more than there is the need for certain data points to relate to specific parameters. The key is in indenitifying a set of statistics which is senstitive to the scientificaly important and repeatable features of the data, and insensitive to the transient noisey components. \citet{Wood2010} identifies marginal distribution statistics as being a useful first step. The marginal distribution for our banana observations, $X$ and $Y$, are plotted in figure \ref{banana-data}. Here we can see $X$ appears as a regular Gaussian distribution, while $Y$ appears as a skewed-Gaussian distribution. This motivates the choice of marginal statistics for $X$ as the sample mean, $\bar{\mu_X}$, and sample standard deviation, $\bar{\sigma_X}$. While marginal statistics for $Y$ are sample skewness $\bar{\gamma_Y}$, as well as $\bar{\sigma_Y}$ and $\bar{\sigma_Y}$. However, this does not capture the "shape" of the distribution of the joint distribution in 2D dimensions. To capture the bananity of the joint distribution we fit a second degree polynomial to the data.
-
+To proceed with ABC inference under this model we must define a set of reasonably sufficient statistics. In the previous example it was possible to use the sample values for each of the unknown parameters, however, here this proved to be insufficient in a trial run. In the ABC literature summary statistic selection is the focus of technique development and active research. XX and YY have good reveiws of this research area. For this example we heed the advice of \citet{Wood2010}. Firstly, the statsitics have the same role in ABC as the data do in a traditional likelihood. Hence, there is no need for certain statistics to relate to specific parameters any more than there is the need for certain data points to relate to specific parameters. The key is in indenitifying a set of statistics which is senstitive to the scientificaly important and repeatable features of the data, and insensitive to the transient noisey components. \citet{Wood2010} identifies marginal distribution statistics as being a useful first step. The marginal distribution for our banana observations, $X$ and $Y$, are plotted in figure \ref{banana-data}. Here we can see $X$ appears as a regular Gaussian distribution, while $Y$ appears as a skewed-Gaussian distribution. This motivates the choice of marginal statistics for $X$ as the sample mean, $\bar{\mu_X}$, and sample standard deviation, $\bar{\sigma_X}$. While marginal statistics for $Y$ are sample skewness $\bar{\gamma_Y}$, as well as $\bar{\sigma_Y}$ and $\bar{\sigma_Y}$. However, this does not capture the "shape" of the distribution of the joint distribution in 2D dimensions. To capture the bananity of the joint distribution we fit a second degree polynomial to the data, $Y = a^2X + bX + c$. The co-effecient values $a$, $b$ and $c$ are then used as the summary statistics. For this example we consider this set to constitute reasonably sufficent summary statistic for the banana distribution. However, these are not perfect, and the effect of using them will be the introduction of some degree of bias into the posterior. \\
 
 \begin{figure}[H]
 \centering
