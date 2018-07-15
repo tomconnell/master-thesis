@@ -63,38 +63,43 @@ As a third example consider we $n = 100$ observations from a bivariate Gaussian 
 \end{bmatrix}^T$ and $\bm{\Sigma} = \begin{bmatrix}
 \sigma^2_X & \rho\sigma_X\sigma_Y\\
 \rho\sigma_X\sigma_Y & \sigma^2_Y
-\end{bmatrix} $ where both $\bm{\mu}$ and $\bm{\sigma}$ are unknown, hence $\bm{\theta} = [\bm{\mu},\bm{\Sigma}]$. Figure \ref{init-qualms}(a) shows the observed data and the underlying causitive distribution. This example has 5 unknown parameters in total and as such we can appeal to ABC-MCMC for efficient sampling. The weighting kernel takes the same for as equation \ref{weight-kernel} and summaries with a 1:1 correspondance to the unknown parameters are used, the marginal sample means and standard deviations, as well as sample covariance. The prior distribution, $p(\bm{\theta}) = \mathcal{U}(0,10)$, is used to provide equal probability to a bounded area for all unknowns beside correlation, $\rho$, which bounded as $p(\rho) = \mathcal{U}(-1,1)$. Figure \ref{init-qualms}(b) shows the results of the first 10000 time steps from an ABC-MCMC. It can be seen that the algorithm is stationary for the first 3000 repititions.\\
+\end{bmatrix} $ where both $\bm{\mu}$ and $\bm{\sigma}$ are unknown, hence $\bm{\theta} = [\bm{\mu},\bm{\Sigma}]$. Figure \ref{init-qualms}(a) shows the observed data and the underlying causitive distribution. This example has 5 unknown parameters in total and as such we can appeal to ABC-MCMC for efficient sampling. The weighting kernel takes the same form as equation \ref{weight-kernel} and summaries with a 1:1 correspondance to the unknown parameters are used, the marginal sample means, $\bar{\mu_X}$ and $\bar{\mu_Y}$, standard deviations, $\bar{\sigma_X}$ and $\bar{\sigma_Y}$, and sample covariance, $\text{cov}(X,Y)$. The prior distribution, $p(\bm{\theta}) = \mathcal{U}(0,10)$, is used to provide equal probability to a bounded area for all unknowns beside correlation, $\rho$, which bounded as $p(\rho) = \mathcal{U}(-1,1)$. Figure \ref{init-qualms}(b) shows the results of the first 10 000 time steps from an ABC-MCMC. It can be seen that the algorithm is stationary for the first 3 000 repititions.\\
 
 %% Figure a of the observed data and figure b of the stuck chain
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75]{init-problems.pdf}
-	\caption{}
+	\caption{(a) Observed data from the underlying causitive model, whose parameters will be the inference target. (b) First 10 000 iterations of an ABC-MCMC scheme with a uniform kernel. The algorithm initially struggles to find a region of non-zero probability from a random starting position within the parameter space.}
 	\label{init-qualms}
 \end{figure}
 
 %Figure of the chain becoming stuck at the beggining
 
-While ABC-MCMC and the uniform weighting kernel $K_U$ offered invariably improved acceptance rates compared to a rejection scheme in Figure \ref{linear-regression}, it is not without faults. Firstly, it can suffer from an initialisation problem, as highlighted in figure \ref{init-qualms}(b). This is discussed extensively by \citep{Sisson2010a} as they search for solutions which can overcome the initialisation problem, while still using $K_U$. Compounding this, the acceptance rate can rapidly decline past a certain threshold as tolerance is decreased. That is a syptom of the same problem as with initialisation. Each move is either flat out rejected or is determined to be part of the posterior. This makes it prone to becoming stuck when in the tails of a distribution. This is especially problematic in high-dimensional search spaces where the posterior density is an extraordinarily small volume within the parameter space. Ideally, if in a poor spot, the algorithm should be able to make local transitions toward an area of high probability density. However, this adjustment will invove abandoning the uniform kernel. What is needed is a weighting kernel which offers infinite support. That is, the weight dimishes with distance, however it never reaches zero. Fortunately many functions have the required properties. In this text we favour a  weighting kernel based on the Gaussian distribution, $K_G$. This choice is advantageous as the log-distance can be evaluated for stable computation in sampling algorithms. This implementation mirrors the stable implementation of likelihood values, expanded upon in \hyperref[AppendixB]{Appendix B}.\\
+While ABC-MCMC and the uniform weighting kernel $K_U$ offers improved acceptance rates compared to a rejection scheme, it is not without faults. Firstly, it can suffer from an initialisation problem, as highlighted in figure \ref{init-qualms}(b). Compounding this, the acceptance rate can rapidly decline past a certain threshold as tolerance is decreased. This is a syptom of the same problem as initialisation. Each move is either flat out rejected or is determined to be part of the posterior. This makes it prone to becoming stuck when in the tails of a distribution. This is especially problematic in high-dimensional search spaces where the posterior density is an extraordinarily small volume. Ideally, if in a poor spot, the algorithm should be able to make local transitions toward an area of high probability density. However, this adjustment will involve abandoning the $K_U$. A weighting kernel which offers infinite support is needed. That is, the weight dimishes with distance, however it never reaches zero. Fortunately many functions have the required properties. In this text we favour a  weighting kernel based on the Gaussian distribution, $K_G$. This choice is advantageous as the log-distance can be evaluated for stable computation in sampling algorithms. This implementation mirrors the stable implementation of likelihood values, expanded upon in \hyperref[AppendixB]{Appendix B}.\\
 
 For an observed dataset $\bm{S}(\bm{y})$ and simulated dataset $\bm{S}(\bm{y^*})$, where $\bm{S} = \{S_1,\dots,S_O\}$, the weighting kernel would be computed as:
 \begin{equation}
 p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta}) = K_G\big(\text{d}(\bm{S}(\bm{y}),\bm{S}(\bm{y^*}))\big) \propto \prod_{i = 1}^{O} \text{exp}\Big[-\frac{1}{2}\Big(\frac{\text{d}(S_i(\bm{y}),S_i(\bm{y^*}))}{\epsilon_i}\Big)^2\Big]
 \end{equation}
+Figure \ref{KuVSKg-1} compares and contrasts $K_U$ and $K_G$ over the first 7 500 time steps in an ABC-MCMC algorithm targeting the parameters to a bivariate Gaussian distribution, $\bm{\theta} = \begin{bmatrix}
+\bm{\mu}\ \bm{\Sigma}
+\end{bmatrix}$. $K_G$ does not suffer from the same initialisation problem as $K_U$. $K_G$ also has an improved accpetance rate and better mixing when compared to $K_U$. Figure \ref{KuVSKg-2} demonstrates that with time both kernels converge to the same solution.\\
+
+Both figure \ref{KuVSKg-1} and \ref{KuVSKg-2} show an insensitivity to $\rho$. This is a direct result of the insufficiency of the selected summary statistics for that parameter. This reinforces that while a smaller $\epsilon$ improves $\pi(\bm{\theta}|\text{d}(S(\bm{y}),S(\bm{y^*}))<\epsilon) \approx \pi(\bm{\theta}|S(\bm{y}))$, but if the summary statistics are not informative such that $\pi(\bm{\theta}|S(\bm{y})) \approx \pi(\bm{\theta}|\bm{y})$, then the house of cards falls apart. In this case the statistic $\text{cov}(X,Y)$ which should be sensitive to $\rho$, remains overwhelmed by $\sigma_X$ and $\sigma_Y$. In this case, the sample correlation, $\bar{\rho}$, may have been a better summary statistic choice. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{BG7500.pdf}
-	\caption{}
+	\caption{To-Do: Add caption}
+	\label{KuVSKg-1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{BG1000000.pdf}
-	\caption{}
-\end{figure}
-
-
+	\caption{To-Do: Add caption}
+	\label{KuVSKg-2}
+\end{figure} 
 
 \section{Toy problem 4: Banana distribution}
 
