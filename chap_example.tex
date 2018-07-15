@@ -31,8 +31,8 @@ Algorithm \ref{ABC-MCMC} samples the ABC posterior, equation \ref{summary-stat-a
 \begin{equation}
 	K_U = 
 	\begin{cases}
-		1 & \text{if}\ 	\frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}				{\epsilon_i} \leq 1\\
-		0 & \text{if}\ \frac{|(S_i(\bm{y^*}) - S_i(\bm{y}))|}				{\epsilon_i} > 1
+		1 & \text{if}\ 	\frac{\text{d}(S_i(\bm{y^*}),S_i(\bm{y}))}				{\epsilon_i} \leq 1\\
+		0 & \text{if}\ \frac{\text{d}(S_i(\bm{y^*}) - S_i(\bm{y}))}				{\epsilon_i} > 1
 	\end{cases}
 \end{equation}
 $K_U$ hence forms an indicator function $\mathbbm{1}$ which is equal to $1$ when the distance between statistics, which are fit marginally, is less than the tolerance. Given, $\bm{S} = \{S_1,\dots,S_O\}$, the weighting kernel takes the form:
