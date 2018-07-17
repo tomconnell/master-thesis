@@ -150,9 +150,37 @@ To proceed with ABC inference under this model we must define a set of reasonabl
 \bar{\mu_X}\ \bar{\sigma_X}\ \bar{\gamma_Y}\ \bar{\mu_Y}\ \bar{\sigma_Y}\ a\ b\ c
 \end{bmatrix}^T$, to constitute reasonably sufficent summary statistics for the banana distribution. However, these are not perfect, and the effect of using them will be the introduction of some degree of bias into the posterior. \\
 
-% Introduce scaling considerations
 
-Figure YY shows the results of an ABC-MCMC algorithm with a Gaussian kernel and summary statistics as described targeting the banana distribution. For this problem only the Gaussian parameters, $\bm{\mu}$ and $\bm{\Sigma}$ are unknown.\\
+
+% Introduce scaling considerations
+In our applications so far the distance metric has been a vector composed of the absolute distance between observed and simulated summary statistics, hence:
+\begin{equation}
+\text{d}_i(S_i(\bm{y}),S_i(\bm{y^*})) = |S_i(\bm{y})-S_i(\bm{y^*})|
+\end{equation}
+is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Under a rejection scheme where all simulations and distances can be computed before the rejection step, it is straight forward to normalize the distances by the scale they vary over. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repitions as $\epsilon$ is tuned. Other authors, citet{Ratmann2010}, have normalised the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
+\begin{equation}
+\hat{d_i}(S_i(\bm{y}),S_i(\bm{y^*})) =  \frac{|S_i(\bm{y})-S_i(\bm{y^*})|}{\sigma_{S_i}}
+\end{equation}
+
+% Computing the normalization term
+A good sampling algorithm would temper $\bm{\sigma_S} = \{\sigma_{S_1},\dots,\sigma{S_O}$ on the fly. Without such an algorithm $\bm{\sigma_S}$ must be predefined. Here we favour a Monte Carlo approximation based on $k > 10\ 000$ simulations from the prior and given the observed data. A marginal term $\sigma_{S_i}$ is then defined as the sample standard deviation of the distance between the simulated summary statistic and the observed summary statistic:
+\begin{equation}
+\sigma_{S_i} = \sqrt{\frac{\sum_{i = 1}^{k}(\text{d}_i)^2}{k-1}}
+\end{equation}
+This does not preclude varying $\epsilon$, however, it does ensure that each marginal $\epsilon_i$ is of a simular magnitude. 
+
+
+
+Figure YY shows the results of an ABC-MCMC algorithm targeting the banana distribution. This leverages a Gaussian kernel, summary statistics as described and uses a normalized distance metric. For this problem only the Gaussian parameters, $\bm{\mu}$ and $\bm{\Sigma}$ are unknown.\\
+
+% Insert banana problem solved w/ MCMC + MLE plot
+
+% Insert correlation plot of 5 pars to justify taking the MLE
+
+
+
+
+
 
 The performance of our MCMC algorithm as described by algorithm \ref{ABC-MCMC} depends on the users ability to choose a suitable proposal distribution $q(.,.)$. If we limit ourselves to a multivariate Gaussian distribution, then we must choose a suitable covariance matrix. If the variance for each parameter is too large then the probability of accepting a proposal will be low, as each step will be erratic and far from the current location. Consider that as the variance for $q(.,.) \rightarrow \infty$ we effectively have a Monte Carlo scheme. However, if the variance is too small then the acceptance rate will be very good but algorithm will fail to explore the full parameter space. Hence there is a balance encoded in the selection of the proposal distribution. We desire both a reasonable acceptance and a good exploration of the parameter space. In this way we select a proposal distribution which suits the underlying target distribution. Generally it is simplest to leave the off-diagonal terms in the proposal distribution, the correlations between parameters, unconsidered.\\
 
