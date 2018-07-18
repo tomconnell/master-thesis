@@ -207,8 +207,15 @@ Figure \ref{AM-demonstration} plots the effect AM has on a sub-optimal choice fo
 	\label{AM-demonstration}
 \end{figure}
 
-I build on the computational advantage of \citep{Harrio2001}'s Adaptive Metropolis by implementing Delayed Rejection Adaptive Metropolis of 
+Delayed Rejection (DR) can also be implmented to improve sampling efficiency \citet{Mira2001}. Under DR, when a proposed move is rejected, instead of advancing a time step and retaining the same position, another proposed candidate move is considered. The acceptance probability of the second proposal differs from the M-H acceptance probability in order to retain time reversibility of the Markov chain, ensuring that the chain converges to the desired stationary distribution. When a Markov chain remains in the position over time, the estimates obtained by averaging along the chain become less efficient. Increasing the autocorrelation the chain increases the variance of estimates based on the chain citep{Mira2001}. In this way DR is more effecient than a standard MH algorithm. A two-stage DR algorithm, as is considered in implementations here, would operate as follows. \\
 
+At the first stage the acceptance probability is the Metroplis-Hastings acceptance probability:
+\begin{equation}
+	\alpha_1 = \text{min}\bigg\{1,\frac{\pi(\theta^*)q_1(\theta^*,\theta)}{\pi(\theta),q_1(\theta,\theta^*)} \bigg\{
+\end{equation}
+
+
+Both Adaptive Metropolis and Delayed Rejection can be implemented together to give a Delayed Rejection Adaptove Metropolis scheme, as was pioneered by \citet{Laine2008}.
 
 
 \begin{figure}[H]
