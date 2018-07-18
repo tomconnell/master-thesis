@@ -219,9 +219,20 @@ where $\pi$ is the target distribution of the algorithm and $q_1$ is the proposa
 \end{equation}
 Here I limit implementation to a two-stage DR scheme and use a $q_2$ with a smaller covariance matrix. $q_1$ is downscaled to give $q_2$ by the relation, $q_2 = q_2/s_{DR}$. DR is compared to MH and AM in table \ref{sampling-method-comparison}.\\
 
-Both Adaptive Metropolis and Delayed Rejection can be implemented together to give a Delayed Rejection Adaptove Metropolis scheme, as was first implemented by \citet{Laine2008}. % List the advantages a combination offers.
+Both Adaptive Metropolis and Delayed Rejection can be implemented together to give a Delayed Rejection Adaptove Metropolis scheme, as was first implemented by \citet{Laine2008}. There are many implementation possibilities given the mixing of AM and DR. Here a straight forward implmentation is favoured, as in \citet{Laine2008}, which retains the principal advantages of each method to give an efficient adaptive algorithm. 
 
-DRAM is compared to MH,AM and DR in table \ref{sampling-method-comparison}.
+% List the advantages a combination offers.
+
+DRAM is compared to MH,AM and DR in table \ref{sampling-method-comparison}.\\
+
+
+
+
+When running a 'one-size fits all' generic MCMC algorithm, the standard procedure is to propose a candidate move which updates each and every parameter value. If we are at the position $\bm{\theta_{i-1}}$ in the parameter space, then the proposal distribution suggests a candidate move:
+\begin{equation}
+	\bm{\theta_{i}} = \mathcal{N}(\bm{\theta_{i-1}},\bm{\Sigma_q})
+\end{equation}
+However, this is not the only option. Another generic choice is to update a single parameter per time step. Much like the variance of $\bm{\Sigma_q}$, there is a trade-off between acceptance rate and speed of parameter space exploration encoded into this decision. Table \ref{sampling-method-comparison} compares the acceptance rate of a MH algorithm where all parameters are updated at once, and an MH algorithm where a single parameter is updated per time step. A significant increase in acceptance rate is made through this change. There is also a third option. At each time step a sub-set of parameters are updated. This is referred to as blocking. When parameters that are correlated are updated as block together, sampler performance is increased relative to updating each dimension independantly \citep{Turek2017}. However, implementing effective parameter blocking is not user friendly and requires problem specific implementation. 
 
 \begin{table}[H]
 	\centering
@@ -237,7 +248,7 @@ DRAM is compared to MH,AM and DR in table \ref{sampling-method-comparison}.
 	\hline
 	Delayed Rejection Adaptive Metropolis (DRAM) & 36.44\% \\
 	\hline
-	Blocked parameter update & 35.83\% \\
+	Single parameter update & 35.83\% \\
 	\hline
 	\end{tabular}
 	\caption{My first table}
