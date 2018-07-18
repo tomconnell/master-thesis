@@ -174,12 +174,20 @@ This does not preclude varying $\epsilon$, however, it does ensure that each mar
 Figure YY shows the results of an ABC-MCMC algorithm targeting the banana distribution. This leverages a Gaussian kernel, summary statistics as described and uses a normalized distance metric. For this problem only the Gaussian parameters, $\bm{\mu}$ and $\bm{\Sigma}$ are unknown.\\
 
 % Insert banana problem solved w/ MCMC + MLE plot
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{MH-Banana-1mil.pdf}
+	\caption{The marginal posterior distributions for banana parameter inference, as well as the median posterior model (f), in black, compared to the original model, red dashed lines. Red lines mark the true parameter values on the marginal posterior plots. I justify the legitimacy of extracting the median marginal model as there are limited correlations between the unknown parameters.}
+	\label{MH-banana}
+\end{figure}
 
 % Insert correlation plot of 5 pars to justify taking the MLE
-
-
-
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{correlation-plot.pdf}
+	\caption{Correlation plot for the Markov chain in figure \ref{MH-banana}. There is limited correlation between the parameters. This is used as justification for plotting statistics of the marginal posterior as representative.}
+	\label{correlation-plot}
+\end{figure}
 
 
 The performance of our MCMC algorithm as described by algorithm \ref{ABC-MCMC} depends on the users ability to choose a suitable proposal distribution $q(.,.)$. If we limit ourselves to a multivariate Gaussian distribution, then we must choose a suitable covariance matrix. If the variance for each parameter is too large then the probability of accepting a proposal will be low, as each step will be erratic and far from the current location. Consider that as the variance for $q(.,.) \rightarrow \infty$ we effectively have a Monte Carlo scheme. However, if the variance is too small then the acceptance rate will be very good but algorithm will fail to explore the full parameter space. Hence there is a balance encoded in the selection of the proposal distribution. We desire both a reasonable acceptance and a good exploration of the parameter space. In this way we select a proposal distribution which suits the underlying target distribution. Generally it is simplest to leave the off-diagonal terms in the proposal distribution, the correlations between parameters, unconsidered.\\
@@ -190,7 +198,18 @@ However, such a system is not ideal. Selecting an optimal proposal distribution 
 \end{equation}
 Where $s$ is the scaling factor, generally $2.4^2/d$, and $\upsilon$ is a small positive which prevents the covariance from becoming singular. \\
 
-Figure XX plots the effect AM has on a sub-optimal choice for a proposal distribution, and the computational advantage gained from adaption. \\
+Figure \ref{AM-demonstration} plots the effect AM has on a sub-optimal choice for a proposal distribution, and the computational advantage gained from adaption. \\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Am-demonstration.pdf}
+	\caption{Adaptive proposal distribution compared to a suboptimal proposal, which was the basis of the MCMC algorithm in figure \ref{MH-banana}.}
+	\label{AM-demonstration}
+\end{figure}
+
+I build on the computational advantage of \citep{Harrio2001}'s Adaptive Metropolis by implementing Delayed Rejection Adaptive Metropolis of 
+
+
 
 \begin{figure}[H]
 \centering
