@@ -181,6 +181,8 @@ Figure \ref{MH-banana} shows the results of an ABC-MCMC algorithm targeting the 
 	\label{MH-banana}
 \end{figure}
 
+Throughout this chapter, I plot the median marginal model. That is, the model which is defined by taking the median of the Markov chain for each individual parameter. One example is figure \ref{MH-banana}(f), here the red dashed lines mark the 50\% and 95\% confidence intervals of the model the data was generated from, while the solid black lines mark the 50\% and 95\% confidence intervals of the median marginal model. 
+
 % Insert correlation plot of 5 pars to justify taking the MLE
 \begin{figure}[H]
 	\centering
@@ -213,20 +215,13 @@ At the first stage the acceptance probability is the Metroplis-Hastings acceptan
 \begin{equation}
 	\alpha_1(\theta,\theta^*) = \text{min}\bigg\{1,\frac{\pi(\theta^*)q_1(\theta^*,\theta)}{\pi(\theta)q_1(\theta,\theta^*)} \bigg\}
 \end{equation}
-where $\pi$ is the target distribution of the algorithm and $q_1$ is the proposal distribution. If the proposed move to $\theta^*$ is rejected then a second candidate move, $\theta^**$, can be considered from the second proposal distribution $q_2$. The acceptance probability for $\theta^**$ is:
+where $\pi$ is the target distribution of the algorithm and $q_1$ is the proposal distribution. If the proposed move to $\theta^*$ is rejected then a second candidate move, $\theta^{**}$, can be considered from the second proposal distribution $q_2$. The acceptance probability for $\theta^{**}$ is:
 \begin{equation}
 	\alpha_2(\theta,\theta^*,\theta^{**}) = \text{min}\bigg\{1,\frac{\pi(\theta^{**})q_1(\theta^{**},\theta)q_2(\theta^{**},\theta^*,\theta)[1-\alpha_1(\theta^{**},\theta^*)]}{\pi(\theta)q_1(\theta,\theta^*)q_2(\theta,\theta^*,\theta^{**})[1-\alpha_1(\theta,\theta^*)]} \bigg\}
 \end{equation}
 Here I limit implementation to a two-stage DR scheme and use a $q_2$ with a smaller covariance matrix. $q_1$ is downscaled to give $q_2$ by the relation, $q_2 = q_2/s_{DR}$. DR is compared to MH and AM in table \ref{sampling-method-comparison}.\\
 
-Both Adaptive Metropolis and Delayed Rejection can be implemented together to give a Delayed Rejection Adaptove Metropolis scheme, as was first implemented by \citet{Laine2008}. There are many implementation possibilities given the mixing of AM and DR. Here a straight forward implmentation is favoured, as in \citet{Laine2008}, which retains the principal advantages of each method to give an efficient adaptive algorithm. 
-
-% List the advantages a combination offers.
-
-DRAM is compared to MH,AM and DR in table \ref{sampling-method-comparison}.\\
-
-
-
+Both Adaptive Metropolis and Delayed Rejection can be implemented together to give a Delayed Rejection Adaptove Metropolis scheme, as was first implemented by \citet{Laine2008}. There are many implementation possibilities given the mixing of AM and DR. Here a straight forward implementation is favoured, as in \citet{Laine2008}, which retains the principal advantages of each method to give an efficient adaptive algorithm.    The first stage proposal is adapted to the chain generated so far, and one scaled down second stage proposal is considered. The second stage proposal inherits the adapted covariance matrix of the first stage proposal, only the variance is down scaled. DRAM is compared to MH, AM and DR in table \ref{sampling-method-comparison}.\\
 
 When running a 'one-size fits all' generic MCMC algorithm, the standard procedure is to propose a candidate move which updates each and every parameter value. If we are at the position $\bm{\theta_{i-1}}$ in the parameter space, then the proposal distribution suggests a candidate move:
 \begin{equation}
@@ -259,6 +254,12 @@ However, this is not the only option. Another generic choice is to update a sing
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.75]{BananaABCvsMCMC.pdf}
+\includegraphics[scale=0.9]{BananaABCvsMCMC.pdf}
 \caption{Pdf test}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1.1]{DRAM-blocked-banana.pdf}
+\caption{Best banana}
 \end{figure}
