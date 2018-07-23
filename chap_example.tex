@@ -49,7 +49,7 @@ In the next section we continue to introduce algorithmic considerations into ABC
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1.1]{linear-regression-example.pdf}
+	\includegraphics[scale=0.7]{linear-regression.pdf}
 	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood machinary. MCMC is used to sample both posteriors. For ABC tolerance is $\bm{\epsilon} = [2,2]$. For both the transition kernel is $q = \mathcal{N}([0,0],I)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of the ABC-MCMC Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
 	\label{linear-regression}
 \end{figure}
@@ -157,13 +157,13 @@ In our applications so far the distance metric has been a vector composed of the
 \begin{equation}
 \text{d}_i(S_i(\bm{y}),S_i(\bm{y^*})) = |S_i(\bm{y})-S_i(\bm{y^*})|
 \end{equation}
-is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Under a rejection scheme where all simulations and distances can be computed before the rejection step, it is straight forward to normalize the distances by the scale they vary over. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repitions as $\epsilon$ is tuned. Other authors, citet{Ratmann2010}, have normalised the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
+is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Under a rejection scheme where all simulations and distances can be computed before the rejection step, it is straight forward to normalize the distances by the scale they vary over. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O\}$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repitions as $\epsilon$ is tuned. Other authors, \citet{Ratmann2010}, have normalised the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
 \begin{equation}
 \hat{d_i}(S_i(\bm{y}),S_i(\bm{y^*})) =  \frac{|S_i(\bm{y})-S_i(\bm{y^*})|}{\sigma_{S_i}}
 \end{equation}
 
 % Computing the normalization term
-A good sampling algorithm would temper $\bm{\sigma_S} = \{\sigma_{S_1},\dots,\sigma{S_O}$ on the fly. Without such an algorithm $\bm{\sigma_S}$ must be predefined. Here we favour a Monte Carlo approximation based on $k > 10\ 000$ simulations from the prior and given the observed data. A marginal term $\sigma_{S_i}$ is then defined as the sample standard deviation of the distance between the simulated summary statistic and the observed summary statistic:
+A good sampling algorithm would temper $\bm{\sigma_S} = \{\sigma_{S_1},\dots,\sigma_{S_O}\}$ on the fly. Without such an algorithm $\bm{\sigma_S}$ must be predefined. Here we favour a Monte Carlo approximation based on $k > 10\ 000$ simulations from the prior and given the observed data. A marginal term $\sigma_{S_i}$ is then defined as the sample standard deviation of the distance between the simulated summary statistic and the observed summary statistic:
 \begin{equation}
 \sigma_{S_i} = \sqrt{\frac{\sum_{i = 1}^{k}(\text{d}_i)^2}{k-1}}
 \end{equation}
@@ -176,7 +176,7 @@ Figure \ref{MH-banana} shows the results of an ABC-MCMC algorithm targeting the 
 % Insert banana problem solved w/ MCMC + MLE plot
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{MH-Banana-1mil.pdf}
+	\includegraphics[scale=1.1]{MH-Banana-1mil.pdf}
 	\caption{The marginal posterior distributions for banana parameter inference, as well as the median posterior model (f), in black, compared to the original model, red dashed lines. Red lines mark the true parameter values on the marginal posterior plots. I justify the legitimacy of extracting the median marginal model as there are limited correlations between the unknown parameters.}
 	\label{MH-banana}
 \end{figure}
@@ -192,9 +192,9 @@ Throughout this chapter, I plot the median marginal posterior model. That is, th
 \end{figure}
 
 
-The performance of our MCMC algorithm as described by algorithm \ref{ABC-MCMC} depends on the users ability to choose a suitable proposal distribution $q(.,.)$. If we limit ourselves to a multivariate Gaussian distribution, then we must choose a suitable covariance matrix. If the variance for each parameter is too large then the probability of accepting a proposal will be low, as each step will be erratic and far from the current location. Consider that as the variance for $q(.,.) \rightarrow \infty$ we effectively have a Monte Carlo scheme. However, if the variance is too small then the acceptance rate will be very good but algorithm will fail to explore the full parameter space. Hence there is a balance encoded in the selection of the proposal distribution. We desire both a reasonable acceptance and a good exploration of the parameter space. In this way we select a proposal distribution which suits the underlying target distribution. Generally it is simplest to leave the off-diagonal terms in the proposal distribution, the correlations between parameters, unconsidered.\\
+The performance of our MCMC algorithm as described by algorithm \ref{ABC-MCMC} depends on the users ability to choose a suitable proposal distribution $q(.,.)$. If we limit ourselves to a multivariate Gaussian distribution, then we must choose a suitable covariance matrix. If the variance for each parameter is too large then the probability of accepting a proposal will be low, as each step will be erratic and far from the current location. Consider that as the variance for $q(.,.) \rightarrow \infty$ we effectively have a Monte Carlo scheme. However, if the variance is too small then the acceptance rate will be very good but algorithm will fail to explore the full parameter space. Hence there is a balance encoded in the selection of the proposal distribution. We desire both a reasonable acceptance and a good exploration of the parameter space. In this way we select a proposal distribution which suits the underlying target distribution. Generally it is simplest to leave the off-diagonal terms in the proposal distribution's covariance matrix, the correlations between parameters, unconsidered.\\
 
-However, such a system is not ideal. Selecting an optimal proposal distribution is non-trivial problem. Here we can turn to theoretical developments to guide a better proposal distribution. \citet{gelman1996} show that when the target distribution is Gaussian, an efficient sampler can be constructed by scaling the proposal covariance to $2.4^2/d$, where $d$ is the number of unknown parameters. In th previous sections it has been best to ignore the correlations between parameters. However, these correlations can be important to consider, if there are strong parameter correlations in the posterior then sampling success can be weakened by leaving these set to 0, especially in a high dimensional space and for nonlinear problems. But knowing about these correlations and designing a pre-defined proposal is next to impossible. Ideally the algorithm should be able to learn about the posterior on the fly, and if there are correlations betweeen parameters, adjust accordingly. With this in mind \citet{haario2001} developed Adaptive Metropolis (AM). AM tunes the proposal distribution to the posterior distribution by using the history of the chain generated so far. After some designated time, $t$, the covariance matrix of the proposal distribution, $\bm{\Sigma_q}$, is set to the covariance of the Markov chain so far. 
+However, such a system is not ideal. Selecting an optimal proposal distribution is non-trivial problem. Here we can turn to theoretical developments to guide a better proposal distribution. \citet{Gelman1996} show that when the target distribution is Gaussian, an efficient sampler can be constructed by scaling the proposal covariance to $2.4^2/d$, where $d$ is the number of unknown parameters. In the previous sections it has been best to ignore the correlations between parameters. However, these correlations can be important to consider, if there are strong parameter correlations in the posterior then sampling success can be weakened by leaving these unconsidered, especially in a high dimensional space and for nonlinear problems. Indentifyign these correlations ahead of time and designing a pre-defined proposal is challenging. Ideally the algorithm should be able to learn about the posterior on the fly, and if there are correlations betweeen parameters, adjust accordingly. With this in mind \citet{haario2001} developed Adaptive Metropolis (AM). AM tunes the proposal distribution to the posterior distribution by using the history of the chain generated so far. After some designated time, $t$, the covariance matrix of the proposal distribution, $\bm{\Sigma_q}$, is set to the covariance of the Markov chain so far. 
 \begin{equation}
 \bm{\Sigma_q} = \text{cov}(\bm{\theta}_1,\dots,\bm{\theta}_t)s_{AM} + I\upsilon
 \end{equation}
@@ -204,12 +204,12 @@ Figure \ref{AM-demonstration} plots the effect AM has on a sub-optimal choice fo
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Am-demonstration.pdf}
+	\includegraphics[scale=0.45]{Am-demonstration.pdf}
 	\caption{Adaptive proposal distribution compared to a suboptimal proposal which was the basis of the MCMC algorithm in figure \ref{MH-banana}.}
 	\label{AM-demonstration}
 \end{figure}
 
-Delayed Rejection (DR) can also be implmented to improve sampling efficiency \citet{Mira2001}. Under DR, when a proposed move is rejected, instead of advancing a time step and retaining the same position, another proposed candidate move is considered. The acceptance probability of the second proposal differs from the M-H acceptance probability in order to retain time reversibility of the Markov chain, ensuring that the chain converges to the desired stationary distribution. When a Markov chain remains in the position over time, the estimates obtained by averaging along the chain become less efficient. Increases to autocorrelation of the chain increase the variance of estimates based on the chain \citep{Mira2001}. In this way DR is more effecient than a standard MH algorithm. A two-stage DR algorithm, as is considered in implementations here, would operate as follows. \\
+Delayed Rejection (DR) can also be implmented to improve sampling efficiency \citep{Mira2001}. Under DR, when a proposed move is rejected, instead of advancing a time step and retaining the same position, another proposed candidate move is considered. The acceptance probability of the second proposal differs from the M-H acceptance probability in order to retain time reversibility of the Markov chain, ensuring that the chain converges to the desired stationary distribution. When a Markov chain remains in the position over time, the estimates obtained by averaging along the chain become less efficient. Increases to autocorrelation of the chain increase the variance of estimates based on the chain \citep{Mira2001}. In this way DR is more effecient than a standard MH algorithm. A two-stage DR algorithm, as is considered in implementations here, would operate as follows. \\
 
 At the first stage the acceptance probability is the Metroplis-Hastings acceptance probability:
 \begin{equation}
@@ -219,7 +219,7 @@ where $\pi$ is the target distribution of the algorithm and $q_1$ is the proposa
 \begin{equation}
 	\alpha_2(\theta,\theta^*,\theta^{**}) = \text{min}\bigg\{1,\frac{\pi(\theta^{**})q_1(\theta^{**},\theta)q_2(\theta^{**},\theta^*,\theta)[1-\alpha_1(\theta^{**},\theta^*)]}{\pi(\theta)q_1(\theta,\theta^*)q_2(\theta,\theta^*,\theta^{**})[1-\alpha_1(\theta,\theta^*)]} \bigg\}
 \end{equation}
-Here I limit implementation to a two-stage DR scheme and use a $q_2$ with a smaller covariance matrix. $q_1$ is downscaled to give $q_2$ by the relation, $q_2 = q_2/s_{DR}$. DR is compared to MH and AM in table \ref{sampling-method-comparison}.\\
+Here I limit implementation to a two-stage DR scheme and use a $q_2$ with a smaller covariance matrix. $q_1$ is downscaled to give $q_2$ by the relation, $q_2 = q_1/s_{DR}$. DR is compared to MH and AM in table \ref{sampling-method-comparison}.\\
 
 Both Adaptive Metropolis and Delayed Rejection can be implemented together to give a Delayed Rejection Adaptove Metropolis scheme, as was first implemented by \citet{Laine2008}. There are many implementation possibilities given the mixing of AM and DR. Here a straight forward implementation is favoured, as in \citet{Laine2008}, which retains the principal advantages of each method to give an efficient adaptive algorithm.    The first stage proposal is adapted to the chain generated so far, and one scaled down second stage proposal is considered. The second stage proposal inherits the adapted covariance matrix of the first stage proposal, only the variance is down scaled. DRAM is compared to MH, AM and DR in table \ref{sampling-method-comparison}.\\
 
@@ -246,15 +246,19 @@ However, this is not the only option. Another generic choice is to update a sing
 	Single parameter update & 35.83\% \\
 	\hline
 	\end{tabular}
-	\caption{My first table}
+	\caption{Comparison of sampler efficiency for the banana parameter estimation problem. The sampled posterior is the same for each method.}
 	\label{sampling-method-comparison}
 \end{table}
 
-
+\begin{figure}
+\centering
+\includegraphics[scale=0.45]{MH-banana.pdf}
+\caption{Analytical MH}
+\end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.9]{BananaABCvsMCMC.pdf}
+\includegraphics[scale=0.8]{Analytical-vs-ABC.pdf}
 \caption{Pdf test}
 \end{figure}
 
