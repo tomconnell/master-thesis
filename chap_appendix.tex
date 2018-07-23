@@ -1,5 +1,6 @@
-\chapter{Appendix A: Likelihood derivation}
-\label{AppendixA}
+\begin{tcolorbox}
+\chapter{Box 1: Likelihood derivation}
+\label{Box1}
 
 \subsection{General-form likelihood}
 \citet[p.90-92]{gregory2005bayesian} outline constructing a likelihood, $\mathcal{L}(\bm{\theta}|\bm{y})$, from starting assumptions. Firstly, a model for the data is assumed:
@@ -39,6 +40,13 @@ From the relationship in equation \ref{general_form_inference}, $y_i-z_i-e_i = 0
 p(y_i|z_i,e_i,\bm{\theta}) = \delta(y_i-z_i-e_i)
 \label{dirac_equality}
 \end{equation}
+
+\end{tcolorbox}
+
+
+
+
+\begin{tcolorbox}
 This is a natural definition, as the probability density of $y_i$ given $z_i$ and $e_i$ should be focused when the exact relation of equation \ref{general_form_inference} is met. The dirac-delta function serves this role perfectly while still exhibiting properties of a PDF, non-negative and $\int_{-\infty}^{\infty}\delta = 1$. Considering equation \ref{dirac_equality}, equation \ref{halfway_through_derivation} becomes:
 \begin{equation}
 p(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ p(z_i|\bm{\theta})\ p(e_i|\bm{\theta})\ \delta(y_i-z_i-e_i)
@@ -74,6 +82,12 @@ $e^{\mathcal{M}}_i$ and $e^{\mathcal{D}}_i$ are assumed to be uncorrelated. If i
 \begin{equation}
 p(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{M}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{M}}_i)^2}{2(\sigma^{\mathcal{M}\ 2}_i)^2} \bigg]
 \end{equation} 
+
+\end{tcolorbox}
+
+
+
+\begin{tcolorbox}
 Likewise, if $e^{\mathcal{D}}_i$ is assumed to be i.i.d from a Gaussian with standard deviation $\sigma^{\mathcal{D}}_i$ then:
 \begin{equation}
 p(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{D}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{D}}_i)^2}{2(\sigma^{\mathcal{D}}_i)^2} \bigg]
@@ -110,6 +124,12 @@ Then the likelihood involves a combination of their covariance matrices:
 \mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \label{used-likelihood-2}
 \end{equation}
+
+\end{tcolorbox}
+
+
+
+\begin{tcolorbox}
 Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:
 \begin{enumerate}
 \item The form of the model, equation \ref{general_form_inference}
@@ -118,4 +138,4 @@ Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly 
 \end{enumerate}
 A shift away from these assumptions is likely to close access to a likelihood function.
 
-
+\end{tcolorbox}
