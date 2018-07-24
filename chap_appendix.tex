@@ -1,8 +1,12 @@
-\begin{tcolorbox}
-\chapter{Box 1: Likelihood derivation}
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 1: Likelihood derivation,colback=red!5!white,colframe=red!75!black]
+%\chapter{Box 1: Likelihood derivation}
 \label{Box1}
 
-\subsection{General-form likelihood}
+%\subsection{General-form likelihood}
+\begin{Large}
+General-form likelihood\\
+\linebreak
+\end{Large}
 \citet[p.90-92]{gregory2005bayesian} outline constructing a likelihood, $\mathcal{L}(\bm{\theta}|\bm{y})$, from starting assumptions. Firstly, a model for the data is assumed:
 \begin{equation}
 y_i = z_i + e_i
@@ -41,12 +45,6 @@ p(y_i|z_i,e_i,\bm{\theta}) = \delta(y_i-z_i-e_i)
 \label{dirac_equality}
 \end{equation}
 
-\end{tcolorbox}
-
-
-
-
-\begin{tcolorbox}
 This is a natural definition, as the probability density of $y_i$ given $z_i$ and $e_i$ should be focused when the exact relation of equation \ref{general_form_inference} is met. The dirac-delta function serves this role perfectly while still exhibiting properties of a PDF, non-negative and $\int_{-\infty}^{\infty}\delta = 1$. Considering equation \ref{dirac_equality}, equation \ref{halfway_through_derivation} becomes:
 \begin{equation}
 p(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ p(z_i|\bm{\theta})\ p(e_i|\bm{\theta})\ \delta(y_i-z_i-e_i)
@@ -65,9 +63,13 @@ This leaves a general form for the likelihood $\pi(y_i|\bm{\theta})$ as:
 p(y_i|\bm{\theta}) = \mathcal{L}(\bm{\theta}|y_i) = \int \text{d}z_i\ f_Z(z_i)\ f_E(y_i - z_i)
 \label{general_likelihood}
 \end{equation}
-However this general equation is not in a form which can be practically applied to inference problems. To achieve a practical form further assumptions must be made about the distributions $f_Z(z_i)$ and $f_E(e)$. This is done by assigning parametric distributions. As we will see in the next section, assigning Gaussian distributions will allow \ref{general_likelihood} to form a usable expression which will be our applied-form likelihood.
-
-\subsection{Applied-form likelihood}
+However this general equation is not in a form which can be practically applied to inference problems. To achieve a practical form further assumptions must be made about the distributions $f_Z(z_i)$ and $f_E(e)$. This is done by assigning parametric distributions. As we will see in the next section, assigning Gaussian distributions will allow \ref{general_likelihood} to form a usable expression which will be our applied-form likelihood.\\
+\linebreak
+%\subsection{Applied-form likelihood}
+\begin{Large}
+Applied-form likelihood\\
+\linebreak
+\end{Large}
 It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty. For $y_i$ the source of statistical uncertainty is a result of the measurement process. While for $z_i$ the source of uncertainty is a result of modelization. It is necessary to distinguish between these two sources of uncertainty. The data uncertainty arising from the measurement process will be denoted $e^{\mathcal{D}}_i$, while modelization uncertainty will be denoted $e^{\mathcal{M}}_i$. As such:
 \begin{equation}
 y_i = z_i + e^{\mathcal{D}}_i
@@ -83,11 +85,6 @@ $e^{\mathcal{M}}_i$ and $e^{\mathcal{D}}_i$ are assumed to be uncorrelated. If i
 p(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{M}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{M}}_i)^2}{2(\sigma^{\mathcal{M}\ 2}_i)^2} \bigg]
 \end{equation} 
 
-\end{tcolorbox}
-
-
-
-\begin{tcolorbox}
 Likewise, if $e^{\mathcal{D}}_i$ is assumed to be i.i.d from a Gaussian with standard deviation $\sigma^{\mathcal{D}}_i$ then:
 \begin{equation}
 p(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{D}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{D}}_i)^2}{2(\sigma^{\mathcal{D}}_i)^2} \bigg]
@@ -125,11 +122,6 @@ Then the likelihood involves a combination of their covariance matrices:
 \label{used-likelihood-2}
 \end{equation}
 
-\end{tcolorbox}
-
-
-
-\begin{tcolorbox}
 Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:
 \begin{enumerate}
 \item The form of the model, equation \ref{general_form_inference}

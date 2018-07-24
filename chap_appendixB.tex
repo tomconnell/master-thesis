@@ -1,5 +1,4 @@
-\begin{tcolorbox}
-\chapter{Box 2: Stable computation of likelihood values}
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 2: Stable computation of likelihood values,colback=red!5!white,colframe=red!75!black]
 \label{Box2}
 
 The stable computation of likelihood values is an essential component of running algorithms which resolve posterior distributions. This can be an issue as the value of the likelihood for a given set of parameters can be extraordinarily small, to the point where these values approach or cross the limits of what can be stored in a computers memory. \\
@@ -9,14 +8,9 @@ Consider a unit hyper sphere that is located in a unit hyper cube. In low dimens
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{hyper-objects.pdf}
-	\caption{The volume ratio of a unit hyper sphere, $2\pi^{d/2}r^d/d/\Gamma(d/2)$, inside a unit hyper cube, $(2r)^d$, as a function of dimension, $d$. This example is inspired by Marko Laine.}
+	\caption{The volume ratio of a unit hyper sphere, $2\pi^{d/2}r^d/d/\Gamma(d/2)$, inside a unit hyper cube, $(2r)^d$, as a function of dimension, $d$. This example is inspired by \citet{Laine2008}.}
 	\label{hyper-objects}
 \end{figure}
-
-\end{tcolorbox}
-
-
-\begin{tcolorbox}
 
 For a likelihood distribution over a sparse high dimensional space, the majority of the space will be extraordinarily empty - i.e. with very low probability. Considering probability is a value between 1 and 0, that means a lot of parameter space will have a liklihood very close to 0. Given this circumstance it is essential to be able to accurately compute and compare extremely small probability values. The risk of improper evaluation and comparison is erraneious steps in algorithms and a divergence from the posterior the algorithm is supposed to be sampling. In short your solution will be wrong. \\
 
@@ -46,10 +40,6 @@ Reference to the negative log-likelihood would then mean
 -l(\bm{\theta}|\bm{y}) \propto \frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))
 \label{negative-log-likelihood}
 \end{equation}
-
-\end{tcolorbox}
-
-\begin{tcolorbox}
 
 The negative log-likelihood is then a large positive number for very small probability values. Often minimization of an equation in the form of equation \ref{negative-log-likelihood} is the goal of linearized inversion schemes. Herein lies a connection between the likelihood function and linearized schemes, the result of a successful lineared inversion represents the minimum of the negative log-likelihood, $-l(\bm{\theta}|\bm{y})$. Which is also the maximum likelihood value. However our goal is generally broader. To explore the joint posterior distribution, a function of both likelihood and prior. This goal in high dimensional space neccessitates Markov chain Monte Carlo (MCMC) sampling. So how does our shift to working with the natural logarithm of the likelihood impact this algorithm? \\
 
