@@ -202,9 +202,14 @@ Where $s_{AM}$ is the scaling factor, generally $2.4^2/d$, and $\upsilon$ is a s
 
 Figure \ref{AM-demonstration} plots the effect AM has on a sub-optimal choice for a proposal distribution, and the computational advantage gained from adaption. \\
 
-Throughout this text we use a 4-stage adaptive scheme over the length of the chain. Figure \ref{4-stage-am} plots this scheme. With this in mind, Figure \ref{AM-demonstration} plots the proposal distribution before the first adaption, red, and after the 4th adaption, blue.
+Throughout this text we use a 4-stage adaptive scheme over the length of the chain. Figure \ref{4-stage-am} plots this scheme. With this in mind, Figure \ref{AM-demonstration} plots the proposal distribution before the first adaption, red, and after the 4th adaption, blue. \\
+\linebreak
+\linebreak
+\linebreak
 
-\begin{figure}[H]
+\begin{figure}[h]
+%\vspace{2cm}
+\begin{minipage}{1.0\linewidth}
 \centering
     \begin{tikzpicture}
 	\draw (0,0) -- (12,0);
@@ -226,6 +231,8 @@ Throughout this text we use a 4-stage adaptive scheme over the length of the cha
 	\put(220,40){$3^{rd}$}
 	\put(277,40){$4^{th}$}
     \end{tikzpicture}
+\end{minipage}
+
 \caption{4-stage adaptive scheme for a Markov chain of length $k$}
 \label{4-stage-am}
 \end{figure}
