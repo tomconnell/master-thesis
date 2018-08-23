@@ -1,6 +1,14 @@
 \chapter{ABC}
 
-This chapter will outline a series of illustrative ABC examples. These will serve to demonstrate core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions, and develop the boutique code base which form the foundations of this project. The code for the examples in this section can be found at \url{https://github.com/tomconnell/dram}.\\
+This chapter will outline a series of illustrative ABC experiments. These will serve to demonstrate the core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions and develop the boutique code base which will form the foundations of this project.
+
+For all experiments I aim to meet preproducibility, describing the experiments in adequate detail for others to undertake. 
+
+For transparency and reprocibility I heed advice from Buckheit and Donoho (1995)
+\begin{displayquote}
+\textit{An article about computational science in a scientific publication is not the scholarship itself, it is merely advertising the scholarship. The actual scholarship is the complete development environment and the complete set of instructions which generated the figures.}
+\end{displayquote}
+The MATLAB code for all figures in this section can be found at \url{https://github.com/tomconnell/dram}.
 
 \section{Toy problem 1: 1D Gaussian}
 As a simple first example consider we have observed $n = 100$ realizations from the Gaussian model $\bm{g_s}(\bm{\theta}) = \frac{1}{\sqrt{2\pi\sigma^2}}\ \text{exp}\Big[\frac{-\mu^2}{2\sigma^2}\Big]$. Our unknown model parameters are $\bm{\theta} = [\mu,\sigma]$. Given we have access to simulation from this model it is possible to leverage ABC algorithms to estimate these unknown model parameters. A synthetic dataset for this problem is created with $\mu = 5$ and $\sigma = 2$. The summary statistics sample mean, $\bar{\mu}$, and sample standard deviation, $\bar{\sigma}$, are used. These provide sufficient statistics with a 1:1 correspondance to the unknown parameters. Figure \ref{toy1-fig1} plots the ABC posterior obtained from using algorithm \ref{ABCrejectionsampler}, the traditional form of an ABC rejection sampler, compared to the analytical likelihood. The metric over summary statistics is evaluated marginally. Throughout this text I do not consider the joint distribution of the distance between summaries. Our metric here takes the form $\text{d}(\bm{S}(\bm{y}),\bm{S}(\bm{y^*})) = |S_1(\bm{y^*}) - S_1(\bm{y})| +| S_2(\bm{y^*}) - S_2(\bm{y})|$. A uniform prior is used to give equal probability to a bounded area, $p(\mu) = \mathcal{U}(0,10)$ and $p(\sigma) = \mathcal{U}(0,10)$. 
