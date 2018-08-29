@@ -16,7 +16,9 @@
 
 % this shows what labels you are using for cross references
 % \usepackage{showkeys} 
-\usepackage{helvet}
+%\usepackage{helvet}
+\usepackage{fontspec}
+\setsansfont{Roboto-Regular.ttf}
 % ifthenelse for if loops
 \usepackage{etoolbox}
 \usepackage{amsmath}
@@ -37,8 +39,20 @@
 \usepackage{bbm}
 \usepackage[most]{tcolorbox}
 \usepackage{tikz}
+\usepackage{pgfplots}
+  \pgfplotsset{compat=newest}
+\newlength\fheight
+\newlength\fwidth
 \usepackage{csquotes}
 \raggedbottom
+\usepackage{sansmath}
+\pgfplotsset{
+  tick label style = {font=\sansmath\sffamily},
+  every axis label = {font=\sansmath\sffamily},
+  legend style = {font=\sansmath\sffamily},
+  label style = {font=\sansmath\sffamily}
+}
+
 %---------------------------------------------------------
 % SPECIFIC OPTIONS
 % Other options to use in this thesis:

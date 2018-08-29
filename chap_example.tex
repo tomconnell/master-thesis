@@ -1,5 +1,7 @@
 \chapter{ABC}
 
+{\sffamily Test of roboto.}
+
 This chapter will outline a series of illustrative ABC experiments. These will serve to demonstrate the core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions and develop the boutique code base which will form the foundations of this project.
 
 For all experiments I aim to meet preproducibility, describing the experiments in adequate detail for others to undertake. 
@@ -11,7 +13,7 @@ For transparency and reprocibility I heed advice from Buckheit and Donoho (1995)
 The MATLAB code for all figures in this section can be found at \url{https://github.com/tomconnell/dram}.
 
 \section{Toy problem 1: 1D Gaussian}
-As a simple first example consider we have observed $n = 100$ realizations from the Gaussian model $\bm{g_s}(\bm{\theta}) = \frac{1}{\sqrt{2\pi\sigma^2}}\ \text{exp}\Big[\frac{-\mu^2}{2\sigma^2}\Big]$. Our unknown model parameters are $\bm{\theta} = [\mu,\sigma]$. Given we have access to simulation from this model it is possible to leverage ABC algorithms to estimate these unknown model parameters. A synthetic dataset for this problem is created with $\mu = 5$ and $\sigma = 2$. The summary statistics sample mean, $\bar{\mu}$, and sample standard deviation, $\bar{\sigma}$, are used. These provide sufficient statistics with a 1:1 correspondance to the unknown parameters. Figure \ref{toy1-fig1} plots the ABC posterior obtained from using algorithm \ref{ABCrejectionsampler}, the traditional form of an ABC rejection sampler, compared to the analytical likelihood. The metric over summary statistics is evaluated marginally. Throughout this text I do not consider the joint distribution of the distance between summaries. Our metric here takes the form $\text{d}(\bm{S}(\bm{y}),\bm{S}(\bm{y^*})) = |S_1(\bm{y^*}) - S_1(\bm{y})| +| S_2(\bm{y^*}) - S_2(\bm{y})|$. A uniform prior is used to give equal probability to a bounded area, $p(\mu) = \mathcal{U}(0,10)$ and $p(\sigma) = \mathcal{U}(0,10)$. 
+As a first example consider we have observed $n = 100$ realizations from the Gaussian distribution, making our model: $\bm{g_s}(\bm{\theta}) = \frac{1}{\sqrt{2\pi\sigma^2}}\ \text{exp}\Big[\frac{-\mu^2}{2\sigma^2}\Big]$, with unknown model parameters are $\bm{\theta} = [\mu,\sigma]$. Given we have access to simulation from this model it is possible to leverage ABC algorithms to estimate these unknown model parameters. A synthetic dataset for this problem is created with $\mu = 5$ and $\sigma = 2$. The summary statistics sample mean, $\bar{\mu}$, and sample standard deviation, $\bar{\sigma}$, are used, $\bm{S}(\bm{y}) = [\bar{\mu},\bar{\sigma}]$. These provide sufficient statistics with a one-to-one correspondance to the unknown parameters. Figure \ref{toy1-fig1} plots the ABC posterior obtained from using algorithm \ref{ABCrejectionsampler}, the traditional form of an ABC rejection sampler, compared to the analytical likelihood. The metric over summary statistics is evaluated marginally. Throughout this text I do not consider the joint distribution of the distance between summaries. Our metric here takes the form $\text{d}(\bm{S}(\bm{y}),\bm{S}(\bm{y^*})) = |S_1(\bm{y^*}) - S_1(\bm{y})| +| S_2(\bm{y^*}) - S_2(\bm{y})|$. A uniform prior is used to give equal probability to a bounded area, $p(\mu) = \mathcal{U}(0,10)$ and $p(\sigma) = \mathcal{U}(0,10)$. 
 Figure \ref{toy1-fig2} explores the impact of varying the tolerance for this problem.\\
 
 \begin{figure}[H]
@@ -55,11 +57,21 @@ Figure \ref{linear-regression} shows ABC-MCMC applied to the linear regression p
 
 In the next section we continue to introduce algorithmic considerations into ABC as we build toward a geophysically relevant parameter estimation system. \\
 
-\begin{figure}[H]
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.7]{linear-regression.pdf}
+%	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood inference. MCMC is used to sample both posteriors. For ABC the tolerance is $\epsilon = [2\ 2]$. The proposal distribution is $q = \mathcal{N}([0,0],I)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of the ABC-MCMC Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
+%	\label{linear-regression}
+%\end{figure}
+\begin{figure}[H]	
 	\centering
-	\includegraphics[scale=0.7]{linear-regression.pdf}
-	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood inference. MCMC is used to sample both posteriors. For ABC the tolerance is $\epsilon = [2\ 2]$. The proposal distribution is $q = \mathcal{N}([0,0],I)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of the ABC-MCMC Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
-	\label{linear-regression}
+	
+	\setlength\fheight{1\linewidth}
+	\setlength\fwidth{0.8\linewidth}
+	
+	%\input{./scattertest.tex}
+	\input{./latex-figs/linalg.tex}	
+	\caption{{\sffamily Linear regression with ABC. The ABC posterior is also compared to traditional likelihood inference. MCMC is used to sample both posteriors. For ABC the tolerance is $\epsilon = [2\ 2]$. The proposal distribution is $q = \mathcal{N}([0,0],I)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of the ABC-MCMC Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}}
 \end{figure}
 
 %This example truly highlights how ABC shifts away from many traditional %Bayesian and frequentist techniques which rely computing data residuals in the %form $\sum (\bm{g}(\bm{\theta})-\bm{y})^2$. This residual is computed in the %analytical linear regression likelihood and is at the heart of all likelihood %functions which are applied in geophysics, equation \ref{likelihood-1} and %equation \ref{likelihood-2}. Instead, ABC opts for informal measures of %'goodness-of-fit' and rely on user-varied tolerances, which guarentee %posteriors close to the true posterior, save for a small degree of bias. The %result of a tolerance $> 0$ and summary statistics which do not always measure %fitness as tightly as a data residual. However the gain is in diagnostic %power. The data residual takes all the information in the data set and mixes %it into a single number, the residual value. However, the form of ABC allows %for the state of the algorithm at any one stage to be evaluated and fitting %statistics marginally means different rules can be set for different %statistics depending on what they mean to the inversion. Understanding how %statistics change through an inversion, the nature in which they diverge, and %the degree to which they spread around the observed value has taught %researches in other disciplines a great deal about the nature of their models %and the systems in which they study. That same central idea should be %transferrable to geophysical parameter estimation problems and may offer room %for more diagnostic inversion schemes, one with a greater deal of user control %and greated deal of interprebable meaning. \\
