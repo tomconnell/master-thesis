@@ -1,12 +1,10 @@
 \chapter{ABC}
 
-{\sffamily Test of roboto.}
+This chapter will outline a series of illustrative ABC experiments. These demonstrate the core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions and build a boutiuqe code base which is the foundations of this project.
 
-This chapter will outline a series of illustrative ABC experiments. These will serve to demonstrate the core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions and develop the boutique code base which will form the foundations of this project.
+In this section I describe experiments in adequate detail for others to undertake, the necessary details to meet preproducility \citep{Stark2018}.
 
-For all experiments I aim to meet preproducibility, describing the experiments in adequate detail for others to undertake. 
-
-For transparency and reprocibility I heed advice from Buckheit and Donoho (1995)
+For transparency and absolute reprocibility I heed the advice of \citet{Buckheit1995}:
 \begin{displayquote}
 \textit{An article about computational science in a scientific publication is not the scholarship itself, it is merely advertising the scholarship. The actual scholarship is the complete development environment and the complete set of instructions which generated the figures.}
 \end{displayquote}
@@ -71,7 +69,7 @@ In the next section we continue to introduce algorithmic considerations into ABC
 	
 	%\input{./scattertest.tex}
 	\input{./latex-figs/linalg.tex}	
-	\caption{{\sffamily Linear regression with ABC. The ABC posterior is also compared to traditional likelihood inference. MCMC is used to sample both posteriors. For ABC the tolerance is $\epsilon = [2\ 2]$. The proposal distribution is $q = \mathcal{N}([0,0],I)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of the ABC-MCMC Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}}
+	\caption{Linear regression with ABC. The ABC posterior is also compared to traditional likelihood inference. MCMC is used to sample both posteriors. For ABC the tolerance is $\epsilon = [2\ 2]$. The proposal distribution is $q = \mathcal{N}([0,0],I)$. The Markov chain length is $20\ 000$. (a) The marginal ABC posterior and marginal analytical posterior compared for unknown parameter $m$. (b) Plot of the ABC-MCMC Markov chain through time for $m$. (c) Same as (a) except for unknown parameter $b$. (d) Same as (b) except for unknown parameter $b$. (e) Comparison of the mean ABC posterior model and the observed data generated with $m = 5$, $b = 10$ and $\sigma = 5$.}
 \end{figure}
 
 %This example truly highlights how ABC shifts away from many traditional %Bayesian and frequentist techniques which rely computing data residuals in the %form $\sum (\bm{g}(\bm{\theta})-\bm{y})^2$. This residual is computed in the %analytical linear regression likelihood and is at the heart of all likelihood %functions which are applied in geophysics, equation \ref{likelihood-1} and %equation \ref{likelihood-2}. Instead, ABC opts for informal measures of %'goodness-of-fit' and rely on user-varied tolerances, which guarentee %posteriors close to the true posterior, save for a small degree of bias. The %result of a tolerance $> 0$ and summary statistics which do not always measure %fitness as tightly as a data residual. However the gain is in diagnostic %power. The data residual takes all the information in the data set and mixes %it into a single number, the residual value. However, the form of ABC allows %for the state of the algorithm at any one stage to be evaluated and fitting %statistics marginally means different rules can be set for different %statistics depending on what they mean to the inversion. Understanding how %statistics change through an inversion, the nature in which they diverge, and %the degree to which they spread around the observed value has taught %researches in other disciplines a great deal about the nature of their models %and the systems in which they study. That same central idea should be %transferrable to geophysical parameter estimation problems and may offer room %for more diagnostic inversion schemes, one with a greater deal of user control %and greated deal of interprebable meaning. \\
