@@ -1,12 +1,11 @@
-\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 1: Likelihood derivation,colback=red!5!white,colframe=red!75!black]
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 1: General likelihood derivation,colback=red!5!white,colframe=red!75!black]
 %\chapter{Box 1: Likelihood derivation}
 \label{Box1}
 
 %\subsection{General-form likelihood}
-\begin{Large}
-General-form likelihood\\
-\linebreak
-\end{Large}
+\begin{multicols}{2}
+\textbf{General-form likelihood}
+
 \citet[p.90-92]{gregory2005bayesian} outline constructing a likelihood, $\mathcal{L}(\bm{\theta}|\bm{y})$, from starting assumptions. Firstly, a model for the data is assumed:
 \begin{equation}
 y_i = z_i + e_i
@@ -66,10 +65,15 @@ p(y_i|\bm{\theta}) = \mathcal{L}(\bm{\theta}|y_i) = \int \text{d}z_i\ f_Z(z_i)\ 
 However this general equation is not in a form which can be practically applied to inference problems. To achieve a practical form further assumptions must be made about the distributions $f_Z(z_i)$ and $f_E(e)$. This is done by assigning parametric distributions. As we will see in the next section, assigning Gaussian distributions will allow \ref{general_likelihood} to form a usable expression which will be our applied-form likelihood.\\
 \linebreak
 %\subsection{Applied-form likelihood}
-\begin{Large}
-Applied-form likelihood\\
-\linebreak
-\end{Large}
+\end{multicols}
+\end{tcolorbox}
+\newpage
+
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 2: Applicable likelihood derivation,colback=red!5!white,colframe=red!75!black]
+\textbf{Applied-form likelihood}
+
+\begin{multicols}{2}
+
 It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty. For $y_i$ the source of statistical uncertainty is a result of the measurement process. While for $z_i$ the source of uncertainty is a result of modelization. It is necessary to distinguish between these two sources of uncertainty. The data uncertainty arising from the measurement process will be denoted $e^{\mathcal{D}}_i$, while modelization uncertainty will be denoted $e^{\mathcal{M}}_i$. As such:
 \begin{equation}
 y_i = z_i + e^{\mathcal{D}}_i
@@ -130,5 +134,5 @@ Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly 
 \end{enumerate}
 A shift away from these assumptions is likely to close access to a likelihood function.
 
+\end{multicols}
 \end{tcolorbox}
-\newpage
