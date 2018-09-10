@@ -44,6 +44,8 @@
 \usepackage{csquotes}
 \raggedbottom
 
+\linespread{1.5}\selectfont
+
 %---------------------------------------------------------
 % SPECIFIC OPTIONS
 % Other options to use in this thesis:
@@ -80,6 +82,7 @@
 \input{acknowledge} % acknowledgements (acknowledge.tex)
 \input{abstract} % abstract (abstract.tex)
 
+\linespread{1}\selectfont
 \tableofcontents 
 % comment out these as required for your discipline
 \listoffigures
@@ -130,12 +133,14 @@
 % Comment/uncomment out the previous
 %----------------------------------------------------------
 
+\linespread{1.5}\selectfont
+
 % Introduction
 \input{chap_intro}
 
-
 % Other chapters in here
 \input{chap_example}
+
 \input{chap_methods}
 
 % Conclusion
@@ -154,10 +159,12 @@
 \backmatter
 
 % your thesis may not need this, so comment out or delete the following line
-\input{listofsymbols}
+%\input{listofsymbols}
+
 
 % Bibliography, in BibTeX format (the references.bib file)
 \bibliographystyle{apalike}
+\linespread{1}\selectfont
 \bibliography{abc}
 
 
