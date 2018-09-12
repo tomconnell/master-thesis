@@ -1,5 +1,7 @@
-\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 2: Stable computation of likelihood values,colback=red!5!white,colframe=red!75!black]
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Technical figure 3: Stable computation of likelihood values, title filled,fonttitle=\sffamily\bfseries,fontupper=\sffamily\scriptsize]
 \label{Box2}
+
+\begin{multicols}{2}
 
 The stable computation of likelihood values is an essential component of running algorithms which resolve posterior distributions. This can be an issue as the value of the likelihood for a given set of parameters can be extraordinarily small, to the point where these values approach or cross the limits of what can be stored in a computers memory. \\
 
@@ -7,8 +9,8 @@ Consider a unit hyper sphere that is located in a unit hyper cube. In low dimens
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{hyper-objects.pdf}
-	\caption{The volume ratio of a unit hyper sphere, $2\pi^{d/2}r^d/d/\Gamma(d/2)$, inside a unit hyper cube, $(2r)^d$, as a function of dimension, $d$. This example is inspired by \citet{Laine2008}.}
+	\includegraphics[scale=0.3]{hyperobjects.pdf}
+	%\caption{The volume ratio of a unit hyper sphere, $2\pi^{d/2}r^d/d/\Gamma(d/2)$, inside a unit hyper cube, $(2r)^d$, as a function of dimension, $d$. This example is inspired by \citet{Laine2008}.}
 	\label{hyper-objects}
 \end{figure}
 
@@ -18,8 +20,8 @@ How to overcome this issue? The solution is to compute the natural logarithm of 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{nat-log.pdf}
-	\caption{The natural logarithm of probability values}
+	\includegraphics[scale=0.3]{nat-log.pdf}
+	%\caption{The natural logarithm of probability values}
 	\label{nat-log}
 \end{figure}
 
@@ -60,7 +62,7 @@ Consider we have access to the log-likelihood and log-prior. Recall the logarith
 \label{stable-acceptance-ratio}
 \end{equation}
 The resulting acceptance-ratio computed here will be equivilent to equation \ref{acceptance-ratio}, however, now the probability densities recquired in the computation will be restricted to large numbers, stable in their computation and comparison. The end result, a reliable MCMC algorithm.\\
-
+\end{multicols}
 \end{tcolorbox}
 % Introduce issue which arises due to the different scale of the terms in this new Metropolis-Hastings acceptance ratio
 

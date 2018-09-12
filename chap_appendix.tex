@@ -1,4 +1,4 @@
-\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 1: General likelihood derivation,colback=red!5!white,colframe=red!75!black]
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Technical figure 1: General likelihood derivation, title filled,fonttitle=\sffamily\bfseries,fontupper=\sffamily\scriptsize]
 %\chapter{Box 1: Likelihood derivation}
 \label{Box1}
 
@@ -69,10 +69,9 @@ However this general equation is not in a form which can be practically applied 
 \end{tcolorbox}
 \newpage
 
-\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Box 2: Applicable likelihood derivation,colback=red!5!white,colframe=red!75!black]
-\textbf{Applied-form likelihood}
-
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Technical figure 2: Applied likelihood derivation, title filled,fonttitle=\sffamily\bfseries,fontupper=\sffamily\scriptsize]
 \begin{multicols}{2}
+\textbf{Applied-form likelihood}
 
 It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty. For $y_i$ the source of statistical uncertainty is a result of the measurement process. While for $z_i$ the source of uncertainty is a result of modelization. It is necessary to distinguish between these two sources of uncertainty. The data uncertainty arising from the measurement process will be denoted $e^{\mathcal{D}}_i$, while modelization uncertainty will be denoted $e^{\mathcal{M}}_i$. As such:
 \begin{equation}
@@ -88,14 +87,16 @@ $e^{\mathcal{M}}_i$ and $e^{\mathcal{D}}_i$ are assumed to be uncorrelated. If i
 \begin{equation}
 p(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{M}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{M}}_i)^2}{2(\sigma^{\mathcal{M}\ 2}_i)^2} \bigg]
 \end{equation} 
-
 Likewise, if $e^{\mathcal{D}}_i$ is assumed to be i.i.d from a Gaussian with standard deviation $\sigma^{\mathcal{D}}_i$ then:
 \begin{equation}
 p(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{D}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{D}}_i)^2}{2(\sigma^{\mathcal{D}}_i)^2} \bigg]
 \end{equation}
 As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i)$ the general definition of $\mathcal{L}(\bm{\theta}|y_i)$, equation \ref{general_likelihood}, can be evaluated. This is the convolution of the two distributions: 
 \begin{equation}
-\mathcal{L}(\bm{\theta}|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{(\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2}} \text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\begin{split}
+\mathcal{L}(\bm{\theta}|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{(\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2}}\\
+\text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\end{split}
 \label{single-data-likelihood}
 \end{equation}\\
 
@@ -107,7 +108,8 @@ If you have a set of data $\bm{y} = \{y_1,...,y_M\}$, where each $y_i$ term is i
 \begin{equation}
 \begin{split}
 p(\bm{y}|\bm{\theta}) &= p(y_1,...,y_m|\bm{\theta})\\
-&= (2\pi)^{M/2}(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2})\ \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]\\
+&= (2\pi)^{M/2}(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2})\\ 
+& \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
 \label{used-likelihood-1}
 \end{split}
 \end{equation}
