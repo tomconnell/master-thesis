@@ -1,10 +1,10 @@
 \chapter{ABC}
 
-This chapter will outline a series of illustrative ABC experiments. These demonstrate the core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions and build a boutiuqe code base which is the foundations of this project.
+This chapter will outline a series of illustrative ABC experiments. These demonstrate the core concepts touched on in the introduction, demonstrate ABC can sample from complex distributions and build a boutique code base which is the foundations of this project.
 
 In this section I describe experiments in adequate detail for others to undertake, the necessary details to meet preproducility \citep{Stark2018}.
 
-For transparency and absolute reprocibility I heed the advice of \citet{Buckheit1995}:
+For transparency and absolute reproducibility I heed the advice of \citet{Buckheit1995}:
 \begin{displayquote}
 \textit{An article about computational science in a scientific publication is not the scholarship itself, it is merely advertising the scholarship. The actual scholarship is the complete development environment and the complete set of instructions which generated the figures.}
 \end{displayquote}
@@ -43,7 +43,7 @@ Algorithm \ref{ABC-MCMC} samples the ABC posterior, equation \ref{summary-stat-a
 		0 & \text{if}\ \frac{\text{d}(S_i(\bm{y^*}) - S_i(\bm{y}))}				{\epsilon_i} > 1
 	\end{cases}
 \end{equation}
-$K_U$ hence forms an indicator function $\mathbbm{1}$ which is equal to $1$ when the distance between statistics, which are fit marginally, is less than the tolerance. Given, $\bm{S} = \{S_1,\dots,S_O\}$, the weighting kernel takes the form:
+$K_U$ hence forms an indicator function 1 which is equal to $1$ when the distance between statistics, which are fit marginally, is less than the tolerance. Given, $\bm{S} = \{S_1,\dots,S_O\}$, the weighting kernel takes the form:
 \begin{equation}
 	p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*}),\bm{\theta}) = \prod_{i = 1}^{O} K_U\Big(\frac{\text{d}(S_i(\bm{y}),S_i(\bm{y^*})}{\epsilon_i}\Big)
 	\label{weight-kernel}

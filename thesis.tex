@@ -1,3 +1,4 @@
+% !TeX program = lualatex
 \documentclass[mres, greychapternumbers]{mqthesis}
 %----------------------------------------------------------
 % OPTIONS
@@ -34,7 +35,7 @@
 \usepackage{bm}
 \usepackage{hyperref}
 \usepackage{svg}
-\usepackage{bbm}
+%\usepackage{bbm}
 \usepackage[most]{tcolorbox}
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -46,6 +47,8 @@
 
 \usepackage{multicol}
 \setlength{\columnsep}{0.5cm}
+
+\newcommand{\mathbbm}[1]{\text{\usefont{U}{bbm}{m}{n}#1}}
 
 \AtBeginEnvironment{tcolorbox}{\footnotesize\linespread{1}\selectfont}
 

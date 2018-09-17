@@ -1,0 +1,66 @@
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Technical figure 2: Applied likelihood derivation, title filled,fonttitle=\sffamily\bfseries,fontupper=\sffamily\scriptsize]
+\label{tf2}
+\begin{multicols}{2}
+It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty. For $y_i$ the source of statistical uncertainty is a result of the measurement process. While for $z_i$ the source of uncertainty is a result of modelization. It is necessary to distinguish between these two sources of uncertainty. The data uncertainty arising from the measurement process will be denoted $e^{\mathcal{D}}_i$, while modelization uncertainty will be denoted $e^{\mathcal{M}}_i$. As such:
+\begin{equation}
+y_i = z_i + e^{\mathcal{D}}_i
+\end{equation}
+\begin{equation}
+z_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i
+\end{equation}
+\begin{equation}
+\therefore y_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
+\end{equation}
+$e^{\mathcal{M}}_i$ and $e^{\mathcal{D}}_i$ are assumed to be uncorrelated. If it is assumed that $e^{\mathcal{D}}_i$ is described as independent and identically distributed from a Gaussian with a predetermined standard deviation $\sigma^{\mathcal{M}}_i$: 
+\begin{equation}
+p(z_i|\bm{\theta}) = f_Z(z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{M}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{M}}_i)^2}{2(\sigma^{\mathcal{M}\ 2}_i)^2} \bigg]
+\end{equation} 
+Likewise, if $e^{\mathcal{D}}_i$ is assumed to be i.i.d from a Gaussian with standard deviation $\sigma^{\mathcal{D}}_i$ then:
+\begin{equation}
+p(e_i|\bm{\theta}) = f_E(e_i) = f_E(y_i-z_i) = \frac{1}{\sqrt{2\pi(\sigma^{\mathcal{D}}_i)^2}}\ \text{exp}\bigg[\frac{-(e^{\mathcal{D}}_i)^2}{2(\sigma^{\mathcal{D}}_i)^2} \bigg]
+\end{equation}
+As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i)$ the general definition of $\mathcal{L}(\bm{\theta}|y_i)$, equation \ref{general_likelihood}, can be evaluated. This is the convolution of the two distributions: 
+\begin{equation}
+\begin{split}
+\mathcal{L}(\bm{\theta}|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{(\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2}}\\
+\text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\end{split}
+\label{single-data-likelihood}
+\end{equation}\par
+
+It should be noted that many "assumptions" here are in fact scientifically testable hypotheses. For example, given a measurement process/instrument it should be possible to determine the statistical properties uncertainty, such as how closely it conforms to a Gaussian and whether they are true i.i.d samples or correlated in some manner. Likewise, the same can be done for modelization uncertainty. One scheme to classify the statistical properties, standard deviation and covariance matrix, of modelization uncertainty in the parameterization of geophysical forward problems is outlined in \citet{afonso2013b}.\par
+
+Equation \ref{single-data-likelihood} defines the likelihood for a single data point. How then to move forward with a full dataset?\par
+
+If you have a set of data $\bm{y} = \{y_1,...,y_M\}$, where each $y_i$ term is independent then, considering uncertainty in the data and model as i.i.d Gaussian:
+\begin{equation}
+\begin{split}
+p(\bm{y}|\bm{\theta}) &= p(y_1,...,y_m|\bm{\theta})\\
+&= (2\pi)^{M/2}(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2})\\ 
+& \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\label{used-likelihood-1}
+\end{split}
+\end{equation}
+Equation \ref{used-likelihood-1} is the likelihood $\mathcal{L}(\bm{\theta}|\bm{y})$ for i.i.d Gaussian uncertainty.\par
+
+For the case of correlated Gaussian uncertainty vectors of data and model parameters can be represented by a multivariate Gaussian distributions, defined with covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ respectively, such that:
+\begin{equation}
+f_Z(z) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_{\mathcal{M}}^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+\end{equation}
+\begin{equation}
+f_E(e) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^TC_{\mathcal{D}}^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+\end{equation}
+Then the likelihood involves a combination of their covariance matrices:
+\begin{equation}
+\mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
+\label{used-likelihood-2}
+\end{equation}
+Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:
+\begin{enumerate}
+\item The form of the model, equation \ref{general_form_inference}
+\item The i.i.d Gaussian nature of measurement and modelization statistical uncertainty, or
+\item The correlated multivariate Gaussian nature of the measurement and modelization uncertainty
+\end{enumerate}
+A shift away from these assumptions is likely to close access to a likelihood function.
+\end{multicols}
+\end{tcolorbox}
