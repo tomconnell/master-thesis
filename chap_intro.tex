@@ -77,7 +77,7 @@ z_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i
 \begin{equation}
 y_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
 \end{equation}
-For the case of estimating $\bm{\theta} = \{\theta_1,...,\theta_N\}$ given $\bm{y} = \{y_1,...,y_M\}$, if it is assumed that the nature of the statistical uncertainty of measurement and modelization is i.i.d from a Gaussian distribution then the likelihood takes the form: 
+For the case of estimating $\bm{\theta} = \{\theta_1,...,\theta_N\}$ given $\bm{y} = \{y_1,...,y_M\}$, if it is assumed that the nature of the statistical uncertainty of measurement and modelization is i.i.d from a Gaussian distribution then the likelihood takes the form \citet[p.91-92]{gregory2005bayesian}: 
 \begin{equation}
 \begin{split}
 \mathcal{L}(\bm{\theta}|\bm{y}) &= p(\bm{y}|\bm{\theta}) = p(y_1,...,y_m|\bm{\theta})\\
@@ -90,7 +90,7 @@ For the case of estimating $\bm{\theta} = \{\theta_1,...,\theta_N\}$ given $\bm{
 % (2\pi)^{M/2}\Big(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2}\Big)\
 
 
-Otherwise, if the uncertainty is correlated in some manner, but still distributed according to a Gaussian distribution, multivariate Gaussian distributions with covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ are combined to quantify the total statistical uncertainty and define a likelihood:
+Otherwise, if the uncertainty is correlated in some manner, but still distributed according to a Gaussian distribution, multivariate Gaussian distributions with covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ are combined to quantify the total statistical uncertainty and define a likelihood \citet[p.35-36]{Tarantola2005}:
 \begin{equation}
 \mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \label{likelihood-2}
@@ -130,6 +130,7 @@ Other disciplines have found Approximate Bayesian Computation offers an alternat
 
 
 \section{Approximate Bayesian Computation}
+\label{ApproximateBayesianComputation}
 
 Likelihood-free methods for Bayesian inference have been developed in response to parameter estimation problems of scientific interest where it is not possible to formulate or justify an explicit likelihood function. Instead, likelihood-free methods target the same posterior distribution without evaluating a likelihood function. The algorithms and methods of likelihood-free Bayesian inference have been termed \textit{Approximate Bayesian Computation} (ABC). Generally, ABC simply requires the ability to simulate data given model parameters. Problems ripe for attack by ABC are common in science due to the breadth of models which have been developed to describe natural systems. It is frequently the case that data can be simulated rapidly but explicit formulas for probability distributions are difficult to formulate, expensive to evaluate, impossible to justify, or do not exist. Hence, traditional likelihood machinery becomes infeasible. ABC is a means to overcome these issues, it is backed by a sound theoretical underpinning and is subject to a rapidly expanding set of literature. \\
 

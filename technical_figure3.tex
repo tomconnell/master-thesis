@@ -1,9 +1,9 @@
-\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Technical figure 3: Stable computation of likelihood values, title filled,fonttitle=\sffamily\bfseries,fontupper=\sffamily\scriptsize]
+\begin{tcolorbox}[enhanced jigsaw,breakable,pad at break*=1mm,title=Technical figure 3: Stable computation of likelihood values, title filled,fonttitle=\sffamily\bfseries,fontupper=\sffamily\scriptsize,before upper={\parindent15pt}]
 \label{tf3}
 
 \begin{multicols}{2}
 
-The stable computation of likelihood values is an essential component of running algorithms which resolve posterior distributions. This can be an issue as the value of the likelihood for a given set of parameters can be extraordinarily small, to the point where these values approach or cross the limits of what can be stored in a computers memory. \par
+\noindent The stable computation of likelihood values is an essential component of running algorithms which resolve posterior distributions. This can be an issue as the value of the likelihood for a given set of parameters can be extraordinarily small, to the point where these values approach or cross the limits of what can be stored in a computers memory. \par
 
 \indent Consider a unit hyper sphere that is located in a unit hyper cube. In low dimensions the sphere inside a cube takes up a large \% of the cubes volume. However, as the dimension increases this volume very rapidly diminishes. Figure \ref{hyper-objects} illustrates this relationship. The purpose of this example is to demonstrate that high dimensional spaces are very sparse. Geophysical inverse problems suffer particularly from this dimensionality, our images have many unknown parameters. Hence problems arising as a result of dimensionality, often referred to as \textit{the curse of dimensionality}, are of particular importance to geophysics. \par
 
