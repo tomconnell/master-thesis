@@ -9,11 +9,30 @@ As with the previous chapter, the code to produce all figures in this section ca
 
 \section{Crustal density inversion}
 
-As a first experiment, I consider an inversion for crustal density (\rho) with a vertical gravity anomaly dataset (\Delta g) for a 2D discretized subsurface \citep[p.184-195,378]{blakely1996}. The dimensionality of the parameter space is kept modest, a 8x4 grid, with an observed data point above each column. The grid is defined over a 160 $km$ by 40 $km$ area. The parameter space is bounded between 2-3.5 $g/cm^3$, the limits for which \citet{Brocher2005} define an empirical relationship between density and compressional-wave velocity ($V_p$). This relationship will be used in the next section for a joint inversion. The true model is kept smooth, to allow a prior term, $p(\bm{\theta})$, to be set for smoothness which will limit the inversion to a unique solution. The definition for smoothness is:
+As a first experiment, I consider an inversion for crustal density (\rho) with a vertical gravity anomaly dataset (\Delta g) for a 2D discretized subsurface \citep[p.184-195,378]{blakely1996}. The dimensionality of the parameter space is kept modest, a 8x4 grid, with an observed data point above each column. The grid is defined over a 160 $km$ by 40 $km$ area. The parameter space is bounded between 2-3.5 $g/cm^3$, the limits for which \citet{Brocher2005} define an empirical relationship between density and compressional-wave velocity ($V_p$). This relationship will be used in the next section for a joint inversion. The 'true model', which will be the target of our inversion scheme, is kept smooth to allow a prior term, $p(\bm{\theta})$, to be set for smoothness which will limit the inversion to a unique solution. The definition for smoothness is:
 \begin{equation}
 \text{log}\big(p(\bm{\theta})\big) = \sum_{i = 1}^{N} \Big(\sum_{j} (\rho_i - \rho_j)^2\Big)
+\label{smoothness}
 \end{equation}
-where $j$ is a describes all blocks in immediate contact with the given block, $i$. The edge effect for the 2D subsurface grid is compensated by adding the vertical gravity anomaly which will result from extending the grid by a width of one on both sides, tripling the total domain width, with a density which is the average of the parameter space, 2.75 $g/cm^3$.
+where $j$ is a describes all blocks in immediate contact with the given block, $i$. The edge effect for the 2D subsurface grid is compensated by adding the vertical gravity anomaly which will result from extending the grid by a width of one on both sides, tripling the total domain width, with a density which is the average of the parameter space, 2.75 $g/cm^3$. The model is assumed to contain no modelization uncertainty and the data is known to be contaminated with noise defined by $\sigma^{\mathcal{D}} = \mathcal{N}(0,\sqrt{2})$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{true_model.pdf}
+	\caption{The 'observed data', vertical component of gravity ($\Delta g$), and 'true model', a 2D density ($g/cm^3$) slice, which will be the target of our synthetic geophysical experiments to compare ABC to likelihood based Bayesian inference. A smoothness value, log($p(\bm{\theta})$), equation \ref{smoothness}, for the true model is plotted for reference to later solutions.}
+\end{figure}
+The benchmark for ABC-tomography to meet will be MCMC sampling on an analytically defined posterior. Given there is no modelization uncertainty and $\sigma^{\mathcal{D}}$ is known, the log-likelihood can be defined by, equation \ref{likelihood-1}:
+\begin{equation}
+	l(\bm{\theta}|\bm{y}) = \frac{(\bm{y}-\bm{y^*})^2}{(\sigma^{\mathcal{D}})^2}
+\end{equation}
+For this section only MCMC is considered, no AM or DR. This is for consistency in the comparison between the analytical and ABC sampling. Potentially, the benchmark could be set so both use AM, or DR, however exploring this is outside of the project time constraints. The proposal distribution for both MCMC sampling of the analytical distribution and ABC-tomography scheme is held constant for all runs considered as $q(\cdot,\cdot) = \mathcal{N}(0,I250)$. The parameter space is subdivided into eight 2x2 blocks. At each time step a random block is selected in the subsurface and updated via $q(\cdot,\cdot)$. As demonstrated in table \ref{sampling-method-comparison}, the number of parameter updated at each time step impacts the acceptance rate and the rate of space exploration of the chain. To keep inference comparable both the analytical scheme and ABC scheme will update 4 parameters per time step via the proposal distribution.\par
+
+
+For the ABC-tomography scheme I am free to open the likelihood, consider the information available, and use that to drive the next step in the Markov chain. As a first adjustment I localize the updates to directly below a data point, and choose which column of parameters to transition based on a probability distribution proportional to the misfit between the observed data $\bm{y}$, and the simulated data set $\bm{y^*}$. Here and throughout misfit is defined by the L2-norm:
+\begin{equation}
+	\text{misfit} = (\bm{y}-\bm{y^*})^2
+\end{equation}
+The effectiveness of dynamically selecting and localizing the updates relies on our physical intuition about the relationship between the unknown model parameters and the resulting data. In this case the simulated data is most sensitive to the blocks which are directly below, and by focusing model updates on regions which are poorly fitting, the most is made from each move during the initial optimization phase in finding areas of high posterior probability density. This change has ideas similar to the way gradient-based linear optimization methods work, however, here I simply rely on physical intuition. \par
+
 
 
 
