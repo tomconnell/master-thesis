@@ -117,8 +117,9 @@ The posterior sampled in both figure \ref{KuVSKg-1} and \ref{KuVSKg-2} shows an 
 \end{figure} 
 
 \section{Toy problem 4: Banana distribution}
+\label{banana-section}
 
-As a fourth example we desgin a more challenging problem, one for which there are no imediate and obvious summary statistics and with some degree of dimensionality. Consider we have $n = 1000$ observations from a "banana" distribution, Figure \ref{banana-data}. To define the banana distribution, we start with a 2-dimensional Gaussian distribution:
+As a fourth example we design a more challenging problem, one for which there are no immediate and obvious summary statistics and with some degree of dimensionality. Consider we have $n = 1000$ observations from a "banana" distribution, Figure \ref{banana-data}. To define the banana distribution, we start with a 2-dimensional Gaussian distribution:
 \begin{equation}
 \begin{bmatrix}
 x\ y
@@ -171,8 +172,9 @@ To proceed with ABC inference under this model we must define a set of reasonabl
 In our applications so far the distance metric has been a vector composed of the absolute distance between observed and simulated summary statistics, hence:
 \begin{equation}
 \text{d}_i(S_i(\bm{y}),S_i(\bm{y^*})) = |S_i(\bm{y})-S_i(\bm{y^*})|
+\label{marginal_distance}
 \end{equation}
-is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Under a rejection scheme where all simulations and distances can be computed before the rejection step, it is straight forward to normalize the distances by the scale they vary over. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O\}$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repitions as $\epsilon$ is tuned. Other authors, \citet{Ratmann2010}, have normalised the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the spread of distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
+is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Under a rejection scheme where all simulations and distances can be computed before the rejection step, it is straight forward to normalize the distances by the scale they vary over. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O\}$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repetitions as $\epsilon$ is tuned. Other authors, \citet{Ratmann2010}, have normalized the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the spread of distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
 \begin{equation}
 \hat{d_i}(S_i(\bm{y}),S_i(\bm{y^*})) =  \frac{|S_i(\bm{y})-S_i(\bm{y^*})|}{\sigma_{S_i}}
 \end{equation}
@@ -260,9 +262,9 @@ Throughout this text we use a 4-stage adaptive scheme over the length of the cha
 	\label{AM-demonstration}
 \end{figure}
 
-Delayed Rejection (DR) can also be implmented to improve sampling efficiency \citep{Mira2001}. Under DR, when a proposed move is rejected, instead of advancing a time step and retaining the same position, another proposed candidate move is considered. The acceptance probability of the second proposal differs from the MH acceptance probability in order to retain time reversibility of the Markov chain, ensuring that the chain converges to the desired stationary distribution. When a Markov chain remains in the same position over time, the estimates obtained by averaging along the chain become less accurate. Increases to the autocorrelation of the chain increase the variance of estimates based on the chain \citep{Mira2001}. In this way DR gives more reliable estimates than a standard MH algorithm. A two-stage DR algorithm, as is applied in this text, operates as follows. \\
+Delayed Rejection (DR) can also be implemented to improve sampling efficiency \citep{Mira2001}. Under DR, when a proposed move is rejected, instead of advancing a time step and retaining the same position, another proposed candidate move is considered. The acceptance probability of the second proposal differs from the MH acceptance probability in order to retain time reversibility of the Markov chain, ensuring that the chain converges to the desired stationary distribution. When a Markov chain remains in the same position over time, the estimates obtained by averaging along the chain become less accurate. Increases to the autocorrelation of the chain increase the variance of estimates based on the chain \citep{Mira2001}. In this way DR gives more reliable estimates than a standard MH algorithm. A two-stage DR algorithm, as is applied in this text, operates as follows. \\
 
-At the first stage the acceptance probability is the Metroplis-Hastings acceptance probability:
+At the first stage the acceptance probability is the Metropolis-Hastings acceptance probability:
 \begin{equation}
 	\alpha_1(\theta,\theta^*) = \text{min}\bigg\{1,\frac{\pi(\theta^*)q_1(\theta^*,\theta)}{\pi(\theta)q_1(\theta,\theta^*)} \bigg\}
 \end{equation}
