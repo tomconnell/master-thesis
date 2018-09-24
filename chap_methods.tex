@@ -1,3 +1,14 @@
 \chapter{Synthetic geophysical test}
 
+This chapter will outline a series of experiments which will test the main postulate of this thesis, that ABC can offer some improvement over traditional likelihood based Bayesian inference for geophysics. There are many potential avenues to pursue 'improvement'. For example, ABC opens parameter inference to models which were previously closed. This can be used to compare the solution of parameter inference for a stochastic forward where the data and modelization uncertainty do not conform to a Gaussian, to the solution obtained with the simplifying assumption that the uncertainty is Gaussian. This may constitute an improvement in accuracy if it is shown that the ABC solution is significantly different from the analytical Gaussian solution. Instead of pursuing this angle, here I focus explicitly on improving the speed of optimization relative to a general form MCMC sampler. Probabilistic methods which rely on Monte Carlo and MCMC are computationally expensive due to the need to compute the forward at every iteration of the algorithm. As a result the scale of the problems which are computationally tractable is limited. If our limits of understanding about the Earth are to be pushed then it is necessary to develop methods which can tackle large scale problems which are fundamentally defined by solution spaces with uncertainty due to trade-offs between parameters, uncertainty in the experimental data and uncertainty in the modelization process. In this context there is great need for methods which can efficiently find, and then define regions of high probability in very sparse parameter spaces. \par
 
+Here I seek to use the information available by 'opening' the likelihood within each forward simulation to drive improved optimization with ABC, a method which can take into account the full scope of uncertainty in the resulting solution. In this way I abandon the mathematical generality of the applied sampling algorithm in pursuit of one purpose built for the information available within the problem. \par
+
+As with the previous chapter, the code to produce all figures in this section can be found at \url{https://github.com/tomconnell/approximate-bayesian-tomography}.\par
+
+
+\section{Crustal density inversion}
+
+
+
+\section{Crustal density joint inversion}
