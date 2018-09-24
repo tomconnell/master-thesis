@@ -9,6 +9,13 @@ As with the previous chapter, the code to produce all figures in this section ca
 
 \section{Crustal density inversion}
 
+As a first experiment, I consider an inversion for crustal density (\rho) with a vertical gravity anomaly dataset (\Delta g) for a 2D discretized subsurface \citep[p.184-195,378]{blakely1996}. The dimensionality of the parameter space is kept modest, a 8x4 grid, with an observed data point above each column. The grid is defined over a 160 $km$ by 40 $km$ area. The parameter space is bounded between 2-3.5 $g/cm^3$, the limits for which \citet{Brocher2005} define an empirical relationship between density and compressional-wave velocity ($V_p$). This relationship will be used in the next section for a joint inversion. The true model is kept smooth, to allow a prior term, $p(\bm{\theta})$, to be set for smoothness which will limit the inversion to a unique solution. The definition for smoothness is:
+\begin{equation}
+\text{log}\big(p(\bm{\theta})\big) = \sum_{i = 1}^{N} \Big(\sum_{j} (\rho_i - \rho_j)^2\Big)
+\end{equation}
+where $j$ is a describes all blocks in immediate contact with the given block, $i$. The edge effect for the 2D subsurface grid is compensated by adding the vertical gravity anomaly which will result from extending the grid by a width of one on both sides, tripling the total domain width, with a density which is the average of the parameter space, 2.75 $g/cm^3$.
+
+
 
 
 \section{Crustal density joint inversion}
