@@ -24,6 +24,7 @@ where $j$ is a describes all blocks in immediate contact with the given block, $
 The benchmark for ABC-tomography to meet will be MCMC sampling of an analytically defined posterior. Given there is no modelization uncertainty and $\sigma^{\mathcal{D}}$ is known, the log-likelihood can be defined by, equation \ref{likelihood-1}:
 \begin{equation}
 	l(\bm{\theta^*}|\bm{y}) = \frac{(\bm{y}-\bm{y^*})^2}{(\sigma^{\mathcal{D}})^2}
+	\label{analytical-applied-likelihood}
 \end{equation}
 For this section only MCMC is considered, no AM, DR or DRAM. This maintains a consistent sampling benchmark for comparison to the ABC scheme. The proposal distribution for both MCMC sampling of the analytical distribution and ABC-tomography is held constant for all runs as $q(\cdot,\cdot) = \mathcal{N}(0,I\cdot250)$. The parameter space is subdivided into eight 2x2 blocks. At each time step a random block is selected in the subsurface and updated via $q(\cdot,\cdot)$. As demonstrated in table \ref{sampling-method-comparison}, the number of parameters updated at each time step impacts the acceptance rate and the rate of space exploration of the chain. To keep inference comparable both the analytical scheme and ABC scheme will update 4 parameters per time step via the proposal distribution. Likewise, for each experiment considered in this section the Markov chain starting position is the same for both the analytical and ABC-tomography. The starting position for both is set by sampling a uniform distribution, $\mathcal{U}(2,3.5)$, to define each unknown parameter. \par
 A set of summary statistics to describe the data in Figure \ref{true_model} is needed to proceed with ABC-tomography. Here I seek safety in a comprehensive description of the data by the co-efficients to a linear model, $m$ and $b$, the sample mean, $\bar{\mu_{\Delta g}}$, sample standard deviation, $\bar{\sigma_{\Delta g}}$, and a failsafe residual term, $\sum R$, for the difference between a simulation and the observed data for a given $\bm{\theta^*}$, $R = |\bm{y}-\bm{y^*}|$. Initial testing showed the set of statistics $\begin{bmatrix}
@@ -32,13 +33,35 @@ A set of summary statistics to describe the data in Figure \ref{true_model} is n
 For the ABC-tomography scheme I am free to open the likelihood, consider the information available, and use that to drive the next step in the Markov chain. As a first adjustment I localize the updates to directly below a data point, and choose which column of parameters to transition based on a probability distribution proportional to the misfit between the observed data $\bm{y}$, and the simulated data set $\bm{y^*}$. Here and throughout misfit is defined by the l2-norm:
 \begin{equation}
 	\text{misfit} = (\bm{y}-\bm{y^*})^2
+	\label{misfit}
 \end{equation}
 The effectiveness of dynamically selecting and localizing the updates relies on our physical intuition about the relationship between the unknown model parameters and the resulting data. In this case the simulated data is most sensitive to the blocks which are directly below, and by focusing model updates on regions which are poorly fitting, the most is made from each move during the initial optimization phase in finding areas of high posterior probability density. This change has ideas similar to the way gradient-based linear optimization methods work, however, here I simply rely on physical intuition. \par
-Figure XX plots a comparison between the analytical scheme described above and ABC-tomography during the optimization phase of the respective Markov chains (first 10,000 time steps). Figure YY and ZZ plot the solution obtained, mean marginal model, for the full chain (YY time steps). Figure AA and BB plot the chain trace and posterior density for select parameters. 
+Figure \ref{comparison-1} plots a comparison between the misfit, equation \ref{misfit}, for the analytical scheme described above and ABC-tomography during the optimization phase of the respective Markov chains (first 10,000 time steps). The localization of parameter updates to areas where the current model is a poor fit increases the speed of optimization. Figure YY and ZZ plot the solution obtained, mean marginal model, for the full chain (100,000 time steps). Figure AA and BB plot the chain trace and posterior density for select parameters.\par
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{comparison.pdf}
+	\caption{The misfit, l2-norm, equation \ref{misfit}, for the chain state during the optimization phase (first 10,000 time steps) for an analytically defined posterior compared to ABC-tomography. The 'true model' and observed data is plotted in figure \ref{true_model}. Both posteriors, analytical and ABC-tomography, use a parameter space bound between 2-3 $g/cm^3$ and a prior 'smoothness' defined by equation \ref{smoothness}. The speed increase in optimization is a result of opening the likelihood and using the information contained in each iteration to localize the next update to an area where the current data fit is poor. The details of the full chain run, 100,000 time steps, are also displayed on the figure. $\tau$ is the integrated auto-correlation time.}
+	\label{comparison-1}
+\end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{ana_im.pdf}
+	\caption{The mean of the marginal posterior, $p(\bm{\theta}|\bm{y})$, defined by the prior equation \ref{smoothness} and likelihood \ref{analytical-applied-likelihood} targeting the 'true model' and observed data of figure \ref{true_model}. The simulated data generated by this 'solution' is plotted, red, compared to the observed data, black. The smoothness, equation \ref{smoothness}, and misfit, equation \ref{misfit}, for this model are displayed alongside the data. The misfit during the optimization phase for this chain is plotted in figure \ref{comparison-1}. This model can be compared to the equivalent for the ABC-tomography chain.}
+	\label{ana-im-1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{abc_im.pdf}
+	\caption{The mean of the marginal ABC posterior, $p_{ABC}(\bm{\theta}|\bm{S}(\bm{y}))$, targeting the 'true model' and observed data of figure \ref{true_model}. The simulated data generated by this 'solution' is plotted, blue, compared to the observed data, black. The smoothness, equation \ref{smoothness}, and misfit, equation \ref{misfit}, for this model are displayed alongside the data. The misfit during the optimization phase for this chain is plotted in figure \ref{comparison-1}. This model can be compared to the equivalent for the analytically defined posterior.}
+	\label{abc-im-1}
+\end{figure}
 
 \citet{Sisson2010a} highlight that sampler acceptance rate and mixing can be improved by increasing the number of simulated datasets, $\bm{y^*}$, for each set of model parameters, $\bm{\theta^*}$. This is a technique also adopted in applications with large uncertainty in $\bm{g_s}$ \citep{Ratmann2009,Wood2010}. This has a large stabilizing impact when the uncertainty in each simulation is large. Here I adopt this technique for $k = 100$ simulations from $\bm{g_s}$. Since the bulk of the computational overhead is in solving the deterministic physical model and the data uncertainty is additive and fast to simulate, there is little computational cost in increasing  the number of simulated datasets. The distance is then computed based the sample mean of $\bm{y^*_{1:k}}$, $\bm{d} = |\bm{S}(\bm{y})-\bm{S}(\bm{\bar{\mu_{y^*}}})|$.
+
+
 
 
 
