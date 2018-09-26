@@ -121,7 +121,7 @@ The posterior sampled in both figure \ref{KuVSKg-1} and \ref{KuVSKg-2} shows an 
 \section{Toy problem 4: Banana distribution}
 \label{banana-section}
 
-As a fourth example we design a more challenging problem, one for which there are no immediate and obvious summary statistics and with some degree of dimensionality. Consider we have $n = 1000$ observations from a "banana" distribution, Figure \ref{banana-data}. To define the banana distribution, we start with a 2-dimensional Gaussian distribution:
+As a fourth example we design a more challenging problem, one for which there are no immediate and obvious summary statistics and with some degree of dimensionality. Consider we have $n = 1000$ observations from a 'banana' distribution, Figure \ref{banana-data}. This a standard distribution to test the performance of MCMC as it is moderately non-linear and the posterior can be analytically defined \citep{Haario1999}. To define the banana distribution, we start with a 2-dimensional Gaussian distribution:
 \begin{equation}
 \begin{bmatrix}
 x\ y
@@ -142,7 +142,7 @@ X = b_1x
 Y = y/a-b_2(b_1^2x^2+b_1^2)
 \label{y-banana}
 \end{equation}
-In total the parameters which define this model are $\bm{\mu}$, $\bm{\Sigma}$ and the banana parameters $\begin{bmatrix}
+In total the parameters which define this model are $\bm{\mu}$, $\bm{\Sigma}$ and the 'bananity' parameters $\begin{bmatrix}
 b_1\ b_2
 \end{bmatrix}$. Here the unknown target parameters are $\bm{\mu} = \begin{bmatrix}
 0\ 0
@@ -159,16 +159,14 @@ b_1\ b_2
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1]{banana-data.pdf}
-\caption{$n = 1000$ observations from the "banana" distribution, analytically defined by equations \ref{gauss-banana}, \ref{x-banana}, \ref{y-banana}. 
+\caption{$n = 1000$ observations from the 'banana' distribution, analytically defined by equations \ref{gauss-banana}, \ref{x-banana}, \ref{y-banana}. 
 This problem is more challenging as there is no immediately apparent sufficient statistics to facilite ABC estimation of the unknown parameters.}
 \label{banana-data}
 \end{figure}
 
 To proceed with ABC inference under this model we must define a set of reasonably sufficient statistics. In the previous examples it has been possible to use the sample values for each of the unknown parameters, however, here this proved to be insufficient in a trial run. In the ABC literature summary statistic selection is the focus of technique development and active research. \citet{Blum2013} and \citet{Prangle2017} offer comprehensive reveiws of this research area. For this example we heed the advice of \citet{Wood2010}. The statsitics have the same role in ABC as the data do in a traditional likelihood. Hence, there is no need for certain statistics to relate to specific parameters any more than there is the need for certain data points to relate to specific parameters. The key is in indenitifying a set of statistics which is senstitive to the scientificaly important and repeatable features of the data, and insensitive to the transient noisey components. \citet{Wood2010} identifies marginal distribution statistics as being a useful first step. The marginal distribution for our banana observations, $X$ and $Y$, are plotted in figure \ref{banana-data}. Here we can see $X$ appears as a regular Gaussian distribution, while $Y$ appears as a skewed-Gaussian distribution. This motivates the choice of marginal statistics for $X$ as the sample mean, $\bar{\mu_X}$, and sample standard deviation, $\bar{\sigma_X}$. While marginal statistics for $Y$ are sample skewness $\bar{\gamma_Y}$, as well as $\bar{\mu_Y}$ and $\bar{\sigma_Y}$. However, this does not capture the "shape" of the joint distribution in 2D dimensions. To capture the bananity of the joint distribution we fit a second degree polynomial to the data, $Y = aX^2 + bX + c$. The co-effecient values $a$, $b$ and $c$ are then used as the summary statistics. For this example we consider this set, $\begin{bmatrix}
 \bar{\mu_X}\ \bar{\sigma_X}\ \bar{\gamma_Y}\ \bar{\mu_Y}\ \bar{\sigma_Y}\ a\ b\ c
-\end{bmatrix}^T$, to constitute reasonably sufficent summary statistics for the banana distribution. However, these are not perfect, and the effect of using them will be the introduction of some degree of bias into the ABC posterior. \\
-
-
+\end{bmatrix}^T$, to constitute reasonably sufficent summary statistics for the banana distribution. However, these are not perfect, and the effect of using them will be the introduction of some degree of bias into the ABC posterior. \par
 
 % Introduce scaling considerations
 In our applications so far the distance metric has been a vector composed of the absolute distance between observed and simulated summary statistics, hence:
@@ -176,31 +174,30 @@ In our applications so far the distance metric has been a vector composed of the
 \text{d}_i(S_i(\bm{y}),S_i(\bm{y^*})) = |S_i(\bm{y})-S_i(\bm{y^*})|
 \label{marginal_distance}
 \end{equation}
-is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Under a rejection scheme where all simulations and distances can be computed before the rejection step, it is straight forward to normalize the distances by the scale they vary over. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O\}$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repetitions as $\epsilon$ is tuned. Other authors, \citet{Ratmann2010}, have normalized the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the spread of distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
+is the marginal fit for a given statistic. In our examples it has not been necessary to consider the scale the chosen statistics vary over and their sensitivity to the unknown parameters. For the most part all statistics have been equally sensitive and varied over a similar scale. Using a rejection scheme, it is possible to first pre-compute all simulated data by sampling the prior, then compute each marginal distance, and before computing the accept/reject step, normalize each marginal distance. However, it is not clear how to best account for this scale and sensitivity when using ABC-MCMC. One solution would be to use variable tolerances which account for this scale and sensitivity, establishing $\epsilon = \{\epsilon_1,\dots,\epsilon_O\}$. However, this is not a user friendly solution to the issue of scale as implementation would invariably involve many repetitions as $\epsilon$ is tuned. Other authors, \citet{Ratmann2010}, have normalized the marginal weighting term, the weight for each individual statistic, to one. I attempt a transformation in a similar spirit by approximating a term $\sigma_{S_i}$ which will normalize the spread of distance for each statistic to one. In algorithms distance is replaced by a normalized-distance:
 \begin{equation}
 \hat{d_i}(S_i(\bm{y}),S_i(\bm{y^*})) =  \frac{|S_i(\bm{y})-S_i(\bm{y^*})|}{\sigma_{S_i}}
 \end{equation}
-
 % Computing the normalization term
 A good sampling algorithm would temper $\bm{\sigma_S} = \{\sigma_{S_1},\dots,\sigma_{S_O}\}$ on the fly. Without such an algorithm $\bm{\sigma_S}$ must be predefined. Here we favour a Monte Carlo approximation based on $k > 10\ 000$ simulations from the prior and given the observed data. A marginal term $\sigma_{S_i}$ is then defined as the sample standard deviation of the distance between the simulated summary statistic and the observed summary statistic:
 \begin{equation}
 \sigma_{S_i} = \sqrt{\frac{\sum_{i = 1}^{k}(\text{d}_i)^2}{k-1}}
 \end{equation}
-This does not preclude varying $\epsilon$, however, it does ensure that each marginal $\epsilon_i$ is of a simular magnitude. \\
+This does not preclude varying $\epsilon$, however, it does ensure that each marginal $\epsilon_i$ is of a simular magnitude. \par
 
+Figure \ref{MH-banana} shows the results of an ABC-MCMC algorithm targeting the banana distribution. This leverages a Gaussian kernel, summary statistics as described and uses a normalized distance metric. For this problem only the Gaussian parameters, $\bm{\mu}$ and $\bm{\Sigma}$ are unknown.\par
 
+Throughout this chapter, I plot the median marginal posterior model. That is, the model which is defined by taking the median of the Markov chain for each individual parameter. One example is figure \ref{MH-banana}(f), here the red dashed lines mark the 50\% and 95\% confidence intervals of the model the data was generated from, while the solid black lines mark the 50\% and 95\% confidence intervals of the median marginal posterior model. Often the marginal parameter densities are considered as the principal result from Bayesian parameter inference. However, the marginal posterior distributions hide correlations between parameter which may be present in the joint posterior, which is the distribution the Markov chain sampled. To understand the joint banana posterior I plot the correlations between each parameter, figure \ref{correlation-plot}, from the Markov chain generated in figure \ref{MH-banana}. This shows there are limited correlations between parameters. As a result, extracting the marginal median is an accurate representation of the median model under the joint distribution. An accurate estimate of the uncertainty can also be found by taking the marginal standard deviation. If there was significant correlation between some $\theta_1$ and $\theta_2$ then it would not make sense to evaluate $\theta_2$ marginally with $\theta_2 = \mu \pm \sigma$. Instead $\sigma$ would need to be evaluated with respect to a given value for $\theta_1$, in order to have a proper understanding of the uncertainty in $\theta_2$ present in the joint distribution. 
 
-Figure \ref{MH-banana} shows the results of an ABC-MCMC algorithm targeting the banana distribution. This leverages a Gaussian kernel, summary statistics as described and uses a normalized distance metric. For this problem only the Gaussian parameters, $\bm{\mu}$ and $\bm{\Sigma}$ are unknown.\\
+% If there is correlation between two parameters then the uncertainty in the value of one of those parameter will appear greater if only the marginal distribution is inspected. To understand the uncertainty around that parameter present in the joint posterior then it is necessary to plot the marginal distribution with respect to a fixed value for the other parameter which the plotted parameter is correlated with.
 
 % Insert banana problem solved w/ MCMC + MLE plot
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1.1]{MH-Banana-1mil.pdf}
-	\caption{The marginal posterior distributions for banana parameter inference, as well as the median posterior model (f), in black, compared to the original model, red dashed lines. Red lines mark the true parameter values on the marginal posterior plots. I justify the legitimacy of extracting the median marginal model as there are limited correlations between the unknown parameters.}
+	\caption{The marginal posterior distributions for banana parameter inference, as well as the median posterior model (f), in black, compared to the causative model, red dashed lines. Red lines mark the true parameter values on the marginal posterior plots. I justify the legitimacy of extracting the median marginal model as there are limited correlations between the unknown parameters, figure \ref{correlation-plot}.}
 	\label{MH-banana}
 \end{figure}
-
-Throughout this chapter, I plot the median marginal posterior model. That is, the model which is defined by taking the median of the Markov chain for each individual parameter. One example is figure \ref{MH-banana}(f), here the red dashed lines mark the 50\% and 95\% confidence intervals of the model the data was generated from, while the solid black lines mark the 50\% and 95\% confidence intervals of the median marginal posterior model. Often the marginal parameter densities are considered as the principal result from Bayesian parameter inference. However, the marginal posterior distributions hide correlations between parameter which may be present in the joint posterior, which is the distribution the Markov chain sampled. If there are correlations between parameters then a given parameters uncertainty will appear greater in the marginal distribution. To keep inference honest I plot the correlations between each parameter, figure \ref{correlation-plot}, from the Markov chain generated in figure \ref{MH-banana}. As can be seen there are limited correlations between parameters. As a result, extracting the marginal median is an accurate representation of the median model under the joint distribution. An accurate estimate of the uncertainty can also be found by taking the marginal standard deviation. If there was significant uncertainty between some $\theta_1$ and $\theta_2$ then it would not make sense to evaluate $\theta_2$ marginally with $\theta_2 = \mu \pm \sigma$. Instead $\sigma$ would need to be evaluated with respect to a given value for $\theta_1$, in order to have a proper understanding of the uncertainty in $\theta_2$. 
 
 % Insert correlation plot of 5 pars to justify taking the MLE
 \begin{figure}[H]
@@ -210,7 +207,6 @@ Throughout this chapter, I plot the median marginal posterior model. That is, th
 	%\caption{Correlation plot for the Markov chain in figure \ref{MH-banana}. There is limited correlation between the parameters. This is used as justification for plotting statistics of the marginal posterior as representative of the joint posterior.}
 	\label{correlation-plot}
 \end{figure}
-
 
 The performance of our MCMC algorithm as described by algorithm \ref{ABC-MCMC} depends on the users ability to choose a suitable proposal distribution $q(\cdot,\cdot)$. If we limit the proposal distribution to a multivariate Gaussian distribution, then we must choose a suitable covariance matrix for it. If the variance for each parameter is too large then the probability of accepting a candidate move will be low, as each step will be erratic and far from the current location. Consider that as the variance for $q(\cdot,\cdot) \rightarrow \infty$ we effectively have a Monte Carlo scheme. However, if the variance is too small then the acceptance rate will be very good but algorithm will fail to explore the full parameter space. Hence there is a balance encoded in the selection of the proposal distribution. We desire both a reasonable acceptance and a good exploration of the parameter space. In this way we select a proposal distribution which suits the underlying target distribution. Generally it is simplest to leave the off-diagonal terms in the proposal distribution's covariance matrix, the correlations between parameters, unconsidered.\\
 
