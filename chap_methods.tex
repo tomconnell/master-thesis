@@ -67,6 +67,7 @@ Figure \ref{comparison-1} plots a comparison between the misfit, equation \ref{m
 As a second experiment I extend the inversion for crustal density ($\rho$) for a 2D discretized subsurface to a joint inversion with vertical gravity anomaly ($\Delta$ g) and travel times for compressional-waves $V_p$. Both datasets share the same underlying parameter space in $\rho$. The calculation for $V_p$ is made through the empirical relationship for $V_p$ as a function of $\rho$ defined by \citet{Brocher2005}:
 \begin{equation}
 	V_p\ (km/sec) = 0.8228\rho^5 - 9.1819\rho^4 + 37.0.83\rho^3 - 63.064\rho^2 + 39.128\rho
+	\label{rhotovp}
 \end{equation}
 This relationship is valid for crustal rocks with $\rho$ in the range of 2-3.5 $g/cm^3$. As with the first example the 'true model' is kept smooth and the prior \ref{smoothness} is used. The parameter space is expanded to a 20x6 grid over the same 160 $km$ by 40 $km$ area. There is a $\Delta$ g measurement made above each fo the 20 columns. Both the $\Delta$ g and $V_p$ dataset are contaminated with measurement uncertainty defined by $\sigma^{\mathcal{D}} = \mathcal{N}(0,\sqrt{2})$. As before, the benchmark for ABC-tomography will be MCMC sampling of an analytically defined posterior. The likelihood for this problem is based on \ref{joint-likelihood}, with a negative log-likelihood defined as:
 \begin{equation}
@@ -86,12 +87,52 @@ A normalization term $\bm{\sigma_S}$ is approximated for both datasets from >10,
 
 For ABC-tomography I again open the likelihood at each time step and consider the information available to localize the parameter updates. The 6 parameters below a given data point are updated based on Monte Carlo sampling of a probability distribution proportional to the misfit of the $\bm{y_{\Delta g}}$ data set. For this joint inversion I extend the ABC-tomography scheme based on physical intuition by both dynamically selecting and localizing the update, and directing proposal to bias the update in the direction which the data needs to go. This is done through the use of a skew normal distribution or alternatively a truncated Gaussian distribution. These distributions are then adjusted to bias the update in either a positive or negative direction. If, for example, a gravity anomaly is selected by sampling the misfit distribution and it is found to be too large, i.e the value $y^*_{\Delta g} - y_{\Delta g}$ is positive, then the proposal for the column of parameters at this update step can be either sampled from: a negatively skewed normal distribution centered on the current chain position; or a truncated normal distribution, which is truncated at some position greater than the current chain position. An example of the proposals used in this example to negatively or positively bias the proposal distribution is plotted in Figure \ref{updates}. \par
 It should be noted that when using the skew normal distribution, as it is not a symmetric distribution, the ratio $\frac{q(\bm{\theta^*},\bm{\theta_{t-1}})}{q(\bm{\theta_{t-1}},\bm{\theta^*})}$ must be computed at each time step. \par
-Figure YY and ZZ plots a comparison between the misfit for the analytical scheme and ABC-tomography during the optimization phase of their respective Markov chains for both skew normal and truncated updates. ABC-tomography here uses dynamically selected, localized and directed updates. Figure AA, BB, CC, and DD plot the mean marginal model for the full chain lengths. 
 
-\begin{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{true_model_gravity.pdf}
+	\caption{The 'observed data', vertical component of gravity ($\Delta g$), and 'true model', a 2D density ($g/cm^3$) slice, which will be the target of our synthetic geophysical experiments to compare ABC to likelihood based Bayesian inference. A smoothness value, log($p(\bm{\theta})$), equation \ref{smoothness}, for the true model is plotted for reference to later solutions.}
+	\label{true-model-large-grav}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{observed_tomography.pdf}
+	\caption{The 'true model', a 2D $Vp$ ($km/s$) slice, converted from $\rho$ by the empirical relationship defined by equation \ref{rhotovp}. The black lines across the model define the rays from 12 sources on their path to 10 receivers. The arrival time $\Delta t$ of these rays at the receivers defines the 'observed data'. A sample of observed data is plotted for 4 sources. The sources are numbered 1-12 starting from the top left and going to the top right, with 4 sources per side.}
+	\label{true-model-tom}
+\end{figure}
+
+
+The analytical definition for the skew normal distribution, $f(x)$, used to direct the parameter updates is:
+\begin{equation}
+\begin{split}
+\phi(x) = \frac{1}{\sqrt{2\pi}}\text{exp}\Big(-\frac{x^2}{2}\Big) \\
+\Phi(x) = \frac{1}{2}\bigg(1 + \text{erf}\Big(\frac{x}{\sqrt{2}}\Big)\bigg)\\
+f(x) = \frac{2}{\omega} \phi\bigg(\frac{x-\xi}{\omega}\bigg)\Phi\bigg(\alpha \Big(\frac{x-\xi}{\omega}\Big)\bigg)
+\end{split}
+\label{skew-normal-dist}
+\end{equation}
+here erf is the error function, $\xi$ is the location, $\omega$ is the scale and $\alpha$ is a shape parameter. In this application  $\xi$ is the current chain location, $\omega$ is held at 250, and $\alpha$ is either 1, for a positively skewed distribution, or -1, for a negatively skewed distribution. \par
+The analytical definition for the truncated normal distribution, $f(x)$, used to direct the parameter updates is:
+\begin{equation}
+	f(x) = \begin{cases} 
+	0 & x < a \\
+	\frac{1}{\sqrt{2\pi\sigma^2}}\text{exp}\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big) & a\leq x\leq b \\
+	0 & x > b 
+	\end{cases}
+\end{equation}
+Here $a$ is the lower cut-off and $b$ is the upper cut-off. In this application the negatively truncated distribution has $a = -\frac{1}{2}\sigma$ and $b = \infty$. While the positively truncated distribution has $a = -\infty$ and $b = \frac{1}{2}\sigma$. For our application $\mu$ is the current chain location and $\sigma$ = 250. \par
+Figure \ref{updates} plots the directed proposal distributions described above and applied in ABC-tomography. Figure \ref{updates}(a)(b) are used when the parameter values need to be lowered, and figure \ref{updates}(c)(d) are used when the parameter values need to be increased. 
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{updates.pdf}
-	\caption{}
+	\caption{The proposal distributions which are used to either positively or negatively bias the parameter update. }
 	\label{updates}
 \end{figure}
+
+
+Figure YY and ZZ plots a comparison between the normalized misfit for the analytical scheme and ABC-tomography during the optimization phase of their respective Markov chains for both skew normal and truncated updates. ABC-tomography here uses dynamically selected, localized and directed updates. Figure AA, BB, CC, and DD plot the mean marginal model for the full chain lengths. \par
+
+
 
