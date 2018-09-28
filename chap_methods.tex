@@ -120,6 +120,7 @@ The analytical definition for the truncated normal distribution, $f(x)$, used to
 	\frac{1}{\sqrt{2\pi\sigma^2}}\text{exp}\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big) & a\leq x\leq b \\
 	0 & x > b 
 	\end{cases}
+	\label{trunc-eq}
 \end{equation}
 Here $a$ is the lower cut-off and $b$ is the upper cut-off. In this application the negatively truncated distribution has $a = -\frac{1}{2}\sigma$ and $b = \infty$. While the positively truncated distribution has $a = -\infty$ and $b = \frac{1}{2}\sigma$. For our application $\mu$ is the current chain location and $\sigma$ = 250. \par
 Figure \ref{updates} plots the directed proposal distributions described above and applied in ABC-tomography. Figure \ref{updates}(a)(b) are used when the parameter values need to be lowered, and figure \ref{updates}(c)(d) are used when the parameter values need to be increased. 
@@ -127,7 +128,7 @@ Figure \ref{updates} plots the directed proposal distributions described above a
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{updates.pdf}
-	\caption{The proposal distributions which are used to either positively or negatively bias the parameter update.}
+	\caption{The proposal distributions which are used to either positively or negatively bias the parameter update. The negatively skewed Gaussian distribution in (a) and the positively truncated Gaussian distribution in (b) are used to bias the proposal when the parameter values are deemed too high. The positively skewed Gaussian distribution (c) and the negatively truncated Gaussian distribution when the parameter values are deemed too low. Equation \ref{skew-normal-dist} defines the skew Gaussian distribution while equation \ref{trunc-eq} defines the truncated Gaussian distribution. During application the distributions are centered on the current chain position, and $\sigma = \omega = 250.$. The shape parameter, $\alpha$, and cut-off, $a$ and $b$ are selected to set the bias at approximately 70\% to 30\%.}
 	\label{updates}
 \end{figure}
 
