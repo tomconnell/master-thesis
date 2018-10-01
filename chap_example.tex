@@ -202,7 +202,7 @@ Throughout this chapter, I plot the median marginal posterior model. That is, th
 % Insert correlation plot of 5 pars to justify taking the MLE
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{correlation-plot.pdf}
+	\includegraphics[scale=0.6]{correlationplot.pdf}
 	\caption{The panels visualize correlations between parameters in the posterior sampled by the Markov chain in figure \ref{MH-banana}. The diagonal shows the marginal distributions which are also plotted in figure \ref{MH-banana}(a)(b)(c)(d)(e). The lower triangle shows the correlation density between the parameter on the diagonal (red marks higher density) and a polynomial fit to the correlation (black line). The upper triangle shows Spearman's rank correlation coefficients for the correlations in the lower triangle. There is limited correlation between the parameters, as indicated by the low Spearman's rank values and broadly distributed correlation density. This is used as justification for plotting statistics of the posterior marginal distributions as representative of the joint posterior distribution.}
 	%\caption{Correlation plot for the Markov chain in figure \ref{MH-banana}. There is limited correlation between the parameters. This is used as justification for plotting statistics of the marginal posterior as representative of the joint posterior.}
 	\label{correlation-plot}
@@ -310,13 +310,6 @@ While ABC targets the underlying parameters to the banana distribution, there is
 \label{Analytical-banana}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=1.15]{abcanacomparison.pdf}
-\caption{Comparison of estimation of the causative banana model based on access to the analytical formula (a,b,c,d) and no access to the analytical formula (e,f,g,h), simply simulation from the model.}
-\label{the-comparison}
-\end{figure}
-
 Throughout this example a strong trend has emerged. The acceptance rate of a Markov chain based algorithm targeting the ABC posterior is strongly tied to the tolerance. This shows the effect of tolerance in a rejection scheme is persistent, and generalizes to more advanced samplers. Increasing the tolerance increases the acceptance rate, while decreasing the tolerance decreases the acceptance rate. With this in mind, the improvements to the acceptance rate of ABC-MCMC offered by AM, DR, single parameter updates and blocking are very important for sampling the most accurate posterior possible. With each improvement to acceptance rate the tolerance can be lowered while still remaining in the realm of reasonable sampler efficiency, around 10-30\% acceptance rate. So far all comparisons have been done using a tolerance $\epsilon =\begin{bmatrix}
 0.625\ 0.625\ 0.625\ 0.625\ 0.625\ 0.125\ 0.625\ 0.625
 \end{bmatrix}^T$ 
@@ -327,6 +320,13 @@ $\epsilon = \begin{bmatrix}
 0.075\ 0.075\ 0.075\ 0.075\ 0.075\ 0.015\ 0.075\ 0.075
 \end{bmatrix}^T$
 while still remaining within the limits of computational feasibility. Figure \ref{best-banana} plots this scenario. With ABC-DRAM and single parameter updates the acceptance rate is ~7\% under this tolerance. While ABC-MCMC sampling, with all parameter updates, becomes computationally infeasible with an acceptance rate <0.25\%.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1.15]{abcanacomparison.pdf}
+\caption{Comparison of estimation of the causative banana model based on access to the analytical formula (a,b,c,d) and no access to the analytical formula (e,f,g,h), simply simulation from the model.}
+\label{the-comparison}
+\end{figure}
 
 \begin{figure}[H]
 \centering
