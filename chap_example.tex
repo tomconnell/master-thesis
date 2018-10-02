@@ -317,9 +317,9 @@ for the statistic set $\begin{bmatrix}
 \bar{\mu_X}\ \bar{\sigma_X}\ \bar{\gamma_Y}\ \bar{\mu_Y}\ \bar{\sigma_Y}\ a\ b\ c
 \end{bmatrix}^T$. This tolerance is used to keep ABC-MH, the worst performing sampler, computationally feasible. However, using ABC-DRAM with single parameter updates it is possible to lower the tolerance to 
 $\epsilon = \begin{bmatrix}
-0.075\ 0.075\ 0.075\ 0.075\ 0.075\ 0.015\ 0.075\ 0.075
+0.01\ 0.01\ 0.01\ 0.01\ 0.002\ 0.01\ 0.01\ 0.01
 \end{bmatrix}^T$
-while still remaining within the limits of computational feasibility. Figure \ref{best-banana} plots this scenario. With ABC-DRAM and single parameter updates the acceptance rate is ~7\% under this tolerance. While ABC-MCMC sampling, with all parameter updates, becomes computationally infeasible with an acceptance rate <0.25\%.
+while still remaining within the limits of computational feasibility. Figure \ref{best-banana} plots this scenario. With ABC-DRAM and single parameter updates the acceptance rate is ~7\% under this tolerance. While ABC-MCMC sampling, with all parameter updates, becomes computationally infeasible with an acceptance rate <0.3\%.
 
 \begin{figure}[H]
 \centering
