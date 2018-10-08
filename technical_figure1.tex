@@ -8,9 +8,9 @@
 y_i = z_i + e_i
 \label{general_form_inference}
 \end{equation}
-where $e_i$ is the uncertainty in the data, and $z_i$ is the data simulation from the deterministic forward relation:
+where $e_i$ is the uncertainty in the data, and $z_i$ is the data from the deterministic forward relation:
 \begin{equation}
-z_i = \bm{g}(\bm{\theta})
+z_i = g_i(\bm{\theta})
 \end{equation}
 Both $z_i$ and $e_i$ are represented by distributions:
 \begin{equation}
@@ -21,7 +21,7 @@ p(z_i|\bm{\theta}) = f_Z(z_i)
 p(e_i|\bm{\theta}) = f_E(e_i)
 \label{fe_dist}
 \end{equation}
-We are critically interested in arriving in an equation for $p(y_i|\bm{\theta})$, which will define $\mathcal{L}(\bm{\theta}|\bm{y})$. However, as the relationship in equation \ref{general_form_inference} specifies, $y_i$ depends on both $z_i$ and $e_i$. Hence, to arrive at $p(y_i|\bm{\theta})$ we must consider the distributions of equations \ref{fz_dist} \& \ref{fe_dist}. If we first consider the joint distribution $p(y_i,z_i,e_i|\bm{\theta})$ then our likelihood can be found by integrating out, 'marginalizing', $p(z_i|\bm{\theta})$ and $p(e_i|\bm{\theta})$ to leave a distribution for $p(y_i|\bm{\theta})$:
+We are interested in arriving in an equation for $p(y_i|\bm{\theta})$, which will define $\mathcal{L}(\bm{\theta}|\bm{y})$. However, the relationship in equation \ref{general_form_inference} specifies, $y_i$ depends on both $z_i$ and $e_i$. Hence, to arrive at $p(y_i|\bm{\theta})$ we must consider the distributions of equations \ref{fz_dist} \& \ref{fe_dist}. If we first consider the joint distribution $p(y_i,z_i,e_i|\bm{\theta})$ then our likelihood can be found by integrating out, 'marginalizing', $p(z_i|\bm{\theta})$ and $p(e_i|\bm{\theta})$ to leave a distribution for $p(y_i|\bm{\theta})$:
 \begin{equation}
 p(y_i|\bm{\theta}) = \int \int \text{d}z_i\ \text{d}e_i\ p(y_i,z_i,e_i|\bm{\theta})
 \label{most_general_L}
@@ -53,7 +53,7 @@ The dirac-delta function in the second integral of equation \ref{almost_general_
 \begin{equation}
 \int \text{d}e_i\ f_E(e_i) \delta(y_i-z_i-e_i) = f_E(y_i - z_i)
 \end{equation}
-This leaves a general form for the likelihood $\pi(y_i|\bm{\theta})$ as: 
+This leaves a general form for the likelihood $p(y_i|\bm{\theta})$ as: 
 \begin{equation}
 p(y_i|\bm{\theta}) = \mathcal{L}(\bm{\theta}|y_i) = \int \text{d}z_i\ f_Z(z_i)\ f_E(y_i - z_i)
 \label{general_likelihood}
