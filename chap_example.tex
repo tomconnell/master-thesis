@@ -301,7 +301,7 @@ However, this is not the only option. Another choice is to update a single param
 	\label{sampling-method-comparison}
 \end{table}
 
-While ABC targets the underlying parameters to the banana distribution, there is also access to the probability density of the causative model. With access to the causative models probability in $X-Y$ space it is possible to run a Markov chain to discover the distribution. Figure \ref{Analytical-banana}(a) plots a Markov chain with the stationary distribution of the causative model, black dots, as well as the 50\% and 95\% confidence intervals of the causative model. The Markov chain can be used for kernel density estimation of the causative model, figure \ref{Analytical-banana}(b). With this in mind it is possible to compare the estimation of the causative model with ABC and under access to the analytical probability density. Figure \ref{the-comparison} compares the estimation of the causative model based on a standard MH algorithm (a), AM (b), DR (c), DRAM (d), and ABC-MH (e), ABC-AM (f), ABC-DR (g), ABC-DRAM (h). 
+While ABC can target the underlying Gaussian parameters which control the resulting banana distribution, there is also access to the probability density of a banana distribution for a fixed set of Gaussian parameters. For the causative model, causative in the sense that it produced the data in figure \ref{banana-data}, there is access to the probability density in $X-Y$, equations \ref{x-banana} and \ref{y-banana}. Given this access it is possible to run a Markov chain to discover the causative distribution. Figure \ref{Analytical-banana}(a) plots a Markov chain with the stationary distribution of the causative model, black dots, as well as the 50\% and 95\% confidence intervals of the causative model. The Markov chain can be used for kernel density estimation of the causative model, figure \ref{Analytical-banana}(b). It is then possible to compare the estimation of the causative model which results from estimating the underlying Gaussian parameters from observed data using ABC, and estimation of the causative model through access to its closed form density using MCMC. Figure \ref{the-comparison} compares the estimation of the causative model based on a standard MH algorithm (a), AM (b), DR (c), DRAM (d), and ABC-MH (e), ABC-AM (f), ABC-DR (g), ABC-DRAM (h). 
 
 \begin{figure}[H]
 \centering
@@ -315,11 +315,11 @@ Throughout this example a strong trend has emerged. The acceptance rate of a Mar
 \end{bmatrix}^T$ 
 for the statistic set $\begin{bmatrix}
 \bar{\mu_X}\ \bar{\sigma_X}\ \bar{\gamma_Y}\ \bar{\mu_Y}\ \bar{\sigma_Y}\ a\ b\ c
-\end{bmatrix}^T$. This tolerance is used to keep ABC-MH, the worst performing sampler, computationally feasible. However, using ABC-DRAM with single parameter updates it is possible to lower the tolerance to 
+\end{bmatrix}^T$. This tolerance is used to keep ABC-MH, the worst performing sampler, at a reasonable acceptance rate (5\%). However, using ABC-DRAM with single parameter updates it is possible to lower the tolerance to 
 $\epsilon = \begin{bmatrix}
 0.01\ 0.01\ 0.01\ 0.01\ 0.002\ 0.01\ 0.01\ 0.01
 \end{bmatrix}^T$
-while still remaining within the limits of computational feasibility. Figure \ref{best-banana} plots this scenario. With ABC-DRAM and single parameter updates the acceptance rate is ~7\% under this tolerance. While ABC-MCMC sampling, with all parameter updates, becomes computationally infeasible with an acceptance rate <0.3\%.
+while still maintaining a reasonable acceptance rate. Figure \ref{best-banana} plots this scenario. With ABC-DRAM and single parameter updates the acceptance rate is ~7\% under this tolerance. While ABC-MCMC sampling, with all parameter updates, becomes computationally infeasible with an acceptance rate <0.3\%.
 
 \begin{figure}[H]
 \centering
@@ -331,6 +331,6 @@ while still remaining within the limits of computational feasibility. Figure \re
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1.1]{bananaABC-DRAM.pdf}
-\caption{Banana parameter estimation based on ABC-DRAM with single parameter updates. The tolerance is lowered, see text for tolerance values. By lowering the tolerance inference is more accurate. Compared to \ref{MH-banana} the marginal posteriors are more tightly clustered around the true solution and the median marginal model, black lines of (f) fit the causative model, red dashed lines, far better.}
+\caption{Banana parameter estimation based on ABC-DRAM with single parameter updates. The tolerance is lowered, see text for tolerance values. By lowering the tolerance inference is more accurate. Compared to \ref{MH-banana} the marginal posteriors are more tightly clustered around the true solution and the median marginal model, black lines of (f) fit the causative model, red dashed lines, closely.}
 \label{best-banana}
 \end{figure}
