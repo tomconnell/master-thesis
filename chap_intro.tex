@@ -53,9 +53,9 @@ The probabilistic solution to inverse problems outlined above has been successfu
 
 \section{The likelihood}
 
-The likelihood is central to both Bayesian and frequentest statistical parameter inference. Both specifications of the prior distribution and likelihood are at the heart of Bayesian inference, the probabilistic framework adopted here. In practice, due attention should be paid to both, as they both play central roles in the posterior, equation \ref{applied_bayes}. However, as will be introduced in depth later, Approximate Bayesian Computation diverges from traditional Bayesian inference by circumventing calculation of the likelihood, instead using an approximation to the likelihood. Given ABC will move away from its use, it is important to understand what the likelihood offered and how it functioned. A particularly important component is the assumptions made in constructing the likelihood. \par
+%The likelihood is central to both Bayesian and frequentest statistical parameter inference. Both specifications of the prior distribution and likelihood are at the heart of Bayesian inference, the probabilistic framework adopted here. In practice, due attention should be paid to both, as they both play central roles in the posterior, equation \ref{applied_bayes}. However, as will be introduced in depth later, Approximate Bayesian Computation diverges from traditional Bayesian inference by circumventing calculation of the likelihood, instead using an approximation to the likelihood. Given ABC will move away from its use, it is important to understand what the likelihood offered and how it functioned. A particularly important component is the assumptions made in constructing the likelihood. \par
 
-The likelihood is used after $\bm{y}$ is available to describe the plausibility of $\bm{\theta}$. In this light, $p(\bm{y}|\bm{\theta})$ can be considered as a conditional probability given $\bm{y}$, for varying values of $\bm{\theta}$ \citep[p.10]{Box1973}. Following \citet{Fisher1922}, this is referred to as the likelihood and is commonly denoted $\mathcal{L}(\bm{\theta}|\bm{y})$. This maps out a distribution of relative plausibility over $\bm{\theta}$ in describing the observed data $\bm{y}$. The likelihood is not necessarily a PDF and hence point values contain no inherent information. Only through comparison of relative values does the likelihood gain meaning \citep[p.11]{Box1973}.\par
+The likelihood is used after $\bm{y}$ is available to describe the plausibility of $\bm{\theta}$. Given this role, the probability $p(\bm{y}|\bm{\theta})$ in Bayes' theorem, equation \ref{bayes}, is practically applied as a conditional probability given $\bm{y}$, for varying values of $\bm{\theta}$ \citep[p.10]{Box1973}. Following \citet{Fisher1922}, this is referred to as the likelihood and is commonly denoted $\mathcal{L}(\bm{\theta}|\bm{y})$. This maps out a distribution of relative plausibility over $\bm{\theta}$ in describing the observed data $\bm{y}$. The likelihood is not necessarily a PDF and hence point values contain no inherent information. Only through comparison of relative values does the likelihood gain meaning \citep[p.11]{Box1973}.\par
 
 %The likelihood is used after $\bm{y}$ is available to describe the plausibility of $\bm{\theta}$. It is a function of the parameters $\bm{\theta}$ to the model $\mathcal{M}$, given observed data $\bm{y}$. Hence it is denoted $\mathcal{L}(\bm{\theta}|\bm{y})$. However, the plausibility of $\bm{\theta}$ given $\bm{y}$ is proportional to the PDF of $\bm{y}$ given $\bm{\theta}$. This gives us the paradoxical statement:
 %\begin{equation}
@@ -64,45 +64,43 @@ The likelihood is used after $\bm{y}$ is available to describe the plausibility 
 %\end{equation}
 %However this is resolved by considering $\pi(\bm{y}|\bm{\theta})$ at the observed $\bm{y}$, hence fixed, for varying $\bm{\theta}$. This maps out a distribution of relative plausibility over $\bm{\theta}$. The likelihood is not necessarily a PDF and hence point values contain no inherent information. Only through comparison of relative values does the likelihood gain meaning.\par
 
-A full derivation of the likelihood is featured in \hyperref[tf1]{Technical figure 1} and \hyperref[tf1]{Technical figure 2}, from first assumptions (\hyperref[tf1]{Technical figure 1}) to the final forms which are commonly featured in geophysical inversions (\hyperref[tf1]{Technical figure 2}).\par
+A full derivation of the likelihood is given from first assumptions (\hyperref[tf1]{Technical figure 1}) to the final forms which are commonly featured in geophysical inversions (\hyperref[tf1]{Technical figure 2}).\par
 
-Generally, a given observed data point, $y_i$, is considered to be equal to simulated data from a parameterized deterministic physical model, $\bm{g}(\bm{\theta})$, with statistical uncertainty from both the measurement process, $e^{\mathcal{D}}_i$, and the modelization process, $e^{\mathcal{M}}_i$:
+For physical sciences a given observed data point, $y_i$, is considered equal to simulated data from a parameterized deterministic physical model, $\bm{g}(\bm{\theta})$, with additive statistical uncertainty from both the measurement process, $e^{\mathcal{D}}_i$, and the modelization process, $e^{\mathcal{M}}_i$:
 \begin{equation}
 y_i = z_i + e^{\mathcal{D}}_i
 \end{equation}
 \begin{equation}
-z_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i
+z_i = g_i(\bm{\theta}) + e^{\mathcal{M}}_i
 \end{equation}
 \begin{equation}
-y_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
+y_i = g_i(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
 \end{equation}
-For the case of estimating $\bm{\theta} = \{\theta_1,...,\theta_N\}$ given $\bm{y} = \{y_1,...,y_M\}$, if it is assumed that the nature of the statistical uncertainty of measurement and modelization is i.i.d from a Gaussian distribution then the likelihood takes the form \citet[p.91-92]{gregory2005bayesian}: 
+For the case of estimating $\bm{\theta} = \{\theta_1,...,\theta_N\}$ given $\bm{y} = \{y_1,...,y_M\}$, if it is assumed that the nature of the statistical uncertainty of measurement and modelization is independent and identically distributed from a Gaussian distribution then the likelihood takes the form (c.f. \citet[p.91-92]{gregory2005bayesian}): 
 \begin{equation}
 \begin{split}
 \mathcal{L}(\bm{\theta}|\bm{y}) &= p(\bm{y}|\bm{\theta}) = p(y_1,...,y_m|\bm{\theta})\\
-&\propto  \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+&\propto  \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-g_i({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
 \end{split}
 \label{likelihood-1}
 \end{equation}
 
 % In case in need to include the above likelihood scaling
 % (2\pi)^{M/2}\Big(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2}\Big)\
-
-
-Otherwise, if the uncertainty is correlated in some manner, but still distributed according to a Gaussian distribution, multivariate Gaussian distributions with covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ are combined to quantify the total statistical uncertainty and define a likelihood \citet[p.35-36]{Tarantola2005}:
+Otherwise, if the uncertainty is Gaussian distributed but correlated, covariance matrices $C_{\mathcal{D}}$ and $C_{\mathcal{M}}$ are combined to quantify the total statistical uncertainty and define a likelihood (c.f. \citet[p.35-36]{Tarantola2005}):
 \begin{equation}
 \mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \label{likelihood-2}
 \end{equation}
 \newpage
 \input{technical_figure1.tex}
-If we had continued further and assumed more complicated models for our uncertainty than Gaussian distributions, then access to our current inference may close entirely. For example, if it was assumed that the statistical uncertainty in the measurement process was described by a uniform distribution and the modelization process described by an exponential distribution, then making the same derivations as is done in (\hyperref[tf1]{Technical figure 2}) may not be possible. Our problem would have an intractable likelihood. It is this bottleneck which was encountered in genetics, and lead to the development of the likelihood-free methods of Approximate Bayesian Computation. Here, the forward model is fundamentally random. The coalescent \citep{Marjoram2006} describes how gene variants are passed down from a common ancestor, where coalescent events are approximated by an exponential distribution. This model is then overprinted by mutations, described by a Poisson distribution, for example. As the number of samples of DNA expanded, it was not possible to formulate a likelihood to describe the time to the most recent common ancestor for the set. The likelihood was intractable.\par
+If more complicated model for uncertainty, than additive and Gaussian distributed, then access to Bayesian parameter inference may close entirely as there is no closed form expression for the likelihood. For example, if it was assumed that the statistical uncertainty in the measurement process was described by a uniform distribution and the modelization process described by an exponential distribution, then making the same derivations as is done in \hyperref[tf1]{Technical figure 2} may not be possible. The problem would have an intractable likelihood. This issue is encountered in genetics, and lead to the development of the likelihood-free methods of Approximate Bayesian Computation. For example, the coalescent \citep{Marjoram2006} describes how gene variants are passed down from a common ancestor, where coalescent events are approximated by an exponential distribution. This model is then overprinted by mutations, described by a Poisson distribution. As the number of samples of DNA expanded, it was not possible to formulate a likelihood to describe the time to the most recent common ancestor given the DNA set. The likelihood was intractable.\par
 
 \input{technical_figure2.tex}
 
-It should also be noted that many of the assumptions made about the nature of statistical uncertainty form scientifically testable hypothesis. For example, it should be possible to determine whether the noise from the measurement process conforms to an i.i.d Gaussian distribution, or whether there is some degree of correlation. Likewise, it can be probed as to whether the noise conforms to a Gaussian, or perhaps some other distribution is more appropriate.\par
+Many of the assumptions made about the nature of statistical uncertainty form scientifically testable hypotheses. For example, it is possible to determine whether the noise from the measurement process conforms to an i.i.d Gaussian distribution, or whether there is some degree of correlation. Likewise, the data can be probed to determine whether the noise conforms to a Gaussian, or perhaps some other distribution is more appropriate. \par
 
-The stable computation of equation \ref{likelihood-1} and equation \ref{likelihood-2} is an important aspect of running algorithms which sample the posterior distribution. Often likelihood values can be extremely small, to the point where they approach and cross the limits of CPU memory. Crossing this limit would lead to a divergence from posterior sampling due to erroneous algorithm steps. \hyperref[tf3]{Technical figure 3} expands on this topic. It covers the form in which the calculations take in order to be numerically stable.\par
+The accurate calculation of equation \ref{likelihood-1} and equation \ref{likelihood-2} is an important aspect of running algorithms which sample the posterior distribution. Often likelihood values can be extremely small, to the point where they approach and cross the limits of CPU memory (underflow). Crossing this limit would lead to a divergence from posterior sampling due to erroneous Monte Carlo or MCMC algorithm steps. \hyperref[tf3]{Technical figure 3} expands on this topic. It covers the form in which the calculations take in order to be numerically stable.\par
 
 The likelihood for a single dataset can be built upon to form a joint likelihood. As long as the two datasets are independent then equations \ref{likelihood-1} and \ref{likelihood-2} can be expanded for two datasets, here $a$ and $b$. Consider the joint form of equation \ref{likelihood-2}:
 \begin{multline}
@@ -111,7 +109,7 @@ The likelihood for a single dataset can be built upon to form a joint likelihood
 \text{exp}\bigg[-\frac{1}{2}(\bm{y}^b-\bm{g}^b(\bm{\theta}))^T(C_{\mathcal{M}^b}+C_{\mathcal{D}^b})^{-1}(\bm{y}^b-\bm{g}^b(\bm{\theta}))\bigg]
 \label{joint-likelihood}
 \end{multline}
-As a result of the diverging scale of various dataset residuals, $(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))$, the joint likelihood equation \ref{joint-likelihood} can be overwhelmed or dominated by a system with significantly more data points or larger residual values. This impact can also extend through to the prior, where a joint or single likelihood can overwhelm a prior. This problem called for a solution in the form of a weighting scheme to balance the input of the different datasets. Some common forms of weighting schemes for two datasets are:
+As a result of the different scale of various dataset residuals, $(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))$, the joint likelihood equation \ref{joint-likelihood} can be  dominated by a dataset with significantly more data points or larger residual values. This impact can also extend through to the prior, where a joint or single likelihood can overwhelm a prior. This problem called for a solution in the form of a weighting scheme to balance the input of the different datasets. Some common forms of weighting schemes for two datasets are:
 \begin{equation}
 \text{residual}^a, \frac{1}{c}\ \text{residual}^b
 \end{equation}
