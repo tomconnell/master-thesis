@@ -28,7 +28,7 @@ For this section only MCMC is considered, no AM, DR or DRAM. This maintains a co
 
 A set of summary statistics to describe the data in Figure \ref{true_model} is needed to proceed with ABC. A comprehensive description of the data is defined by the coefficients to a linear model, $m$ and $b$, the sample mean, $\bar{\mu_{\Delta g}}$, sample standard deviation, $\bar{\sigma_{\Delta g}}$, and a failsafe residual term, $\sum R$, for the difference between a simulation and the observed data for a given $\bm{\theta^*}$, $R = |\bm{y}-\bm{y^*}|$. Initial testing showed the set of statistics $\begin{bmatrix}
 \bar{\mu_{\Delta g}}\ \bar{\sigma_{\Delta g}}\ m\ b\ \sum R
-\end{bmatrix}^T$ comprehensively describes $\bm{y}$. As with section \ref{banana-section}, it is necessary to normalize the spread of each marginal distance term, $\text{d}_i(S_i(\bm{y}),S_i(\bm{y^*}))$, equation \ref{marginal_distance}, to one. This accounts for the different scales and sensitivities of the summary statistics to the unknown parameters. The normalization term $\bm{\sigma_S}$ is approximated from >10,000 Monte Carlo simulations over parameter range 2-3.5 $g/cm^3$. The tolerance is closely related to the acceptance rate of the algorithm. Given the tolerance is tightly tied to the acceptance rate, the tolerance is tuned to balance accuracy and acceptance rate.\par
+\end{bmatrix}^T$ comprehensively describes $\bm{y}$. As with section \ref{banana-section}, it is necessary to normalize the spread of each marginal distance term, $\text{d}_i(S_i(\bm{y}),S_i(\bm{y^*}))$, equation \ref{marginal_distance}, to one. This accounts for the different scales and sensitivities of the summary statistics to the unknown parameters. The normalization term $\bm{\sigma_S}$ is approximated from 10,000 Monte Carlo simulations over parameter range 2-3.5 $g/cm^3$. The tolerance is closely related to the acceptance rate of the algorithm. Given the tolerance is tightly tied to the acceptance rate, the tolerance is tuned to balance accuracy and acceptance rate.\par
 
 \citet{Sisson2010a} highlight that sampler acceptance rate and mixing can be improved by increasing the number of simulated datasets, $\bm{y^*}$, for each set of model parameters, $\bm{\theta^*}$. This technique is adopted in applications with large uncertainty in $\bm{g_s}$ \citep{Ratmann2009,Wood2010}. It has a stabilizing impact when the uncertainty in each simulation is large. Here the set of simulated data make up a Monte Carlo approximation to the true value of the ABC likelihood ($p(\bm{y}|\bm{y^*},\bm{\theta})$) which would be found as the number of simulated datasets tends to $\infty$. Hence, the estimate of the ABC likelihood for a given set of parameters becomes less noisy as the number of simulated datasets increases. This technique is used for $k = 100$ simulations from $\bm{g_s}$ in the ABC gravity inversion. Since the bulk of the computational overhead is in solving the deterministic physical model and the data uncertainty is additive and fast to simulate, there is little computational cost in increasing  the number of simulated datasets. The distance is then computed based the sample mean of $\bm{y^*_{1:k}}$, $\bm{d} = |\bm{S}(\bm{y})-\bm{S}(\bm{\bar{\mu_{y^*}}})|$. \par
 
@@ -86,12 +86,12 @@ Figure \ref{comparison-1} plots a comparison between the misfit, equation \ref{m
 
 \section{Crustal density joint inversion}
 
-As a second experiment I extend the inversion for crustal density ($\rho$) for a 2D discretized subsurface to a joint inversion with vertical gravity anomaly ($\Delta$ g) and travel times for compressional-waves $V_p$. Both datasets share the same underlying parameter space in $\rho$. The calculation for $V_p$ is made through the empirical relationship for $V_p$ as a function of $\rho$ defined by \citet{Brocher2005}:
+As a second experiment I extend the inversion for crustal density ($\rho$) for a 2D discretized subsurface to a joint inversion with vertical gravity anomaly ($\Delta g$) and travel times ($\Delta t$) for compressional-waves $V_p$. Both datasets share the same underlying parameter space in $\rho$. The calculation for $V_p$ is made through the empirical relationship for $V_p$ as a function of $\rho$ defined by \citet{Brocher2005}:
 \begin{equation}
 	V_p\ (km/sec) = 0.8228\rho^5 - 9.1819\rho^4 + 37.0.83\rho^3 - 63.064\rho^2 + 39.128\rho
 	\label{rhotovp}
 \end{equation}
-This relationship is valid for crustal rocks with $\rho$ in the range of 2-3.5 $g/cm^3$. As with the first example the 'true model' is kept smooth and the prior equation \ref{smoothness} is used. The parameter space is expanded to a 20x6 grid over the same 160 $km$ by 40 $km$ area. There is a $\Delta$g measurement made above each of the 20 columns. Both the $\Delta$g and $\Delta t$ (travel-time based on $V_p$) dataset are contaminated with measurement uncertainty defined by $\sigma^{\mathcal{D}} = \mathcal{N}(0,\sqrt{2})$. As before, the benchmark for ABC-tomography will be MCMC sampling of an analytically defined posterior. The likelihood for this problem is based on \ref{joint-likelihood}, with a negative log-likelihood defined as:
+This relationship is valid for crustal rocks with $\rho$ in the range of 2-3.5 $g/cm^3$. As with the first example the 'true model' is kept smooth, figure \ref{true-model-large-grav}. The parameter space is expanded to a 20x6 grid over the same 160 $km$ by 40 $km$ area. There is a $\Delta g$ measurement made above each of the 20 grid columns. Both the $\Delta g$ and $\Delta t$ datasets are contaminated with measurement uncertainty defined by $\sigma^{\mathcal{D}} = \mathcal{N}(0,\sqrt{2})$. As before, the benchmark for ABC-tomography will be MCMC sampling of an analytically defined posterior. The likelihood for this problem is based on \ref{joint-likelihood}, with a negative log-likelihood defined as:
 \begin{equation}
 	-l(\bm{\theta}|\bm{y}) = \frac{c(\bm{y_{\Delta g}}-\bm{y^*_{\Delta g}})^2}{(\sigma^{\mathcal{D}})^2} + \frac{(\bm{y_{V_p}}-\bm{y^*_{V_p}})^2}{(\sigma^{\mathcal{D}})^2}
 \end{equation}
@@ -99,16 +99,13 @@ where $c$ is a constant defined so as the contribution to the negative log-likel
 
 I once again seek a comprehensive set of summary statistics to describe $\bm{y_{\Delta g}}$ and $\bm{y_{V_p}}$. The set $\begin{bmatrix}
 \bar{\mu_{\Delta g}}\ \bar{\sigma_{\Delta g}}\ m\ b\ \sum R
-\end{bmatrix}^T$ is used for $\bm{y_{\Delta g}}$. Given $\bm{y_{V_p}}$ is the vector for arrival times for each source. Instead of fitting statistics to the larger $\bm{y_{V_p}}$, $\bm{y_{V_p}}$ is decomposed to the set of data for each source, 1 to $l$, where $l$ is the number of sources. The arrivals from each individual source are then described by $\begin{bmatrix}
+\end{bmatrix}^T$ is used for $\bm{y_{\Delta g}}$. Given $\bm{y_{V_p}}$ is a vector of arrival times for all sources (12 sources in this application), instead of fitting statistics to the larger $\bm{y_{V_p}}$, $\bm{y_{V_p}}$ is decomposed to the set of data for each source, 1 to $l$, where $l$ is the number of sources. The arrivals from each individual source are then described by $\begin{bmatrix}
 m\ b\ \sum R
 \end{bmatrix}^T$. The weighting kernel for $\bm{y_{V_p}}$ then becomes:
 \begin{equation}
 	p(\bm{y_{V_p}}|\bm{y^*_{V_p}},\bm{\theta^*}) = \prod_{i = 1}^{l} p(\bm{y_i}|\bm{y^*_i},\bm{\theta^*})
 \end{equation}
-A normalization term $\bm{\sigma_S}$ is approximated for both datasets from >10,000 Monte Carlo simulations over parameter range 2-3.5 $g/cm^3$. \par
-
-For ABC-tomography I again open the likelihood at each time step and consider the information available to localize the parameter updates. The 6 parameters below a given data point are updated based on Monte Carlo sampling of a probability distribution proportional to the misfit of the $\bm{y_{\Delta g}}$ data set. For this joint inversion I extend the ABC-tomography scheme based on physical intuition by both dynamically selecting and localizing the update, and directing the proposal to bias the update in the direction which the data needs to go. This is done through the use of a skew Gaussian distribution or alternatively a truncated Gaussian distribution. These distributions are then adjusted to bias the update in either a positive or negative direction. If, for example, a gravity anomaly is selected by sampling the misfit distribution and it is found to be too large, i.e the value $y^*_{\Delta g} - y_{\Delta g}$ is positive, then the proposal for the column of parameters at this update step can either be sampled from: a negatively skewed Gaussian distribution centered on the current chain position; or a truncated Gaussian distribution, which is truncated at some position greater than the current chain position. \par
-It should be noted that when using the skew normal distribution, as it is not a symmetric distribution, the ratio $\frac{q(\bm{\theta^*},\bm{\theta_{t-1}})}{q(\bm{\theta_{t-1}},\bm{\theta^*})}$ must be computed at each time step to ensure detailed balance is maintained. \par
+A normalization term $\bm{\sigma_S}$ is approximated for both datasets from 10,000 Monte Carlo simulations over parameter range 2-3.5 $g/cm^3$. \par
 
 \begin{figure}[H]
 	\centering
@@ -124,78 +121,38 @@ It should be noted that when using the skew normal distribution, as it is not a 
 	\label{true-model-tom}
 \end{figure}
 
+The ABC-tomography inversion here adopts the same diagnostic scheme used in the previous section. At each time step in the Markov chain a discrete PDF is defined by the misfit, equation \ref{misfit}, between simulated data based on the current chain location, $\bm{y^*} \sim p(\bm{y^*}|\bm{\theta_{t-1}})$,  and observed data, $\bm{y}$. A random sample is then drawn, distributed according to this discrete PDF, to determine a column of parameters to update. This process ensures that updates are directed toward locations where the current fit of the simulated data is poor. The proposal distribution is then biased to direct the parameter updates based on whether the location sampled from the discrete PDF is deemed to be a poor fit due to the parameter values being too high, $y^*_{\Delta g} - y_{\Delta g} > 0$, or too low,  $y^*_{\Delta g} - y_{\Delta g} < 0$. The biased update is encoded by sampling a positively or negatively truncated Gaussian distribution, figure \ref{updates}, as the proposal distribution, $q(\cdot,\cdot)$.\par
 
-The analytical definition for the skew normal distribution, $f(x)$, used to direct the parameter updates is:
-\begin{equation}
-\begin{split}
-\phi(x) = \frac{1}{\sqrt{2\pi}}\text{exp}\Big(-\frac{x^2}{2}\Big) \\
-\Phi(x) = \frac{1}{2}\bigg(1 + \text{erf}\Big(\frac{x}{\sqrt{2}}\Big)\bigg)\\
-f(x) = \frac{2}{\omega} \phi\bigg(\frac{x-\xi}{\omega}\bigg)\Phi\bigg(\alpha \Big(\frac{x-\xi}{\omega}\Big)\bigg)
-\end{split}
-\label{skew-normal-dist}
-\end{equation}
-here erf is the error function, $\xi$ is the location, $\omega$ is the scale and $\alpha$ is a shape parameter. In this application  $\xi$ is the current chain location, $\omega$ is held at 250, and $\alpha$ is either 1, for a positively skewed distribution, or -1, for a negatively skewed distribution. \par
-The analytical definition for the truncated normal distribution, $f(x)$, used to direct the parameter updates is:
-\begin{equation}
-	f(x) = \begin{cases} 
-	0 & x < a \\
-	\frac{1}{\sqrt{2\pi\sigma^2}}\text{exp}\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big) & a\leq x\leq b \\
-	0 & x > b 
-	\end{cases}
-	\label{trunc-eq}
-\end{equation}
-Here $a$ is the lower cut-off and $b$ is the upper cut-off. In this application the negatively truncated distribution has $a = -\frac{1}{2}\sigma$ and $b = \infty$. While the positively truncated distribution has $a = -\infty$ and $b = \frac{1}{2}\sigma$. For our application $\mu$ is the current chain location and $\sigma$ = 250. \par
-Figure \ref{updates} plots the directed proposal distributions described above and applied in ABC-tomography. Figure \ref{updates}(a)(b) are used when the parameter values need to be lowered, and figure \ref{updates}(c)(d) are used when the parameter values need to be increased. 
+Figure \ref{comparison-trunc} plots a comparison between the normalized misfit across both datasets, $\Delta g$ and $\Delta t$, for the analytical scheme, blue, and diagnostic ABC-tomography, blue, during the initial phase of their respective Markov chains. This shows how the rate of convergence to a low misfit model can be improved by opening the likelihood and allowing the information contained in the simulated dataset to localize and direct parameter updates. While acceptance rate is particularly low compared to sampling of the analytically defined posterior, each move in the ABC scheme is more and informed and as a result higher quality (i.e the misfit is lower). Figure \ref{grav-trunc} and \ref{tom-trunc} plot the mean marginal model for the full chain length (100,000 time steps).This demonstrates the accuracy of the recovered solutions.\par
 
 \begin{figure}[H]
-	\centering
-	\includegraphics[scale=1]{updates.pdf}
-	\caption{The proposal distributions which are used to either positively or negatively bias the parameter update. The negatively skewed Gaussian distribution in (a) and the positively truncated Gaussian distribution in (b) are used to bias the proposal when the parameter values are deemed too high. The positively skewed Gaussian distribution (c) and the negatively truncated Gaussian distribution zre used when the parameter values are deemed too low. Equation \ref{skew-normal-dist} defines the skew Gaussian distribution while equation \ref{trunc-eq} defines the truncated Gaussian distribution. During application the distributions are centered on the current chain position, and $\sigma = \omega = 250$. The shape parameter, $\alpha$, and cut-off, $a$ and $b$ are selected to set the bias at approximately 70\% to 30\%.}
-	\label{updates}
-\end{figure}
-
-Figure \ref{comparison-trunc} and \ref{comparison-skew} plots a comparison between the normalized misfit for the analytical scheme and ABC-tomography during the optimization phase of their respective Markov chains for both skew Gaussian and truncated Gaussian updates. This shows how the speed of optimization can be improved through opening the likelihood and allowing the simulated data to select, localize and direct the parameter updates. While it should be noted that the acceptance rate collapses when compared to undirected ABC-tomography, each move is more informed and the quality of next move in the chain is higher (i.e the misfit is lower). Figure \ref{grav-trunc}, \ref{tom-trunc}, \ref{grav-skew}, and \ref{tom-skew} plot the mean marginal model for the full chain lengths. This demonstrates the accuracy of the recovered solutions. \par
-
-\begin{figure}
 	\centering
 	\includegraphics[scale=0.8]{comparison-trunc.pdf}
 	\caption{Truncated Gaussian scheme. The normalized misfit of the chain state during the optimization phase (first 10,000 steps) for both datasets, $\Delta g$ and $\Delta t$, and for both methods, an analytically defined posterior sampled by MCMC and ABC-tomography. The 'true model' and observed data is plotted in figure \ref{true-model-large-grav} and \ref{true-model-tom}. The increase in optimization time under ABC-tomography is a result of dynamically selecting, localizing and directly the update at each time step in the Markov chain. The details of the full chain run (100,000 time steps), are also displayed on the figure. $\tau$ is the integrated auto-correlation time. The mean marginal models from ABC-tomography using truncated Gaussian updates is plotted in figure \ref{grav-trunc} and \ref{tom-trunc}.}
 	\label{comparison-trunc}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{abc_im-trunc.pdf}
 	\caption{Truncated Gaussian scheme. The mean of the marginal ABC posterior, $p_{ABC}(\bm{\theta}|\bm{S}(\bm{y}))$, targeting the 'true model' and observed data of figure \ref{true-model-large-grav}. The simulated data generated by this 'solution', is plotted, blue, compared to the observed data, black. The misfit during the optimization phase for this chain is plotted in figure \ref{comparison-trunc}. The corresponding mean marginal $V_p$ model is plotted in figure \ref{tom-trunc}.}
 	\label{grav-trunc}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{abc-trunc}
 	\caption{Truncated Gaussian scheme. The mean of the marginal ABC posterior, $p_{ABC}(\bm{\theta}|\bm{S}(\bm{y}))$, targeting the 'true model' and observed data of figure \ref{true-model-tom}. The simulated data generated by this 'solution', is plotted, blue, compared to the observed data, black. The misfit during the optimization phase for this chain is plotted in figure \ref{comparison-trunc}. The corresponding mean marginal $\rho$ model is plotted in figure \ref{grav-trunc}.}
 	\label{tom-trunc}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.6]{comparison-skew.pdf}
-	\caption{Skew Gaussian scheme. The normalized misfit of the chain state during the optimization phase (first 10,000 steps) for both datasets, $\Delta g$ and $\Delta t$, and for both methods, an analytically defined posterior sampled by MCMC and ABC-tomography. The 'true model' and observed data is plotted in figure \ref{true-model-large-grav} and \ref{true-model-tom}. The increase in optimization time under ABC-tomography is a result of dynamically selecting, localizing and directly the update at each time step in the Markov chain. The details of the full chain run (100,000 time steps), are also displayed on the figure. $\tau$ is the integrated auto-correlation time. The mean marginal models from ABC-tomography using skew Gaussian updates is plotted in figure \ref{grav-skew} and \ref{tom-skew}.}
-	\label{comparison-skew}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.7]{abc_im-skew.pdf}
-	\caption{Skew Gaussian scheme. The mean of the marginal ABC posterior, $p_{ABC}(\bm{\theta}|\bm{S}(\bm{y}))$, targeting the 'true model' and observed data of figure \ref{true-model-large-grav}. The simulated data generated by this 'solution', is plotted, blue, compared to the observed data, black. The misfit during the optimization phase for this chain is plotted in figure \ref{comparison-skew}. The corresponding mean marginal $V_p$ model is plotted in figure \ref{tom-skew}.}
-	\label{grav-skew}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.7]{abc-skew.pdf}
-		\caption{Skew Gaussian scheme. The mean of the marginal ABC posterior, $p_{ABC}(\bm{\theta}|\bm{S}(\bm{y}))$, targeting the 'true model' and observed data of figure \ref{true-model-tom}. The simulated data generated by this 'solution', is plotted, blue, compared to the observed data, black. The misfit during the optimization phase for this chain is plotted in figure \ref{comparison-skew}. The corresponding mean marginal $\rho$ model is plotted in figure \ref{grav-skew}.}
-	\label{tom-skew}
-\end{figure}
-
-
+%The analytical definition for the skew normal distribution, $f(x)$, used to direct the parameter updates is:
+%\begin{equation}
+%\begin{split}
+%\phi(x) = \frac{1}{\sqrt{2\pi}}\text{exp}\Big(-\frac{x^2}{2}\Big) \\
+%\Phi(x) = \frac{1}{2}\bigg(1 + \text{erf}\Big(\frac{x}{\sqrt{2}}\Big)\bigg)\\
+%f(x) = \frac{2}{\omega} \phi\bigg(\frac{x-\xi}{\omega}\bigg)\Phi\bigg(\alpha \Big(\frac{x-\xi}{\omega}\Big)\bigg)
+%\end{split}
+%\label{skew-normal-dist}
+%\end{equation}
+%here erf is the error function, $\xi$ is the location, $\omega$ is the scale and $\alpha$ is a shape parameter. In this application  $\xi$ is the current chain location, $\omega$ is held at 250, and $\alpha$ is either 1, for a positively skewed distribution, or -1, for a negatively skewed distribution.
