@@ -6,10 +6,11 @@ It is assumed that both $y_i$ and $z_i$ contain statistical uncertainty. For $y_
 y_i = z_i + e^{\mathcal{D}}_i
 \end{equation}
 \begin{equation}
-z_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i
+z_i = g_i(\bm{\theta}) + e^{\mathcal{M}}_i
 \end{equation}
 \begin{equation}
-\therefore y_i = \bm{g}(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
+\therefore y_i = g_i(\bm{\theta}) + e^{\mathcal{M}}_i + e^{\mathcal{D}}_i
+\label{statistical_model}
 \end{equation}
 $e^{\mathcal{M}}_i$ and $e^{\mathcal{D}}_i$ are assumed to be uncorrelated. If it is assumed that $e^{\mathcal{D}}_i$ is described as independent and identically distributed from a Gaussian with a predetermined standard deviation $\sigma^{\mathcal{M}}_i$: 
 \begin{equation}
@@ -23,7 +24,7 @@ As a result of defining parametric distributions for $f_Z(z_i)$ and $f_E(y_i-z_i
 \begin{equation}
 \begin{split}
 \mathcal{L}(\bm{\theta}|y_i) = \frac{1}{\sqrt{2\pi}\sqrt{(\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2}}\\
-\text{exp}\bigg[\frac{-(y_i-\bm{g}(\bm{\theta}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+\text{exp}\bigg[\frac{-(y_i-g_i(\bm{\theta}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
 \end{split}
 \label{single-data-likelihood}
 \end{equation}\par
@@ -35,9 +36,9 @@ Equation \ref{single-data-likelihood} defines the likelihood for a single data p
 If you have a set of data $\bm{y} = \{y_1,...,y_M\}$, where each $y_i$ term is independent then, considering uncertainty in the data and model as i.i.d Gaussian:
 \begin{equation}
 \begin{split}
-p(\bm{y}|\bm{\theta}) &= p(y_1,...,y_m|\bm{\theta})\\
+\mathcal{L}(\bm{\theta}|\bm{y}) &= p(y_1,...,y_M|\bm{\theta})\\
 &= (2\pi)^{M/2}(\prod_{i = 1}^{M}\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)^{1/2})\\ 
-& \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-\bm{g}({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
+& \text{exp}\bigg[\sum_{i = 1}^{M}\frac{-(y_i-g_i({\bm{\theta}}))^2}{2\big((\sigma^{\mathcal{M}}_i)^2+(\sigma^{\mathcal{D}}_i)^2\big)}\bigg]
 \label{used-likelihood-1}
 \end{split}
 \end{equation}
@@ -57,10 +58,10 @@ Then the likelihood involves a combination of their covariance matrices:
 \end{equation}
 Equation \ref{used-likelihood-1} and \ref{used-likelihood-2} represent commonly implemented forms of the likelihood. It is instructive to understand the origin of the likelihood function as often it is overlooked in applied studies. Of particular importance are the explicit assumptions which are necessary steps in construction. Assumptions include:
 \begin{enumerate}
-\item The form of the model, equation \ref{general_form_inference}
+\item The form of the model, equation \ref{statistical_model}. The uncertainty is additive
 \item The i.i.d Gaussian nature of measurement and modelization statistical uncertainty, or
 \item The correlated multivariate Gaussian nature of the measurement and modelization uncertainty
 \end{enumerate}
-A shift away from these assumptions is likely to close access to a likelihood function.
+A shift away from these assumptions is likely to close access to an analytical likelihood function.
 \end{multicols}
 \end{tcolorbox}
