@@ -125,7 +125,7 @@ The likelihood for a single dataset can be built upon to form a joint likelihood
 \text{exp}\bigg[-\frac{1}{2}(\bm{y}^b-\bm{g}^b(\bm{\theta}))^T(C_{\mathcal{M}^b}+C_{\mathcal{D}^b})^{-1}(\bm{y}^b-\bm{g}^b(\bm{\theta}))\bigg]
 \label{joint-likelihood}
 \end{multline}
-As a result of the different scale of various dataset residuals, $(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))$, the joint likelihood equation \ref{joint-likelihood} can be  dominated by a dataset with significantly more data points or larger residual values. This impact can also extend through to the prior, where a joint or single likelihood can overwhelm a prior. This problem called for a solution in the form of a weighting scheme to balance the input of the different datasets. Some common forms of weighting schemes for two datasets are:
+As a result of the different scale of various dataset residuals, $(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))$, the joint likelihood equation \ref{joint-likelihood} can be  dominated by a dataset with significantly more data points or larger residual values. One method which naturally accounts for this problem is the trans-dimensional formulation \citep{Sambridge2006}. Another solution is a weighting scheme to balance the input of the different datasets. Some common forms of weighting schemes for two datasets are:
 \begin{equation}
 \text{residual}^a, \frac{1}{c}\ \text{residual}^b
 \end{equation}
