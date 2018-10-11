@@ -95,14 +95,16 @@ Otherwise, if the uncertainty is Gaussian distributed but correlated, covariance
 \mathcal{L}(\bm{\theta}|\bm{y}) \propto \text{exp}\bigg[-\frac{1}{2}(\bm{y}-\bm{g}(\bm{\theta}))^T(C_{\mathcal{M}}+C_{\mathcal{D}})^{-1}(\bm{y}-\bm{g}(\bm{\theta}))\bigg]
 \label{likelihood-2}
 \end{equation}
-\newpage
-\input{technical_figure1.tex}
 
 If more complicated models for uncertainty are determined or assumed then access to Bayesian parameter inference may close entirely if no closed form expression for the likelihood can be derived. For example, if the data uncertainty is irreducible to a simple standard distribution and the modelization errors are systematic and mesh-dependent (not uncommon in geophysics), then making the same derivations as is done in \hyperref[tf1]{Technical figure 2} may not be possible. The problem would have an intractable likelihood. This issue is encountered in genetics, and lead to the development of the likelihood-free methods of Approximate Bayesian Computation. For example, the coalescent \citep{Marjoram2006} describes how gene variants are passed down from a common ancestor, where coalescent events are approximated by an exponential distribution. This model is then overprinted by mutations, described by a Poisson distribution. As the number of samples of DNA expanded, it was not possible to formulate a likelihood to describe the time to the most recent common ancestor given the DNA set.\par
 
-\input{technical_figure2.tex}
+\newpage
+\input{technical_figure1.tex}
 
 The accurate calculation of equation \ref{likelihood-1} and equation \ref{likelihood-2} is an important aspect of running algorithms which sample the posterior distribution. Often likelihood values can be extremely small, to the point where they approach and cross the limits of floating point arithmetic (arithmetic underflow). Crossing this limit would lead to a divergence from posterior sampling due to erroneous Monte Carlo or MCMC algorithm steps. \hyperref[tf3]{Technical figure 3} expands on this topic. It covers the form in which the calculations take in order to be numerically stable.\par
+
+
+\input{technical_figure2.tex}
 
 The likelihood for a single dataset can be built upon to form a joint likelihood. As long as the two datasets are independent then equations \ref{likelihood-1} and \ref{likelihood-2} can be expanded for two datasets, here $\bm{y}^a$ and $\bm{y}^b$. Consider the joint form of equation \ref{likelihood-2}:
 \begin{multline}
