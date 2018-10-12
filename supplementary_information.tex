@@ -4,42 +4,42 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{joint-hist-reg-tol.pdf}
-	\caption{A comparison of the marginal ABC posterior (blue), sampled by the diagnostic ABC joint inversion, and the analytically defined posterior (red), sampled by MCMC, for a subset of the parameter space. This is the PDF which underlies the experiment in section \ref{SGE} and figures \ref{comparison-trunc}, \ref{grav-trunc} and \ref{tom-trunc}. The tolerance here is $\epsilon = \vec{1}\cdot0.1$. The black dashed lines marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. This ABC posterior can be compared to the ABC posterior for the same problem with $\epsilon = \vec{1}\cdot0.05$, figure \ref{pdf-half-tol} and $\epsilon = \vec{1}\cdot0.025$, figure \ref{pdf-quart-tol}. The parameters are numbered down column, starting with `1' in the top left corner (figure \ref{true-model-large-grav}).}
+	\caption{A comparison of the marginal ABC posterior (blue), sampled by the diagnostic ABC joint inversion, and the analytically defined posterior (red), sampled by MCMC, for a subset of the parameter space. This is the PDF which underlies the experiment in section \ref{JI} and figures \ref{comparison-trunc}, \ref{grav-trunc} and \ref{tom-trunc}. The tolerance here is $\epsilon = \vec{1}\cdot0.1$. The black dashed lines marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. This ABC posterior can be compared to the ABC posterior for the same problem with $\epsilon = \vec{1}\cdot0.05$, figure \ref{pdf-half-tol} and $\epsilon = \vec{1}\cdot0.025$, figure \ref{pdf-quart-tol}. These comparisons highlight how uncertainty is overestimated in the ABC posterior documented in this figure as a result of the approximation introduced by the tolerance. The parameters are numbered down column, starting with `1' in the top left corner of figure \ref{true-model-large-grav}/\ref{true-model-tom}.}
 	\label{pdf-reg-tol}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{marginals-reg-tol.pdf}
-	\caption{A comparison of Markov chain traces for the sampling of the ABC (blue) and analytically-defined (red) posteriors undertaken in section \ref{SGE}. The Markov chains are both of length 100,000. This figure is limited to a subset of 8 parameters out of the 120 total unknowns. The marginal histograms associated with each chain are also displayed. The black line marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. The parameters are numbered down column, starting with `1' in the top left corner (figure \ref{true-model-large-grav}).}
+	\caption{A comparison of Markov chain traces for the sampling of the ABC (blue) and analytically-defined (red) posteriors undertaken in section \ref{JI}. The Markov chains are both of length 100,000. This figure is limited to a subset of 8 parameters out of the 120 total unknowns. The marginal histograms associated with each chain are also displayed. The black line marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. The parameters are numbered down column, starting with `1' in the top left corner of figure \ref{true-model-large-grav}/\ref{true-model-tom}.}
 	\label{marginal-reg-tol}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.65]{half-tol-joint-hist.pdf}
-	\caption{A comparison of the marginal ABC posterior (blue), sampled by the diagnostic ABC joint inversion, and the analytically defined posterior (red), for a repetition of the experiment in section \ref{SGE} with a lower tolerance in the ABC likelihood approximation $p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*},\bm{\theta}))$. The tolerance here is $\epsilon = \vec{1}\cdot0.05$, half the tolerance of the original experiment documented in section \ref{SGE}. The black dashed lines marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. This ABC posterior can be compared to the ABC posterior for the original experiment, figure \ref{pdf-half-tol} and an ABC posterior with $\epsilon = \vec{1}\cdot0.025$, figure \ref{pdf-quart-tol}. The sampling acceptance rate of the ABC posterior documented in this figure is 2.635\%, and the auto-correlation time ($\tau$) is 7892, figure \ref{comparison-quart-tol}.}
+	\caption{A comparison of the marginal ABC posterior (blue), sampled by the diagnostic ABC joint inversion, and the analytically defined posterior (red), for a repetition of the experiment in section \ref{JI} with a lower tolerance in the ABC likelihood approximation $p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*},\bm{\theta}))$. The tolerance here is $\epsilon = \vec{1}\cdot0.05$, half the tolerance of the original experiment documented in section \ref{JI}. The black dashed lines marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. This ABC posterior can be compared to the ABC posterior for the original experiment, figure \ref{pdf-half-tol} and an ABC posterior with $\epsilon = \vec{1}\cdot0.025$, figure \ref{pdf-quart-tol}. The sampling acceptance rate of the ABC posterior documented in this figure is 2.635\%, and the auto-correlation time ($\tau$) is 7892, figure \ref{comparison-quart-tol}. The ABC posterior density clusters closer around the true parameter value than the ABC posterior with a tolerance of $\epsilon = \vec{1}\cdot0.1$. These repetitions demonstrate that decreasing tolerance improves the accuracy of the ABC posterior at the expense of sampling efficiency.}
 	\label{pdf-half-tol}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{quart-tol-hist.pdf}
-	\caption{}
+	\includegraphics[scale=0.65]{quart-tol-hist.pdf}
+	\caption{A comparison of the marginal ABC posterior (blue), sampled by the diagnostic ABC joint inversion, and the analytically defined posterior (red), for a repetition of the experiment in section \ref{JI} with a lower tolerance in the ABC likelihood approximation $p(\bm{S}(\bm{y})|\bm{S}(\bm{y^*},\bm{\theta}))$. The tolerance here is $\epsilon = \vec{1}\cdot0.025$, a quarter the tolerance of the original experiment documented in section \ref{JI}. The black dashed lines marks the `true' parameter values from figures \ref{true-model-large-grav} and \ref{true-model-tom}. This ABC posterior can be compared to the ABC posterior for the original experiment, figure \ref{pdf-half-tol} and an ABC posterior with $\epsilon = \vec{1}\cdot0.05$, figure \ref{pdf-half-tol}. The sampling acceptance rate of the ABC posterior documented in this figure is 0.428\%, and the auto-correlation time ($\tau$) is 8175, figure \ref{comparison-quart-tol}. The ABC posterior density clusters closer around the true parameter value than the ABC posterior with a tolerance of $\epsilon = \vec{1}\cdot0.1$ and $\epsilon = \vec{1}\cdot0.05$. This repetitions demonstrate that decreasing tolerance improves the accuracy of the ABC posterior at the expense of sampling efficiency.}
 	\label{pdf-quart-tol}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{half-tol-comparison.pdf}
-	\caption{}
+	\caption{$\epsilon = \vec{1}\cdot0.05$. The normalized misfit of the chain state during the initial phase (first 10,000 steps) for a repetition of the experiment in section \ref{JI} with a lower tolerance. The tolerance for this example is $\epsilon = \vec{1}\cdot0.05$. This highlights that despite a decrease in sampler efficiency, lower acceptance rate and higher integrated auto-correlation time ($\tau$), the diagnostic ABC scheme still converges to a low misfit model faster than an analytical scheme. The posterior density sampled by the complete Markov chain (100,000 time steps) for a sub-set of the parameter space is plotted in figure \ref{pdf-half-tol}.}
 	\label{comparison-half-tol}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{quart-tol-comparison.pdf}
-	\caption{}
+	\caption{$\epsilon = \vec{1}\cdot0.025$. The normalized misfit of the chain state during the initial phase (first 10,000 steps) for a repetition of the experiment in section \ref{JI} with a lower tolerance. The tolerance for this example is $\epsilon = \vec{1}\cdot0.025$. This highlights that despite a decrease in sampler efficiency, lower acceptance rate and higher integrated auto-correlation time ($\tau$), the diagnostic ABC scheme still converges to a low misfit model faster than an analytical scheme. The posterior density sampled by the complete Markov chain (100,000 time steps) for a sub-set of the parameter space is plotted in figure \ref{pdf-quart-tol}.}
 	\label{comparison-quart-tol}
 \end{figure}
 
